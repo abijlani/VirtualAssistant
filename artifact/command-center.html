@@ -1,0 +1,1038 @@
+<title>Bodhi's Command Center</title>
+<style>
+  :root{
+    --page:#f9f9f7; --surface:#fcfcfb; --raised:#ffffff;
+    --ink:#0b0b0b; --ink-2:#52514e; --ink-3:#898781;
+    --grid:#e1e0d9; --rule:#eceae3;
+    --meet:#2a78d6; --focus:#eb6834; --pers:#1baf7a;
+    --good:#0ca30c; --warn:#fab219; --serious:#ec835a; --crit:#d03b3b;
+    --crit-wash:#fbeaea; --warn-wash:#fdf4e2; --good-wash:#e9f6e9; --serious-wash:#fdefe9;
+    --shadow:0 1px 2px rgba(11,11,11,.05),0 4px 12px rgba(11,11,11,.04);
+    --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --page:#0d0d0d; --surface:#1a1a19; --raised:#212120;
+      --ink:#f4f3ef; --ink-2:#b3b1a9; --ink-3:#89877f;
+      --grid:#33322e; --rule:#2a2926;
+      --meet:#3987e5; --focus:#d95926; --pers:#199e70;
+      --good:#3fbf3f; --warn:#e0a52a; --serious:#e07f56; --crit:#e05555;
+      --crit-wash:#2e1a1a; --warn-wash:#2b2415; --good-wash:#162516; --serious-wash:#2c1d17;
+      --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);
+    }
+  }
+  :root[data-theme="dark"]{
+    --page:#0d0d0d; --surface:#1a1a19; --raised:#212120;
+    --ink:#f4f3ef; --ink-2:#b3b1a9; --ink-3:#89877f;
+    --grid:#33322e; --rule:#2a2926;
+    --meet:#3987e5; --focus:#d95926; --pers:#199e70;
+    --good:#3fbf3f; --warn:#e0a52a; --serious:#e07f56; --crit:#e05555;
+    --crit-wash:#2e1a1a; --warn-wash:#2b2415; --good-wash:#162516; --serious-wash:#2c1d17;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);
+  }
+
+  *{box-sizing:border-box}
+  body{background:var(--page);color:var(--ink);font-family:var(--sans);
+    line-height:1.5;margin:0;padding:0;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:28px 20px 72px}
+  h1,h2,h3,h4{text-wrap:balance;margin:0;font-weight:640;letter-spacing:-.011em}
+  p{margin:0}
+  a{color:var(--meet)}
+  .eyebrow{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+  .num{font-variant-numeric:tabular-nums}
+
+  /* ---------- masthead ---------- */
+  .mast{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;
+    padding-bottom:18px;border-bottom:1px solid var(--rule);margin-bottom:22px}
+  .mast h1{font-size:27px}
+  .mast .sub{color:var(--ink-2);font-size:14px;margin-top:5px}
+  .stamp{text-align:right;font-size:12px;color:var(--ink-3);line-height:1.7}
+  .stamp b{color:var(--ink-2);font-weight:600}
+
+  /* ---------- tabs (CSS only) ---------- */
+  .tabinput{position:absolute;opacity:0;pointer-events:none;width:0;height:0}
+  .tabbar{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:24px;
+    border-bottom:1px solid var(--rule);padding-bottom:0}
+  .tabbar label{font-size:13.5px;font-weight:600;color:var(--ink-3);cursor:pointer;
+    padding:9px 15px;border-radius:7px 7px 0 0;border-bottom:2px solid transparent;
+    display:inline-flex;align-items:center;gap:7px;user-select:none}
+  .tabbar label:hover{color:var(--ink);background:var(--surface)}
+  .tabbar label .cnt{font-size:11px;font-weight:700;color:var(--ink-3);
+    background:var(--grid);border-radius:20px;padding:1px 7px;font-variant-numeric:tabular-nums}
+  #t-today:focus-visible  ~ .tabbar label[for="t-today"],
+  #t-week:focus-visible   ~ .tabbar label[for="t-week"],
+  #t-proj:focus-visible   ~ .tabbar label[for="t-proj"],
+  #t-inbox:focus-visible  ~ .tabbar label[for="t-inbox"]{outline:2px solid var(--meet);outline-offset:-2px}
+  .panel{display:none}
+  #t-today:checked  ~ .panels #p-today,
+  #t-week:checked   ~ .panels #p-week,
+  #t-proj:checked   ~ .panels #p-proj,
+  #t-inbox:checked  ~ .panels #p-inbox{display:block}
+  #t-today:checked ~ .tabbar label[for="t-today"],
+  #t-week:checked  ~ .tabbar label[for="t-week"],
+  #t-proj:checked  ~ .tabbar label[for="t-proj"],
+  #t-inbox:checked ~ .tabbar label[for="t-inbox"]{color:var(--ink);border-bottom-color:var(--ink)}
+  #t-today:checked ~ .tabbar label[for="t-today"] .cnt,
+  #t-week:checked  ~ .tabbar label[for="t-week"] .cnt,
+  #t-proj:checked  ~ .tabbar label[for="t-proj"] .cnt,
+  #t-inbox:checked ~ .tabbar label[for="t-inbox"] .cnt{background:var(--ink);color:var(--surface)}
+
+  /* ---------- generic blocks ---------- */
+  section{margin-bottom:34px}
+  .sechead{display:flex;align-items:baseline;gap:11px;margin-bottom:13px;flex-wrap:wrap}
+  .sechead h2{font-size:16px}
+  .sechead .note{font-size:12.5px;color:var(--ink-3)}
+  .card{background:var(--surface);border:1px solid var(--rule);border-radius:11px;
+    padding:16px 18px;box-shadow:var(--shadow)}
+  .stack{display:flex;flex-direction:column;gap:11px}
+
+  /* severity flags */
+  .flag{border-radius:11px;padding:15px 17px 16px;border:1px solid var(--rule);
+    border-left-width:4px;background:var(--surface);box-shadow:var(--shadow)}
+  .flag.crit{border-left-color:var(--crit);background:var(--crit-wash)}
+  .flag.serious{border-left-color:var(--serious);background:var(--serious-wash)}
+  .flag.warn{border-left-color:var(--warn);background:var(--warn-wash)}
+  .flag.good{border-left-color:var(--good);background:var(--good-wash)}
+  .flag h3{font-size:14.5px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+  .flag p{font-size:13.5px;color:var(--ink-2);margin-top:7px}
+  .flag p + p{margin-top:6px}
+  .pill{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    padding:2.5px 8px;border-radius:20px;white-space:nowrap;border:1px solid transparent}
+  .pill.crit{background:var(--crit);color:#fff}
+  .pill.serious{background:var(--serious);color:#231a14}
+  .pill.warn{background:var(--warn);color:#231d09}
+  .pill.good{background:var(--good);color:#fff}
+  .pill.quiet{background:transparent;color:var(--ink-3);border-color:var(--grid)}
+
+  /* schedule strip */
+  .sched{display:flex;flex-direction:column;gap:0}
+  .slot{display:grid;grid-template-columns:112px 1fr;gap:14px;padding:9px 0;
+    border-top:1px solid var(--rule);align-items:baseline}
+  .slot:first-child{border-top:0}
+  .slot .t{font-size:12.5px;color:var(--ink-3);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .slot .w{font-size:13.5px}
+  .slot .w small{display:block;color:var(--ink-3);font-size:12px;margin-top:2px}
+  .slot.free .w{color:var(--pers);font-weight:600}
+  .slot.past{opacity:.45}
+
+  /* priorities */
+  ol.prio{list-style:none;margin:0;padding:0;counter-reset:p;display:flex;flex-direction:column;gap:9px}
+  ol.prio li{counter-increment:p;display:grid;grid-template-columns:26px 1fr;gap:13px;
+    background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:13px 15px;
+    box-shadow:var(--shadow)}
+  ol.prio li::before{content:counter(p);font-size:12px;font-weight:700;color:var(--ink-3);
+    background:var(--grid);border-radius:6px;width:24px;height:24px;display:grid;place-items:center}
+  ol.prio h4{font-size:14px}
+  ol.prio .why{font-size:12.5px;color:var(--ink-2);margin-top:5px}
+  ol.prio .meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+
+  /* chart */
+  .chartcard{background:var(--surface);border:1px solid var(--rule);border-radius:11px;
+    padding:20px 20px 14px;box-shadow:var(--shadow);overflow-x:auto}
+  .plot{position:relative;height:210px;display:flex;align-items:flex-end;gap:14px;
+    border-bottom:1px solid var(--grid);min-width:520px}
+  .cap8{position:absolute;left:0;right:0;bottom:57.14%;border-top:1.5px dashed var(--ink-3);opacity:.75}
+  .cap8 span{position:absolute;right:0;top:-17px;font-size:10.5px;color:var(--ink-3);
+    background:var(--surface);padding:0 5px;letter-spacing:.03em}
+  .bar{flex:1;display:flex;flex-direction:column-reverse;position:relative;height:100%;min-width:44px}
+  .seg{width:100%}
+  .seg.m{background:var(--meet)}
+  .seg.f{background:var(--focus)}
+  .seg.p{background:var(--pers)}
+  .bar .tot{position:absolute;left:0;right:0;text-align:center;font-size:11.5px;font-weight:650;
+    color:var(--ink-2);font-variant-numeric:tabular-nums}
+  .xaxis{display:flex;gap:14px;margin-top:9px;min-width:520px}
+  .xaxis div{flex:1;text-align:center;font-size:11.5px;color:var(--ink-3);min-width:44px}
+  .xaxis div b{display:block;color:var(--ink-2);font-weight:650;font-size:12px}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:15px;padding-top:13px;border-top:1px solid var(--rule)}
+  .legend span{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-2)}
+  .swatch{width:11px;height:11px;border-radius:3px;display:inline-block}
+
+  /* proposals */
+  .prop{background:var(--surface);border:1px solid var(--rule);border-radius:11px;
+    padding:14px 16px;box-shadow:var(--shadow);display:flex;gap:14px;
+    justify-content:space-between;align-items:flex-start;flex-wrap:wrap}
+  .prop .info{flex:1;min-width:250px}
+  .prop h4{font-size:14px}
+  .prop .when{font-size:12.5px;color:var(--ink-3);margin-top:4px;font-variant-numeric:tabular-nums}
+  .prop .why{font-size:12.5px;color:var(--ink-2);margin-top:7px}
+  .acts{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+  button{font-family:inherit;font-size:12.5px;font-weight:600;border-radius:7px;
+    padding:7px 13px;cursor:pointer;border:1px solid var(--grid);
+    background:var(--raised);color:var(--ink);transition:background .12s,border-color .12s}
+  button:hover:not(:disabled){border-color:var(--ink-3)}
+  button:focus-visible{outline:2px solid var(--meet);outline-offset:2px}
+  button:disabled{opacity:.45;cursor:not-allowed}
+  button.primary{background:var(--ink);color:var(--page);border-color:var(--ink)}
+  button.primary:hover:not(:disabled){opacity:.87}
+  .propmsg{font-size:12px;margin-top:9px;display:none;width:100%}
+  .propmsg.on{display:block}
+  .propmsg.ok{color:var(--good)}
+  .propmsg.err{color:var(--crit)}
+  .prop[data-state="added"]{border-color:var(--good)}
+  .prop[data-state="rejected"]{opacity:.5}
+
+  /* projects */
+  .proj{margin-bottom:20px}
+  .proj > h3{font-size:13.5px;display:flex;align-items:center;gap:9px;margin-bottom:9px}
+  .proj > h3 .rule{flex:1;height:1px;background:var(--rule)}
+  table.tasks{width:100%;border-collapse:collapse;font-size:13px}
+  table.tasks td{padding:8px 10px;border-top:1px solid var(--rule);vertical-align:top}
+  table.tasks tr:first-child td{border-top:0}
+  table.tasks .tid{color:var(--ink-3);font-size:11px;font-variant-numeric:tabular-nums;white-space:nowrap;width:74px}
+  table.tasks .chips{white-space:nowrap;text-align:right;width:1%}
+  .chip{font-size:10.5px;font-weight:600;color:var(--ink-2);background:var(--grid);
+    border-radius:5px;padding:2px 7px;margin-left:5px;display:inline-block;white-space:nowrap}
+  .chip.due{background:var(--warn-wash);color:var(--warn)}
+  .chip.old{background:var(--crit-wash);color:var(--crit)}
+  .chip.blk{background:var(--serious-wash);color:var(--serious)}
+  .chip.unb{background:var(--good-wash);color:var(--good)}
+  .src{font-size:11.5px;color:var(--ink-3);margin-top:3px}
+
+  /* inbox */
+  .mail{background:var(--surface);border:1px solid var(--rule);border-radius:11px;
+    padding:14px 16px;box-shadow:var(--shadow)}
+  .mail .from{font-size:13.5px;font-weight:650;display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+  .mail .subj{font-size:13px;color:var(--ink-2);margin-top:3px}
+  .mail .why{font-size:12.5px;color:var(--ink-2);margin-top:8px;
+    padding-left:11px;border-left:2px solid var(--grid)}
+  .mail .acts{margin-top:11px}
+  ul.fyi{list-style:none;margin:0;padding:0;font-size:13px;color:var(--ink-2)}
+  ul.fyi li{padding:7px 0;border-top:1px solid var(--rule)}
+  ul.fyi li:first-child{border-top:0}
+  ul.fyi b{color:var(--ink);font-weight:600}
+
+  /* copilot */
+  .copilot{background:var(--surface);border:1px solid var(--rule);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow);margin-top:12px}
+  .copilot h2{font-size:15px;margin-bottom:4px}
+  .copilot .lede{font-size:12.5px;color:var(--ink-3);margin-bottom:14px}
+  .bridge{font-size:12px;border-radius:9px;padding:11px 13px;border:1px solid var(--rule);
+    background:var(--raised);color:var(--ink-2);line-height:1.65}
+  .bridge b{color:var(--ink);font-weight:650}
+  .dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:7px;
+    background:var(--ink-3);vertical-align:middle}
+  .dot.ok{background:var(--good)}
+  .dot.bad{background:var(--crit)}
+  .dot.warn{background:var(--warn)}
+  .toolgrid{margin-top:9px;font-size:11.5px;color:var(--ink-3);
+    font-variant-numeric:tabular-nums;line-height:1.8}
+  .toolgrid code{background:var(--grid);border-radius:4px;padding:1px 5px;font-size:11px}
+  .qa{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}
+
+  @media (max-width:620px){
+    .wrap{padding:20px 14px 60px}
+    .mast{align-items:flex-start}
+    .stamp{text-align:left}
+    .slot{grid-template-columns:1fr;gap:2px}
+    table.tasks .chips{text-align:left;white-space:normal}
+    .chip{margin-left:0;margin-right:5px}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+
+  <div class="mast">
+    <div>
+      <div class="eyebrow">Wednesday, August 19 &middot; 2026</div>
+      <h1>Good afternoon, Bodhi.</h1>
+      <p class="sub">One thing is on fire, two days this week don't fit, and four tasks have never found a window.</p>
+    </div>
+    <div class="stamp">
+      <div><b>Brief compiled</b> 3:45 PM CT</div>
+      <div>Calendar &middot; Gmail &middot; Granola</div>
+      <div><b>30</b> tracked tasks &middot; <b>8</b> proposals</div>
+    </div>
+  </div>
+
+  <input class="tabinput" type="radio" name="cctab" id="t-today" checked>
+  <input class="tabinput" type="radio" name="cctab" id="t-week">
+  <input class="tabinput" type="radio" name="cctab" id="t-proj">
+  <input class="tabinput" type="radio" name="cctab" id="t-inbox">
+
+  <nav class="tabbar">
+    <label for="t-today">Today <span class="cnt">3</span></label>
+    <label for="t-week">Week <span class="cnt">2</span></label>
+    <label for="t-proj">Projects <span class="cnt">30</span></label>
+    <label for="t-inbox">Inbox <span class="cnt">4</span></label>
+  </nav>
+
+  <div class="panels">
+
+  <!-- ============ TODAY ============ -->
+  <div class="panel" id="p-today">
+
+    <section>
+      <div class="sechead">
+        <h2>Needs a decision today</h2>
+        <span class="note">Escalated since this morning</span>
+      </div>
+      <div class="stack">
+
+        <div class="flag crit">
+          <h3><span class="pill crit">Churn risk</span> Lakeland threatened to pull all AI offline &mdash; today</h3>
+          <p><b>Randell Durk, 2:40 PM:</b> &ldquo;I can not see many more calls like this or we will be forced to take all AI offline.&rdquo; Daniel Goodwin followed at 2:50 PM (&ldquo;happening way too often&hellip; I thought we had this corrected&rdquo;) and again at 3:11 PM asking for the training-mode prompt language from last week's call. Three messages in 31 minutes, on top of Jeff Ogden's two forwards yesterday.</p>
+          <p><b>The fix is already approved and not shipped.</b> Randell signed off on the infrastructure migration on Aug 13 &mdash; six days ago. That migration is what carries the new portal and the transcription fix. Per the Aug 12 sync it's a ~5-minute job: you flip the instance, Jeff loads the injection, scheduled outside business hours.</p>
+          <p><b>Do tonight:</b> reply to the thread with a root cause and a named flip window, and send Daniel the training-mode language he has now asked for twice. Don't wait for Thursday's in-person &mdash; a customer who wrote &ldquo;take all AI offline&rdquo; needs an answer the same day.</p>
+        </div>
+
+        <div class="flag serious">
+          <h3><span class="pill serious">Collision</span> Tomorrow is triple-booked from 11 to 2:30</h3>
+          <p>Roadmap planning holds 10:00&ndash;5:00. Inside it: the B2B Ad Funnels webinar 11:00&ndash;12:30, The Lift 1:00&ndash;1:45 plus recovery to 2:30, and Reserved 3:30&ndash;4:00. That's 3.5 hours of conflict inside a day you already committed to four other people.</p>
+          <p><b>Drop the webinar</b> &mdash; it's a marketing webinar, it will be recorded, and Moby already emailed the replay pattern. <b>Move The Lift to 8:00 AM</b> (proposed below). <b>Delete Reserved</b> &mdash; it's a placeholder holding 30 minutes you don't have.</p>
+        </div>
+
+        <div class="flag warn">
+          <h3><span class="pill warn">Deadline</span> SMS alerts still untested, In-Telecom call is Friday</h3>
+          <p>Thursday and Friday are consumed by roadmap planning 9&ndash;5. If the SMS alert test doesn't happen in the next few hours, it doesn't happen before the customer call. It's a 15-minute job: text yourself, confirm delivery.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <section>
+      <div class="sechead">
+        <h2>Rest of today</h2>
+        <span class="note">One window left, after 4:00 PM</span>
+      </div>
+      <div class="card sched">
+        <div class="slot past"><div class="t">9:30 &ndash; 10:30</div><div class="w">Sustainable Ambition</div></div>
+        <div class="slot past"><div class="t">10:30 &ndash; 11:30</div><div class="w">Sustainable Ambition: Sequence &amp; Structure<small>Granola captured &mdash; events &amp; content inside cohort</small></div></div>
+        <div class="slot past"><div class="t">11:30 &ndash; 2:03</div><div class="w">AI Employee Workshop Sync &middot; Taylor Davis<small>Granola captured &mdash; dashboard baseline agreed</small></div></div>
+        <div class="slot past"><div class="t">2:03 &ndash; 3:45</div><div class="w">AI Productivity Workshop<small>Granola captured &mdash; &ldquo;research copilot interaction&rdquo; logged as next step</small></div></div>
+        <div class="slot"><div class="t">3:45 &ndash; 4:00</div><div class="w">Workshop sync block runs to 4:00<small>Calendar holds it until 4; the room is winding down</small></div></div>
+        <div class="slot free"><div class="t">4:00 PM &rarr;</div><div class="w">Open &mdash; your last unclaimed block until Saturday<small>Thursday and Friday are roadmap planning 9&ndash;5</small></div></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sechead">
+        <h2>Top 5 right now</h2>
+        <span class="note">Ranked by deadline, unblocks-others, age and customer impact</span>
+      </div>
+      <ol class="prio">
+        <li><div>
+          <h4>Reply to Randell &amp; Daniel on the Lakeland thread</h4>
+          <p class="why">A named account put cancellation in writing today. Also unblocks <b>lk-analyze</b> &mdash; Jeff's two forwards carry the transcripts and .wav files you were waiting on Daniel for since Aug 12.</p>
+          <div class="meta"><span class="pill crit">Due today</span><span class="pill quiet">Unblocks 1</span><span class="pill quiet">lk-reply</span></div>
+        </div></li>
+        <li><div>
+          <h4>Write the training-mode prompt language</h4>
+          <p class="why">Daniel asked on the Aug 12 call, then again in writing today. It unblocks Danielle's 40&ndash;50 structured training calls, which is the whole path to the Labor Day sales agent. This stopped being backlog the moment a customer asked twice.</p>
+          <div class="meta"><span class="pill warn">Customer waiting</span><span class="pill quiet">Seen 8/12 &middot; 7d</span><span class="pill quiet">lk-train</span></div>
+        </div></li>
+        <li><div>
+          <h4>Schedule the infrastructure flip with Jeff</h4>
+          <p class="why">Approved Aug 13, unshipped for 6 days, and it is the fix for the calls Lakeland is escalating. Needs an after-hours window and Jeff loading the injection &mdash; ~5 minutes of actual work, blocked entirely on a decision.</p>
+          <div class="meta"><span class="pill crit">Blocking the fix</span><span class="pill quiet">Approved 8/13</span><span class="pill quiet">lk-migrate</span></div>
+        </div></li>
+        <li><div>
+          <h4>Test SMS alerts (text yourself)</h4>
+          <p class="why">Friday's In-Telecom customer call demos this. Thu&ndash;Fri have no gaps. 15 minutes today or it ships untested.</p>
+          <div class="meta"><span class="pill warn">Due 8/21</span><span class="pill quiet">iz-sms</span></div>
+        </div></li>
+        <li><div>
+          <h4>Send Ilya the Slack channel and LiveKit credentials</h4>
+          <p class="why">Ilya's warm-transfer prototype is due tomorrow and he cannot start without access. You've held this since Aug 13 &mdash; it is a five-minute task blocking someone else's deadline.</p>
+          <div class="meta"><span class="pill serious">Blocks hr-proto, due 8/20</span><span class="pill quiet">hr-slack</span></div>
+        </div></li>
+      </ol>
+    </section>
+
+    <section>
+      <div class="sechead"><h2>Coming up &mdash; what to bring</h2></div>
+      <div class="stack">
+        <div class="card">
+          <h4 style="font-size:14px">Thu Aug 20 &middot; Voxtell AI in-person roadmap planning &middot; 10:00&ndash;5:00</h4>
+          <p style="font-size:13px;color:var(--ink-2);margin-top:7px"><b>Bring:</b> the Lakeland escalation thread and your reply, the training-mode approach from the Aug 12 sync, and the v2 MCP-tools-to-scenarios sketch. <b>Ask:</b> who owns the two-way SMS approach, and whether the omnichannel path (voice/SMS/email/chat on one Iris agent) goes in this roadmap or next.</p>
+          <p style="font-size:13px;color:var(--ink-2);margin-top:6px"><b>Jeff Ogden is in the room.</b> Settle the migration flip window face-to-face if it isn't already locked tonight.</p>
+        </div>
+        <div class="card">
+          <h4 style="font-size:14px">Mon Aug 24 &middot; Build an AI Employee workshop at Gevity &middot; 3:00&ndash;5:00</h4>
+          <p style="font-size:13px;color:var(--ink-2);margin-top:7px"><b>Bring:</b> the email-organisation prompt (the agreed opener), the FAQ reference doc, and this dashboard. <b>Ask attendees</b> to bring their own offers/FAQ doc to attach. Per today's sync: stage the build &mdash; Today tab, then Week, then Projects &mdash; rather than revealing the finished thing.</p>
+          <p style="font-size:13px;color:var(--ink-2);margin-top:6px"><b>Your only prep gap is 2:00&ndash;3:00 PM that day</b>, and it is currently labelled &ldquo;Transition, Talking, Triage.&rdquo; Proposal below claims it.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ WEEK ============ -->
+  <div class="panel" id="p-week">
+
+    <section>
+      <div class="sechead">
+        <h2>Committed hours</h2>
+        <span class="note">Wed Aug 19 &ndash; Tue Aug 25 &middot; meeting-room duplicates excluded</span>
+      </div>
+      <div class="chartcard">
+        <div class="plot">
+          <div class="cap8"><span>8h sustainable load</span></div>
+          <div class="bar"><div class="tot" style="bottom:calc(53.57% + 6px)">7.5</div>
+            <div class="seg m" style="height:46.43%"></div><div class="seg p" style="height:7.14%"></div></div>
+          <div class="bar"><div class="tot" style="bottom:calc(82.14% + 6px)">11.5</div>
+            <div class="seg m" style="height:60.71%"></div><div class="seg f" style="height:3.57%"></div><div class="seg p" style="height:17.86%"></div></div>
+          <div class="bar"><div class="tot" style="bottom:calc(92.86% + 6px)">13.0</div>
+            <div class="seg m" style="height:57.14%"></div><div class="seg p" style="height:35.71%"></div></div>
+          <div class="bar"><div class="tot" style="bottom:calc(7.14% + 6px)">1.0</div>
+            <div class="seg p" style="height:7.14%"></div></div>
+          <div class="bar"><div class="tot" style="bottom:calc(7.14% + 6px)">1.0</div>
+            <div class="seg p" style="height:7.14%"></div></div>
+          <div class="bar"><div class="tot" style="bottom:calc(62.5% + 6px)">8.75</div>
+            <div class="seg m" style="height:19.64%"></div><div class="seg f" style="height:35.71%"></div><div class="seg p" style="height:7.14%"></div></div>
+          <div class="bar"><div class="tot" style="bottom:calc(51.79% + 6px)">7.25</div>
+            <div class="seg m" style="height:3.57%"></div><div class="seg f" style="height:35.71%"></div><div class="seg p" style="height:12.5%"></div></div>
+        </div>
+        <div class="xaxis">
+          <div><b>Wed</b>19</div><div><b>Thu</b>20</div><div><b>Fri</b>21</div>
+          <div><b>Sat</b>22</div><div><b>Sun</b>23</div><div><b>Mon</b>24</div><div><b>Tue</b>25</div>
+        </div>
+        <div class="legend">
+          <span><i class="swatch" style="background:var(--meet)"></i>Meetings</span>
+          <span><i class="swatch" style="background:var(--focus)"></i>Focus blocks</span>
+          <span><i class="swatch" style="background:var(--pers)"></i>Personal &amp; recovery</span>
+          <span style="color:var(--ink-3)">Hours committed, not hours worked</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sechead"><h2>Where the week breaks</h2></div>
+      <div class="stack">
+
+        <div class="flag serious">
+          <h3><span class="pill serious">11.5h</span> Thursday Aug 20 &mdash; 3.5 hours of it is double-booked</h3>
+          <p><b>Roadmap planning 10:00&ndash;5:00</b> is the commitment. Colliding with it: <b>B2B Ad Funnels webinar 11:00&ndash;12:30</b>, <b>The Lift 1:00&ndash;1:45</b> plus <b>Recover + Shower to 2:30</b>, and <b>Reserved 3:30&ndash;4:00</b>.</p>
+          <p><b>Drop:</b> the webinar (recorded, and it's lead-gen content, not a commitment to a person). <b>Move:</b> The Lift to 8:00 AM &mdash; you're already up at 6:30. <b>Delete:</b> Reserved. That returns the roadmap day to four uninterrupted people-hours.</p>
+        </div>
+
+        <div class="flag serious">
+          <h3><span class="pill serious">13.0h</span> Friday Aug 21 &mdash; the longest day of the week</h3>
+          <p>Roadmap planning 9:00&ndash;5:00, then <b>Dane Maxwell's birthday 6:00&ndash;10:00 PM</b>. One hour between them, and that hour includes the drive. Both are commitments to people, so neither should move &mdash; but go in knowing it's a thirteen-hour day and don't schedule anything into that gap.</p>
+        </div>
+
+        <div class="flag good">
+          <h3><span class="pill good">Protected</span> Saturday recovery, Sunday Day Up</h3>
+          <p>Both days are clear apart from stretching and the dog. After a 13-hour Friday, that's correct &mdash; hold them. Your own Aug 15 quarterly-goals note called out that &ldquo;Sundays into Mondays is a strong rhythm,&rdquo; so Sunday is booked as a Day Up in nature rather than left ambiguous. Ambiguous free days get eaten.</p>
+        </div>
+
+        <div class="flag warn">
+          <h3><span class="pill warn">Tight</span> Monday Aug 24 &mdash; workshop at 3:00, one prep gap</h3>
+          <p>Product sync 8:00, deep work 10:00&ndash;2:00, then the Gevity workshop 3:00&ndash;5:00. The only gap is <b>2:00&ndash;3:00</b>, currently &ldquo;Transition, Talking, Triage.&rdquo; That hour is your entire final prep. The proposal below renames it so it doesn't get casually filled.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <section>
+      <div class="sechead">
+        <h2>Proposals</h2>
+        <span class="note">Nothing reaches your calendar without a click</span>
+      </div>
+      <div class="stack" id="proposals">
+
+        <article class="prop" data-id="p1"
+          data-summary="Lakeland: reply to Randell &amp; Daniel"
+          data-start="2026-08-19T16:00:00-05:00" data-end="2026-08-19T16:45:00-05:00"
+          data-desc="Root cause + named migration window. Reply to the 'Again and still going on today' thread.">
+          <div class="info">
+            <h4>Lakeland: reply to Randell &amp; Daniel</h4>
+            <div class="when">Today &middot; 4:00 &ndash; 4:45 PM</div>
+            <p class="why">The churn-threat reply. First thing in your only remaining window.</p>
+          </div>
+          <div class="acts"><button class="primary act-add">Add to calendar</button><button class="act-rej">Reject</button></div>
+          <div class="propmsg"></div>
+        </article>
+
+        <article class="prop" data-id="p2"
+          data-summary="Write training-mode prompt language"
+          data-start="2026-08-19T16:45:00-05:00" data-end="2026-08-19T17:15:00-05:00"
+          data-desc="Deliverable Daniel Goodwin has now requested twice. Unblocks Danielle's structured training calls.">
+          <div class="info">
+            <h4>Write training-mode prompt language</h4>
+            <div class="when">Today &middot; 4:45 &ndash; 5:15 PM</div>
+            <p class="why">Send it with the reply above, so one email closes both of Daniel's asks.</p>
+          </div>
+          <div class="acts"><button class="primary act-add">Add to calendar</button><button class="act-rej">Reject</button></div>
+          <div class="propmsg"></div>
+        </article>
+
+        <article class="prop" data-id="p3"
+          data-summary="Test SMS alerts"
+          data-start="2026-08-19T17:15:00-05:00" data-end="2026-08-19T17:30:00-05:00"
+          data-desc="Text yourself, confirm delivery. Required before Friday's In-Telecom customer call.">
+          <div class="info">
+            <h4>Test SMS alerts &mdash; text yourself</h4>
+            <div class="when">Today &middot; 5:15 &ndash; 5:30 PM</div>
+            <p class="why">Last chance before Friday. Thu and Fri are roadmap 9&ndash;5.</p>
+          </div>
+          <div class="acts"><button class="primary act-add">Add to calendar</button><button class="act-rej">Reject</button></div>
+          <div class="propmsg"></div>
+        </article>
+
+        <article class="prop" data-id="p4"
+          data-summary="The Lift (Full Body) — moved"
+          data-start="2026-08-20T08:00:00-05:00" data-end="2026-08-20T08:45:00-05:00"
+          data-desc="Moved off the 1:00 PM slot, which collided with in-person roadmap planning.">
+          <div class="info">
+            <h4>The Lift &mdash; moved to the morning</h4>
+            <div class="when">Thu Aug 20 &middot; 8:00 &ndash; 8:45 AM</div>
+            <p class="why">Clears the 1:00&ndash;2:30 collision with roadmap planning. Delete the old 1:00 PM entry and its recovery block once this is in.</p>
+          </div>
+          <div class="acts"><button class="primary act-add">Add to calendar</button><button class="act-rej">Reject</button></div>
+          <div class="propmsg"></div>
+        </article>
+
+        <article class="prop" data-id="p5"
+          data-summary="Admin batch: NDA, MSA, Ilya credentials"
+          data-start="2026-08-21T07:30:00-05:00" data-end="2026-08-21T08:30:00-05:00"
+          data-desc="Batched admin: sign Start Matter NDA, send MSA to Valery, send Slack channel + LiveKit creds to Ilya.">
+          <div class="info">
+            <h4>Admin batch &mdash; NDA, MSA, Ilya's credentials</h4>
+            <div class="when">Fri Aug 21 &middot; 7:30 &ndash; 8:30 AM</div>
+            <p class="why">Three small items that together unblock three different people. The NDA has sat 12 days; the credentials block a prototype due tomorrow &mdash; if you can, send those tonight rather than waiting for this block.</p>
+          </div>
+          <div class="acts"><button class="primary act-add">Add to calendar</button><button class="act-rej">Reject</button></div>
+          <div class="propmsg"></div>
+        </article>
+
+        <article class="prop" data-id="p6"
+          data-summary="Recovery — protected"
+          data-start="2026-08-22T10:00:00-05:00" data-end="2026-08-22T16:00:00-05:00"
+          data-desc="Held after a 13-hour Friday. Not a work block.">
+          <div class="info">
+            <h4>Recovery &mdash; protected</h4>
+            <div class="when">Sat Aug 22 &middot; 10:00 AM &ndash; 4:00 PM</div>
+            <p class="why">Named and blocked so it survives contact with the week. After Friday's thirteen hours this isn't indulgence, it's maintenance.</p>
+          </div>
+          <div class="acts"><button class="primary act-add">Add to calendar</button><button class="act-rej">Reject</button></div>
+          <div class="propmsg"></div>
+        </article>
+
+        <article class="prop" data-id="p7"
+          data-summary="Day Up — nature"
+          data-start="2026-08-23T09:00:00-05:00" data-end="2026-08-23T15:00:00-05:00"
+          data-desc="From the Aug 15 quarterly-goals note: Sundays into Mondays is a strong rhythm.">
+          <div class="info">
+            <h4>Day Up &mdash; out in nature</h4>
+            <div class="when">Sun Aug 23 &middot; 9:00 AM &ndash; 3:00 PM</div>
+            <p class="why">Your own words from the Aug 15 goals session. Monday opens with a product sync and closes with a workshop &mdash; this is what makes that day work.</p>
+          </div>
+          <div class="acts"><button class="primary act-add">Add to calendar</button><button class="act-rej">Reject</button></div>
+          <div class="propmsg"></div>
+        </article>
+
+        <article class="prop" data-id="p8"
+          data-summary="Gevity workshop — final prep"
+          data-start="2026-08-24T14:00:00-05:00" data-end="2026-08-24T15:00:00-05:00"
+          data-desc="Only prep gap before the 3:00 PM workshop. Slides, QR code, sign-up flow, staged dashboard demo.">
+          <div class="info">
+            <h4>Gevity workshop &mdash; final prep</h4>
+            <div class="when">Mon Aug 24 &middot; 2:00 &ndash; 3:00 PM</div>
+            <p class="why">Claims the only gap before you're on. Slides with the QR code and sign-up on each, and the staged Today &rarr; Week &rarr; Projects demo order.</p>
+          </div>
+          <div class="acts"><button class="primary act-add">Add to calendar</button><button class="act-rej">Reject</button></div>
+          <div class="propmsg"></div>
+        </article>
+
+      </div>
+    </section>
+
+    <section>
+      <div class="sechead"><h2>Two things I can't schedule for you</h2></div>
+      <div class="card">
+        <p style="font-size:13.5px;color:var(--ink-2)">Declining the <b>B2B Ad Funnels webinar</b> (Thu 11:00&ndash;12:30) and deleting <b>Reserved</b> (Thu 3:30&ndash;4:00) are removals, not additions &mdash; the buttons above only create events. Both take one tap each in Google Calendar, and together they're the difference between Thursday working and Thursday not.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ PROJECTS ============ -->
+  <div class="panel" id="p-proj">
+
+    <section>
+      <div class="sechead"><h2>A question, because the pattern is now clear</h2></div>
+      <div class="flag warn">
+        <h3><span class="pill warn">Check-in</span> Four offer-design tasks have never once been scheduled</h3>
+        <p><b>ws-cta</b> ($200 workshop + $499 VIP CTA), <b>ws-offer</b> (AI-brain DIY + DFY upgrade), <b>ws-assess</b> (in-workshop assessment) and <b>ws-nate</b> (book Nate Ginsburg) have been on the list since the Aug 15 goals session and have never been given a window &mdash; not because a block got dropped, but because no free block ever existed to give them.</p>
+        <p>Separately, <b>hr-nda</b> is 12 days old and <b>hr-msa</b>, <b>iz-oracle</b> are 8 days each. That's three stalled plus a chronic cluster, which is the threshold you set for me to stop re-listing and ask.</p>
+        <p style="margin-top:11px"><b>So: which is it?</b> &nbsp; Unclear what the next step is &nbsp;&middot;&nbsp; Waiting on someone else &nbsp;&middot;&nbsp; Not actually a priority this quarter &nbsp;&middot;&nbsp; Genuinely no time</p>
+        <p style="margin-top:9px;color:var(--ink-3);font-size:12.5px">If it's the last one, the honest read is that the offer-design work needs a half-day carved out of roadmap or workshop time &mdash; it isn't going to fit in the gaps, and pretending otherwise just moves it down this list again next week.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="sechead">
+        <h2>Living project brief</h2>
+        <span class="note">Built from Granola notes Aug 7&ndash;19, refreshed against today's mail</span>
+      </div>
+
+      <div class="proj">
+        <h3>Lakeland &amp; SpectrumVoIP <span class="rule"></span> <span class="pill crit">Escalated</span></h3>
+        <div class="card"><table class="tasks">
+          <tr><td class="tid">lk-reply</td><td>Reply to Randell &amp; Daniel on the escalation thread<div class="src">Gmail &middot; 3 messages today</div></td><td class="chips"><span class="chip due">Due today</span><span class="chip blk">Blocks lk-analyze</span></td></tr>
+          <tr><td class="tid">lk-migrate</td><td>Flip the infrastructure instance; Jeff loads the injection<div class="src">Granola Aug 12 &middot; approved by Randell Aug 13</div></td><td class="chips"><span class="chip old">6d unshipped</span><span class="chip due">Due 8/21</span></td></tr>
+          <tr><td class="tid">lk-train</td><td>Training-mode prompt language for the sales agent<div class="src">Granola Aug 12 &middot; Daniel asked again today 3:11 PM</div></td><td class="chips"><span class="chip unb">Customer waiting</span><span class="chip">Labor Day target</span></td></tr>
+          <tr><td class="tid">lk-analyze</td><td>Analyse the transcripts and .wav files Jeff forwarded<div class="src">Gmail Aug 18 &middot; these are the call IDs you were waiting for</div></td><td class="chips"><span class="chip unb">Now unblocked</span></td></tr>
+          <tr><td class="tid">lk-render</td><td>Grayson: host the MCP inventory tool on Render (SSL blocker)<div class="src">Granola Aug 12</div></td><td class="chips"><span class="chip">Owner: Grayson</span></td></tr>
+        </table></div>
+      </div>
+
+      <div class="proj">
+        <h3>Voxtell v2 <span class="rule"></span></h3>
+        <div class="card"><table class="tasks">
+          <tr><td class="tid">v2-mcp</td><td>MCP tools &rarr; scenarios<div class="src">Granola Aug 10</div></td><td class="chips"><span class="chip">Roadmap Thu</span></td></tr>
+          <tr><td class="tid">v2-ticket</td><td>Training-mode Linear ticket<div class="src">Granola Aug 12</div></td><td class="chips"><span class="chip">Pairs with lk-train</span></td></tr>
+          <tr><td class="tid">v2-reengage</td><td>v2 email + preview video to 6 months of prospects<div class="src">Granola Aug 10</div></td><td class="chips"><span class="chip">Pairs with em-draft</span></td></tr>
+          <tr><td class="tid">v2-livekit</td><td>Junior: LiveKit ticket<div class="src">Granola Aug 18</div></td><td class="chips"><span class="chip">Owner: Junior</span></td></tr>
+          <tr><td class="tid">v2-sms</td><td>Team: settle the two-way SMS approach<div class="src">Granola Aug 12 &middot; needs 10DLC campaign</div></td><td class="chips"><span class="chip">Roadmap Thu</span></td></tr>
+        </table></div>
+      </div>
+
+      <div class="proj">
+        <h3>Izzy &amp; In-Telecom <span class="rule"></span></h3>
+        <div class="card"><table class="tasks">
+          <tr><td class="tid">iz-sms</td><td>Test SMS alerts before the customer call<div class="src">Granola Aug 18 &middot; Izzy weekly checkin</div></td><td class="chips"><span class="chip due">Due 8/21</span></td></tr>
+          <tr><td class="tid">iz-oracle</td><td>Re-engage Oracle Lighting<div class="src">Granola Aug 11</div></td><td class="chips"><span class="chip old">8d stalled</span></td></tr>
+          <tr><td class="tid">iz-tn</td><td>Tennessee city-government demos<div class="src">Granola Aug 18</div></td><td class="chips"><span class="chip">No date</span></td></tr>
+        </table></div>
+      </div>
+
+      <div class="proj">
+        <h3>Hiring &mdash; Start Matter <span class="rule"></span> <span class="pill warn">3 blocked on you</span></h3>
+        <div class="card"><table class="tasks">
+          <tr><td class="tid">hr-slack</td><td>Slack channel + LiveKit credentials to Ilya<div class="src">Granola Aug 13</div></td><td class="chips"><span class="chip blk">Blocks hr-proto, due 8/20</span></td></tr>
+          <tr><td class="tid">hr-proto</td><td>Ilya's warm-transfer prototype<div class="src">Granola Aug 13</div></td><td class="chips"><span class="chip due">Due 8/20</span><span class="chip blk">Blocked</span></td></tr>
+          <tr><td class="tid">hr-nda</td><td>Sign the NDA<div class="src">Granola Aug 7</div></td><td class="chips"><span class="chip old">12d &mdash; chronic soon</span></td></tr>
+          <tr><td class="tid">hr-msa</td><td>MSA to Valery<div class="src">Granola Aug 11</div></td><td class="chips"><span class="chip old">8d stalled</span><span class="chip blk">Blocks hr-dmitry</span></td></tr>
+          <tr><td class="tid">hr-dmitry</td><td>Scope Dmitry's trial<div class="src">Granola Aug 11</div></td><td class="chips"><span class="chip blk">Blocked by hr-msa</span></td></tr>
+          <tr><td class="tid">hr-kate</td><td>Kate intro call<div class="src">Granola Aug 11</div></td><td class="chips"><span class="chip">No date</span></td></tr>
+        </table></div>
+      </div>
+
+      <div class="proj">
+        <h3>Workshops &amp; Sustainable Ambition <span class="rule"></span></h3>
+        <div class="card"><table class="tasks">
+          <tr><td class="tid">ws-email</td><td>Email-organisation prompt + FAQ reference doc<div class="src">Granola Aug 19 &middot; the workshop's opening demo</div></td><td class="chips"><span class="chip due">Due 8/24</span></td></tr>
+          <tr><td class="tid">ws-dash</td><td>Dashboard baseline + hosting test<div class="src">Granola Aug 19</div></td><td class="chips"><span class="chip due">Due 8/24</span><span class="chip unb">In progress</span></td></tr>
+          <tr><td class="tid">ws-slides</td><td>AI-employee slides, QR code + sign-up on every slide<div class="src">Granola Aug 19 &middot; AI Productivity Workshop</div></td><td class="chips"><span class="chip due">Due 8/24</span><span class="chip unb">New</span></td></tr>
+          <tr><td class="tid">ws-gabi</td><td>RSVP to Gabi Rosen &mdash; Aug 28 Austin workshop<div class="src">Gmail Aug 18 &middot; calendar is free that morning</div></td><td class="chips"><span class="chip">Easy yes</span></td></tr>
+          <tr><td class="tid">ws-goals</td><td>Put numbers on the three quarterly goals<div class="src">Granola Aug 15</div></td><td class="chips"><span class="chip old">4d</span></td></tr>
+          <tr><td class="tid">ws-cta</td><td>$200 workshop + $499 VIP CTA<div class="src">Granola Aug 15</div></td><td class="chips"><span class="chip old">Never scheduled</span></td></tr>
+          <tr><td class="tid">ws-offer</td><td>AI-brain DIY + DFY upgrade<div class="src">Granola Aug 15</div></td><td class="chips"><span class="chip old">Never scheduled</span></td></tr>
+          <tr><td class="tid">ws-assess</td><td>In-workshop assessment<div class="src">Granola Aug 15</div></td><td class="chips"><span class="chip old">Never scheduled</span></td></tr>
+          <tr><td class="tid">ws-nate</td><td>Book Nate Ginsburg 1:1<div class="src">Granola Aug 15</div></td><td class="chips"><span class="chip old">Never scheduled</span></td></tr>
+        </table></div>
+      </div>
+
+      <div class="proj">
+        <h3>Inbox-origin <span class="rule"></span></h3>
+        <div class="card"><table class="tasks">
+          <tr><td class="tid">em-ac3</td><td>Reply to AC3 Performance about the updated investor deck<div class="src">Gmail Aug 17 &middot; still unread</div></td><td class="chips"><span class="chip old">2d</span></td></tr>
+          <tr><td class="tid">em-draft</td><td>Finish or kill the Laura Mathwig webinar draft<div class="src">Gmail &middot; drafted Mar 4, 168 days ago</div></td><td class="chips"><span class="chip old">168d</span></td></tr>
+        </table></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sechead">
+        <h2>Batched into real windows</h2>
+        <span class="note">Grouped by type, fitted to gaps that actually exist</span>
+      </div>
+      <div class="stack">
+        <div class="card"><h4 style="font-size:13.5px">Customer &amp; escalation &mdash; today 4:00&ndash;5:30 PM</h4>
+          <p style="font-size:13px;color:var(--ink-2);margin-top:6px">lk-reply, lk-train, iz-sms. The only window before Thursday.</p></div>
+        <div class="card"><h4 style="font-size:13.5px">Admin &mdash; Friday 7:30&ndash;8:30 AM</h4>
+          <p style="font-size:13px;color:var(--ink-2);margin-top:6px">hr-nda, hr-msa, hr-slack. Send Ilya's credentials tonight if you can &mdash; his deadline is tomorrow.</p></div>
+        <div class="card"><h4 style="font-size:13.5px">Product &amp; Linear &mdash; Thursday's roadmap day</h4>
+          <p style="font-size:13px;color:var(--ink-2);margin-top:6px">v2-mcp, v2-sms, v2-ticket. Don't schedule these separately; they're the agenda.</p></div>
+        <div class="card"><h4 style="font-size:13.5px">Workshop &mdash; Monday 2:00&ndash;3:00 PM</h4>
+          <p style="font-size:13px;color:var(--ink-2);margin-top:6px">ws-slides, ws-email, final run-through. One hour for all of it.</p></div>
+        <div class="card" style="border-color:var(--warn)"><h4 style="font-size:13.5px;color:var(--warn)">Offer design &mdash; no window exists</h4>
+          <p style="font-size:13px;color:var(--ink-2);margin-top:6px">ws-cta, ws-offer, ws-assess, ws-nate. I'm not going to bin-pack these into gaps that aren't there. This is overcommitment, not a scheduling puzzle &mdash; see the question at the top of this tab.</p></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ INBOX ============ -->
+  <div class="panel" id="p-inbox">
+
+    <section>
+      <div class="sechead">
+        <h2>Needs a reply</h2>
+        <span class="note">Drafts are written and saved to Gmail &mdash; nothing sends itself</span>
+      </div>
+      <div class="stack">
+
+        <div class="mail">
+          <div class="from">Randell Durk &middot; Lakeland Automall <span class="pill crit">Churn risk</span></div>
+          <div class="subj">&ldquo;Again and still going on today.&rdquo; &mdash; today, 2:40 PM &middot; Daniel replied 2:50 PM</div>
+          <p class="why">Randell wrote that they'll be &ldquo;forced to take all AI offline.&rdquo; He is the person who approved the migration on Aug 13 that would fix this. The reply needs to name the root cause (real-time versus post-call transcription), own the six-day delay, and give a specific after-hours flip window.</p>
+          <div class="acts">
+            <button class="primary act-draft"
+              data-to='["RDurk@lakelandautomall.com","DGoodwin@lakelandautomall.com"]'
+              data-cc='["jogden@spectrumvoip.com","gakerly@spectrumvoip.com"]'
+              data-reply="1a01b9327e8f1f41"
+              data-subject="RE: Again and still going on today."
+              data-body="Randell, Daniel &#8212;
+
+You are right to be frustrated, and I want to be straight with you about where this stands.
+
+What is happening: the transfer failures are in the real-time transcription path, which is a different mechanism from the post-call transcription that looks clean in your logs. That is why the agent can appear to hear &quot;sales&quot; or &quot;service&quot; and still not transfer, and why it clusters for a few hours and then resolves.
+
+What fixes it: the infrastructure migration you approved on August 13. That carries both the corrected transcription path and the new portal. It has not been flipped yet, and that is on me &#8212; six days is too long given what you have been seeing.
+
+What I am proposing: Jeff and I flip it outside business hours. The work itself is about five minutes &#8212; I flip the instance, Jeff loads the injection. Tell me which evening works and I will hold it.
+
+Daniel &#8212; the training mode prompt language is coming to you in a separate note today so Danielle can start structured training calls without waiting on the toggle feature.
+
+I am also going through the transcripts and recordings Jeff forwarded yesterday and will come back with specifics on the freeze-and-hang-up pattern.
+
+Bodhi">Draft this reply</button>
+            <button class="act-open" data-url="https://mail.google.com/mail/u/0/#inbox">Open in Gmail</button>
+          </div>
+          <div class="propmsg"></div>
+        </div>
+
+        <div class="mail">
+          <div class="from">Daniel Goodwin &middot; Lakeland Automall <span class="pill warn">Asked twice</span></div>
+          <div class="subj">&ldquo;Lakeland Automall&rdquo; &mdash; today, 3:11 PM &middot; unread</div>
+          <p class="why">Asking for the exact training-mode wording from the Aug 12 call. This is <b>lk-train</b> &mdash; a backlog item that just became a customer deliverable. The draft gives him the prompt language and the 40&ndash;50 call process you agreed.</p>
+          <div class="acts">
+            <button class="primary act-draft"
+              data-to='["DGoodwin@lakelandautomall.com"]'
+              data-cc='["RDurk@lakelandautomall.com","it@lakelandautomall.com"]'
+              data-reply="1a01ba69b179ed0f"
+              data-subject="RE: Lakeland Automall — training mode language"
+              data-body="Daniel &#8212;
+
+Here is the training mode language to add to the agent prompt, plus how to run it.
+
+Add to the prompt:
+
+TRAINING MODE
+When the caller identifies themselves with the training passphrase, enter training mode for the remainder of the call. In training mode: treat the caller as an internal reviewer, not a customer. If the caller corrects an answer, acknowledge the correction explicitly, restate the corrected answer back to them in one sentence, and use the corrected version for the rest of the call. Do not argue with a correction. If you do not know an answer, say so plainly rather than guessing. At the end of the call, summarise every correction you received.
+
+Two things to know about how this behaves:
+
+1. Corrections hold for the duration of that one call and reset on hang-up. The agent cannot write to its own prompt or knowledge base, so this is deliberately a capture mechanism, not self-learning.
+2. Keep instructions to one at a time. The freeze-and-hang-up we saw on Monday happened when the agent received several instructions in a single turn.
+
+The process we agreed:
+
+- Danielle calls in as a customer and works through the question set, correcting wrong answers as she goes.
+- After roughly 40 to 50 calls we batch-download the transcripts.
+- We run those through an LLM to find the gaps and generate a markdown knowledge base file.
+- A human reviews it before anything is published to the knowledge base.
+
+That gets Danielle started now rather than waiting on the agent-level training toggle, which is still a longer-term item.
+
+Bodhi">Draft this reply</button>
+            <button class="act-open" data-url="https://mail.google.com/mail/u/0/#inbox">Open in Gmail</button>
+          </div>
+          <div class="propmsg"></div>
+        </div>
+
+        <div class="mail">
+          <div class="from">Gabi Rosen <span class="pill good">Easy yes</span></div>
+          <div class="subj">&ldquo;Aug 28: outbound for Austin founders&rdquo; &mdash; Aug 18</div>
+          <p class="why">A direct question &mdash; &ldquo;will you be in Austin?&rdquo; &mdash; sitting two days. Private workshop at Chai House, 8:30&ndash;10:00 AM on Aug 28. <b>Your calendar is completely clear that morning.</b> This is a yes that only needs sending.</p>
+          <div class="acts">
+            <button class="primary act-draft"
+              data-to='["gabirosen@gooutreachcovision.com"]'
+              data-reply="1a0157659b379e2b"
+              data-subject="RE: Aug 28: outbound for Austin founders"
+              data-body="Gabi &#8212;
+
+Yes, I will be in Austin and I would like to come. The 28th at 8:30 is open on my end.
+
+Count me in, and send over anything you would like attendees to prepare beforehand.
+
+Thanks for thinking of me.
+
+Bodhi">Draft the yes</button>
+            <button class="act-open" data-url="https://mail.google.com/mail/u/0/#inbox">Open in Gmail</button>
+          </div>
+          <div class="propmsg"></div>
+        </div>
+
+        <div class="mail">
+          <div class="from">AC3 Performance <span class="pill quiet">2 days unread</span></div>
+          <div class="subj">&ldquo;Re: Investor Memo&rdquo; &mdash; Aug 17 &middot; updated deck attached</div>
+          <p class="why">He acted on feedback you already gave and is asking for time. Low effort, and leaving a founder hanging after they revised on your notes is the kind of thing that quietly costs you a relationship.</p>
+          <div class="acts">
+            <button class="primary act-draft"
+              data-to='["vf@ac3performance.com"]'
+              data-reply="1a01062d755f4ff6"
+              data-subject="RE: Investor Memo"
+              data-body="Hey &#8212;
+
+Thanks for turning the deck around on that feedback, and sorry for the slow reply &#8212; this week has been unusually full.
+
+Happy to give you my thoughts properly rather than in passing. I am tied up with roadmap planning Thursday and Friday, so early next week is better. Would Tuesday or Wednesday afternoon work for a half hour?
+
+Send a couple of windows that suit you and I will make one work.
+
+Bodhi">Draft this reply</button>
+            <button class="act-open" data-url="https://mail.google.com/mail/u/0/#inbox">Open in Gmail</button>
+          </div>
+          <div class="propmsg"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <section>
+      <div class="sechead"><h2>Stale draft</h2></div>
+      <div class="flag warn">
+        <h3><span class="pill warn">168 days</span> The Laura Mathwig webinar draft stops mid-sentence</h3>
+        <p>Written Mar 4 to Laura Mathwig at SpectrumVoIP. The body reads, in full: <i>&ldquo;Hey Laura, We are planning to doing a webinar and was wondering if I could&rdquo;</i> &mdash; and then it ends.</p>
+        <p>Five and a half months is well past the point where sending it would be strange. It pairs naturally with <b>v2-reengage</b>, the v2 email and preview video to six months of prospects &mdash; either fold it into that campaign as a warm re-open, or delete it. What it should not do is sit there for another six months.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="sechead"><h2>Noted, no action</h2></div>
+      <div class="card"><ul class="fyi">
+        <li><b>Linear</b> &mdash; GraysonA commented on SPE-101 (Jupiter vs Juniper naming for voice options), plus 9 unread notifications.</li>
+        <li><b>Connor Michalek, Gevity</b> &mdash; first Sustainable Ambition application in (Alex Poscente). You already replied.</li>
+        <li><b>Twilio</b> &mdash; account auto-recharged. <b>OpenAI</b> &mdash; $10.04 credit top-up. <b>Eleven Labs</b> &mdash; receipt.</li>
+        <li><b>Langfuse</b> &mdash; v4 migration required by Nov 16. Genuinely actionable, but not this month.</li>
+        <li><b>Kaushik Kulkarni</b> &mdash; second cold outreach, first one was trashed. Safe to ignore.</li>
+        <li><b>Newsletters</b> &mdash; AINews, Krisp, This Week in Startups, PostHog, Vapi, Mercury. Nothing needing you.</li>
+      </ul></div>
+    </section>
+  </div>
+
+  </div><!-- /panels -->
+
+  <div class="copilot">
+    <h2>Co-pilot</h2>
+    <p class="lede">Buttons on this page act through your own connected accounts, with a confirmation on each call.</p>
+    <div class="bridge" id="bridge">
+      <span class="dot" id="bdot"></span><b id="bstate">Checking connectors&hellip;</b>
+      <div id="bdetail" style="margin-top:5px">Looking for the connector bridge in this view.</div>
+      <div class="toolgrid" id="btools"></div>
+    </div>
+    <div class="qa">
+      <button id="recheck">Re-check connectors</button>
+      <button class="act-open" data-url="https://calendar.google.com/">Open Google Calendar</button>
+      <button class="act-open" data-url="https://mail.google.com/mail/u/0/#inbox">Open Gmail</button>
+    </div>
+  </div>
+
+  <p style="font-size:11.5px;color:var(--ink-3);margin-top:20px;line-height:1.7">
+    Compiled 3:45 PM CT, Wed Aug 19 2026, from Google Calendar (Aug 19&ndash;30), Gmail (inbox, 10 days, plus drafts) and Granola (16 meetings, Aug 7&ndash;19).
+    Task ids and <i>seen</i> dates carry forward between refreshes so nothing silently disappears.
+  </p>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var TZ = "America/Chicago";
+  var bdot = document.getElementById("bdot");
+  var bstate = document.getElementById("bstate");
+  var bdetail = document.getElementById("bdetail");
+  var btools = document.getElementById("btools");
+  var mcp = null;
+
+  function setBridge(cls, state, detail) {
+    bdot.className = "dot " + (cls || "");
+    bstate.textContent = state;
+    bdetail.innerHTML = detail;
+  }
+
+  function msgEl(node) {
+    return node.querySelector(".propmsg");
+  }
+
+  function say(node, kind, text) {
+    var m = msgEl(node);
+    if (!m) return;
+    m.className = "propmsg on " + kind;
+    m.textContent = text;
+  }
+
+  // Map an McpError code to copy that names the actual fix.
+  function explain(err) {
+    var code = (err && err.code) || "upstream_error";
+    var server = (err && err.server) || "the connector";
+    switch (code) {
+      case "needs_reauth":
+        return "Reconnect " + server + " in claude.ai Settings → Connectors, then try again.";
+      case "server_not_connected":
+        return "Add " + server + " in claude.ai Settings → Connectors.";
+      case "selection_required":
+        return "You have more than one " + server + " connector. Choose one when prompted, then try again.";
+      case "not_in_manifest":
+        return "This page is not permitted to call that tool.";
+      case "blocked_by_policy":
+        return "Your organisation's policy blocks this tool.";
+      case "approval_required":
+        return "This tool needs per-call approval, which artifacts cannot request yet.";
+      case "server_unavailable":
+        return "The connector did not answer. It may still have worked — check before retrying.";
+      case "cancelled":
+        return "Cancelled. The outcome is unknown — check your calendar before retrying.";
+      case "rate_limited":
+        return "Too many calls just now. Wait a moment and try again.";
+      case "tool_error":
+        return "The connector rejected it: " + ((err && err.message) || "no reason given");
+      case "not_granted":
+      case "capability_disabled":
+      case "capability_removed":
+        return "Connector actions are not available in this view.";
+      default:
+        return (err && err.message) || "That did not go through.";
+    }
+  }
+
+  // ---- actions -------------------------------------------------------
+  function wireAdd(node) {
+    var btn = node.querySelector(".act-add");
+    var rej = node.querySelector(".act-rej");
+    if (rej) {
+      rej.addEventListener("click", function () {
+        node.setAttribute("data-state", "rejected");
+        if (btn) btn.disabled = true;
+        rej.disabled = true;
+        say(node, "", "Rejected — it will not be proposed again.");
+      });
+    }
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      if (!mcp) {
+        say(node, "err", "Connector actions are not available in this view.");
+        return;
+      }
+      btn.disabled = true;
+      say(node, "", "Adding…");
+      mcp.callTool("Google Calendar", "create_event", {
+        summary: node.getAttribute("data-summary"),
+        startTime: node.getAttribute("data-start"),
+        endTime: node.getAttribute("data-end"),
+        timeZone: TZ,
+        description: node.getAttribute("data-desc") || ""
+      }).then(function (res) {
+        var ev = (res && res.payload) || {};
+        node.setAttribute("data-state", "added");
+        if (rej) rej.disabled = true;
+        btn.textContent = "Added";
+        var m = msgEl(node);
+        m.className = "propmsg on ok";
+        m.textContent = "Added to your calendar. ";
+        if (ev.htmlLink) {
+          var a = document.createElement("a");
+          a.href = ev.htmlLink;
+          a.target = "_blank";
+          a.rel = "noopener";
+          a.textContent = "Open the event";
+          m.appendChild(a);
+        }
+      }).catch(function (err) {
+        btn.disabled = false;
+        say(node, "err", explain(err));
+      });
+    });
+  }
+
+  function wireDraft(btn) {
+    btn.addEventListener("click", function () {
+      var card = btn.closest(".mail");
+      if (!mcp) {
+        say(card, "err", "Connector actions are not available in this view.");
+        return;
+      }
+      var to, cc;
+      try { to = JSON.parse(btn.getAttribute("data-to") || "[]"); } catch (e) { to = []; }
+      try { cc = JSON.parse(btn.getAttribute("data-cc") || "[]"); } catch (e) { cc = []; }
+      btn.disabled = true;
+      say(card, "", "Writing the draft…");
+      var input = {
+        to: to,
+        subject: btn.getAttribute("data-subject") || "",
+        body: btn.getAttribute("data-body") || ""
+      };
+      if (cc.length) input.cc = cc;
+      var rid = btn.getAttribute("data-reply");
+      if (rid) input.replyToMessageId = rid;
+
+      mcp.callTool("Gmail", "create_draft", input).then(function () {
+        btn.textContent = "Draft saved";
+        say(card, "ok", "Saved to your Gmail drafts. Read it before you send — nothing was sent.");
+      }).catch(function (err) {
+        btn.disabled = false;
+        say(card, "err", explain(err));
+      });
+    });
+  }
+
+  // ---- boot ----------------------------------------------------------
+  function renderTools(list) {
+    if (!list || !list.servers || !list.servers.length) {
+      btools.innerHTML = "";
+      return;
+    }
+    var out = list.servers.map(function (s) {
+      var names = (s.tools || []).map(function (t) { return t.name; });
+      var status = s.authStatus === "connected" ? "" :
+        " — " + (s.authStatus === "needs_reauth" ? "needs reconnecting" : "status unknown");
+      return "<div><b>" + s.server + "</b>" + status + "<br>" +
+        (names.length
+          ? names.map(function (n) { return "<code>" + n + "</code>"; }).join(" ")
+          : "<i>no tools reachable</i>") + "</div>";
+    }).join("");
+    btools.innerHTML = out;
+  }
+
+  function boot() {
+    setBridge("", "Checking connectors…", "Looking for the connector bridge in this view.");
+    btools.innerHTML = "";
+
+    if (!window.claude || typeof window.claude.use !== "function") {
+      setBridge("bad", "No connector bridge in this view",
+        "This looks like a static preview. The brief above is complete and accurate — only the buttons are inert. Open the artifact from claude.ai to enable them.");
+      return;
+    }
+
+    window.claude.use("mcp").then(function (ns) {
+      mcp = ns;
+      if (!mcp) {
+        setBridge("bad", "Connector actions unavailable",
+          "This view cannot run connector calls, so the buttons will not work here. Everything above is still current as of 3:45 PM.");
+        return;
+      }
+      setBridge("warn", "Bridge found — checking what is reachable", "Asking which connectors answer for you.");
+      return mcp.listTools().then(function (list) {
+        var servers = (list && list.servers) || [];
+        var live = servers.filter(function (s) { return (s.tools || []).length; });
+        if (!live.length) {
+          setBridge("warn", "Bridge found, no connectors answering",
+            "Add Google Calendar, Gmail and Granola in claude.ai Settings → Connectors, then re-check.");
+        } else {
+          setBridge("ok", "Connected — " + live.length + " of " + servers.length + " ready",
+            "Buttons will act through your own accounts. Each call asks you first, and nothing sends email on its own.");
+        }
+        renderTools(list);
+      }).catch(function (err) {
+        setBridge("warn", "Bridge found, could not list connectors", explain(err));
+      });
+    }).catch(function (err) {
+      setBridge("bad", "Connector check failed", explain(err));
+    });
+  }
+
+  // wire everything up front so the page works the moment the bridge lands
+  Array.prototype.forEach.call(document.querySelectorAll(".prop"), wireAdd);
+  Array.prototype.forEach.call(document.querySelectorAll(".act-draft"), wireDraft);
+  Array.prototype.forEach.call(document.querySelectorAll(".act-open"), function (b) {
+    b.addEventListener("click", function () {
+      window.open(b.getAttribute("data-url"), "_blank", "noopener");
+    });
+  });
+  document.getElementById("recheck").addEventListener("click", boot);
+
+  boot();
+})();
+</script>
