@@ -220,6 +220,22 @@
   .toolgrid code{background:var(--grid);border-radius:4px;padding:1px 5px;font-size:11px}
   .qa{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}
 
+  .deltabox{display:none;margin:0 0 22px;border:1px solid var(--rule);border-left:4px solid var(--meet);
+    border-radius:11px;padding:14px 16px;background:var(--surface);box-shadow:var(--shadow)}
+  .deltabox.on{display:block}
+  .deltabox.quiet{border-left-color:var(--good)}
+  .deltabox.bad{border-left-color:var(--crit)}
+  .deltahead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .deltahead b{font-size:13.5px}
+  .deltahead span{font-size:11.5px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+  #deltabody{font-size:13px;color:var(--ink-2);margin-top:8px}
+  #deltabody ul{list-style:none;margin:8px 0 0;padding:0}
+  #deltabody li{padding:5px 0;border-top:1px solid var(--rule)}
+  #deltabody li:first-child{border-top:0}
+  #deltabody .who{font-weight:600;color:var(--ink)}
+  .stale{font-size:11.5px;color:var(--ink-3);margin-top:7px}
+  .bar.live .seg{transition:height .35s ease}
+  @media (prefers-reduced-motion:reduce){.bar.live .seg{transition:none}}
   @media (max-width:620px){
     .wrap{padding:20px 14px 60px}
     .mast{align-items:flex-start}
@@ -243,7 +259,13 @@
       <div><b>Brief compiled</b> 3:45 PM CT</div>
       <div>Calendar &middot; Gmail &middot; Granola</div>
       <div><b>30</b> tracked tasks &middot; <b>8</b> proposals</div>
+      <div style="margin-top:9px"><button id="refresh" class="primary" disabled>Refresh data</button></div>
     </div>
+  </div>
+
+  <div id="delta" class="deltabox">
+    <div class="deltahead"><b id="deltatitle">Checking for changes&hellip;</b><span id="deltastamp"></span></div>
+    <div id="deltabody"></div>
   </div>
 
   <input class="tabinput" type="radio" name="cctab" id="t-today" checked>
@@ -294,9 +316,9 @@
     <section>
       <div class="sechead">
         <h2>Rest of today</h2>
-        <span class="note">One window left, after 4:00 PM</span>
+        <span class="note" id="todaynote">One window left, after 4:00 PM</span>
       </div>
-      <div class="card sched">
+      <div class="card sched" id="todaysched">
         <div class="slot past"><div class="t">9:30 &ndash; 10:30</div><div class="w">Sustainable Ambition</div></div>
         <div class="slot past"><div class="t">10:30 &ndash; 11:30</div><div class="w">Sustainable Ambition: Sequence &amp; Structure<small>Granola captured &mdash; events &amp; content inside cohort</small></div></div>
         <div class="slot past"><div class="t">11:30 &ndash; 2:03</div><div class="w">AI Employee Workshop Sync &middot; Taylor Davis<small>Granola captured &mdash; dashboard baseline agreed</small></div></div>
@@ -363,10 +385,10 @@
     <section>
       <div class="sechead">
         <h2>Committed hours</h2>
-        <span class="note">Wed Aug 19 &ndash; Tue Aug 25 &middot; meeting-room duplicates excluded</span>
+        <span class="note" id="weeknote">Wed Aug 19 &ndash; Tue Aug 25 &middot; meeting-room duplicates excluded</span>
       </div>
       <div class="chartcard">
-        <div class="plot">
+        <div class="plot" id="plot">
           <div class="cap8"><span>8h sustainable load</span></div>
           <div class="bar"><div class="tot" style="bottom:calc(53.57% + 6px)">7.5</div>
             <div class="seg m" style="height:46.43%"></div><div class="seg p" style="height:7.14%"></div></div>
@@ -383,7 +405,7 @@
           <div class="bar"><div class="tot" style="bottom:calc(51.79% + 6px)">7.25</div>
             <div class="seg m" style="height:3.57%"></div><div class="seg f" style="height:35.71%"></div><div class="seg p" style="height:12.5%"></div></div>
         </div>
-        <div class="xaxis">
+        <div class="xaxis" id="xaxis">
           <div><b>Wed</b>19</div><div><b>Thu</b>20</div><div><b>Fri</b>21</div>
           <div><b>Sat</b>22</div><div><b>Sun</b>23</div><div><b>Mon</b>24</div><div><b>Tue</b>25</div>
         </div>
@@ -1013,6 +1035,7 @@ Bodhi">Draft this reply</button>
         } else {
           setBridge("ok", "Connected — " + live.length + " of " + servers.length + " ready",
             "Buttons will act through your own accounts. Each call asks you first, and nothing sends email on its own.");
+          refreshBtn.disabled = false;
         }
         renderTools(list);
       }).catch(function (err) {
@@ -1022,6 +1045,253 @@ Bodhi">Draft this reply</button>
       setBridge("bad", "Connector check failed", explain(err));
     });
   }
+
+  // ---- live refresh ---------------------------------------------------
+  // Claude compiled the brief at this moment; the delta is always measured
+  // from here, so the case for a full re-analysis grows visibly over time.
+  var BASELINE = "2026-08-19T15:45:00-05:00";
+  var BASELINE_MS = new Date(BASELINE).getTime();
+
+  var refreshBtn = document.getElementById("refresh");
+  var deltaBox = document.getElementById("delta");
+  var deltaTitle = document.getElementById("deltatitle");
+  var deltaStamp = document.getElementById("deltastamp");
+  var deltaBody = document.getElementById("deltabody");
+
+  var fmtTime = new Intl.DateTimeFormat("en-US",
+    { timeZone: TZ, hour: "numeric", minute: "2-digit" });
+  var fmtDay = new Intl.DateTimeFormat("en-US",
+    { timeZone: TZ, weekday: "short" });
+  var fmtDate = new Intl.DateTimeFormat("en-US",
+    { timeZone: TZ, month: "short", day: "numeric" });
+  var keyOf = new Intl.DateTimeFormat("en-CA",
+    { timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit" });
+
+  function esc(t) {
+    return String(t == null ? "" : t)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  // Meeting-room calendars mirror real events; counting them inflates every total.
+  function classify(summary) {
+    var t = summary || "";
+    if (/Meeting Room|Huddle Room/i.test(t)) return null;
+    if (/Stretch|Journaling|Doggy|Lift|Recover|Shower|Birthday|Day Up|Recovery/i.test(t)) return "p";
+    if (/Deep Work|Reserved|Transition/i.test(t)) return "f";
+    return "m";
+  }
+
+  function timedEvents(list) {
+    return (list || []).filter(function (e) {
+      return e && e.start && e.start.dateTime && e.end && e.end.dateTime &&
+        e.status !== "cancelled";
+    });
+  }
+
+  function redrawChart(events) {
+    var plot = document.getElementById("plot");
+    var xaxis = document.getElementById("xaxis");
+    if (!plot || !xaxis) return;
+
+    var days = [], i, d = new Date();
+    for (i = 0; i < 7; i++) {
+      days.push({ key: keyOf.format(d), when: new Date(d), m: 0, f: 0, p: 0 });
+      d = new Date(d.getTime() + 86400000);
+    }
+    var index = {};
+    days.forEach(function (x) { index[x.key] = x; });
+
+    timedEvents(events).forEach(function (e) {
+      var bucket = index[keyOf.format(new Date(e.start.dateTime))];
+      if (!bucket) return;
+      var kind = classify(e.summary);
+      if (!kind) return;
+      var hrs = (new Date(e.end.dateTime) - new Date(e.start.dateTime)) / 3600000;
+      if (hrs > 0 && hrs < 24) bucket[kind] += hrs;
+    });
+
+    var peak = 0;
+    days.forEach(function (x) { peak = Math.max(peak, x.m + x.f + x.p); });
+    var scale = Math.max(14, Math.ceil(peak));
+
+    plot.innerHTML = '<div class="cap8" style="bottom:' + (800 / scale).toFixed(2) +
+      '%"><span>8h sustainable load</span></div>' +
+      days.map(function (x) {
+        var total = x.m + x.f + x.p;
+        var pct = function (v) { return (v / scale * 100).toFixed(2); };
+        var seg = function (cls, v) {
+          return v > 0 ? '<div class="seg ' + cls + '" style="height:' + pct(v) + '%"></div>' : "";
+        };
+        return '<div class="bar live"><div class="tot" style="bottom:calc(' +
+          pct(total) + '% + 6px)">' +
+          (Math.round(total * 100) / 100) + "</div>" +
+          seg("m", x.m) + seg("f", x.f) + seg("p", x.p) + "</div>";
+      }).join("");
+
+    xaxis.innerHTML = days.map(function (x) {
+      return "<div><b>" + fmtDay.format(x.when) + "</b>" +
+        fmtDate.format(x.when).replace(/^\D+/, "") + "</div>";
+    }).join("");
+
+    var wn = document.getElementById("weeknote");
+    if (wn) {
+      wn.textContent = fmtDate.format(days[0].when) + " – " +
+        fmtDate.format(days[6].when) + " · live · meeting-room duplicates excluded";
+    }
+  }
+
+  function redrawToday(events) {
+    var box = document.getElementById("todaysched");
+    if (!box) return;
+    var todayKey = keyOf.format(new Date());
+    var now = Date.now();
+
+    var mine = timedEvents(events).filter(function (e) {
+      return keyOf.format(new Date(e.start.dateTime)) === todayKey &&
+        !/Meeting Room|Huddle Room/i.test(e.summary || "");
+    }).sort(function (a, b) {
+      return new Date(a.start.dateTime) - new Date(b.start.dateTime);
+    });
+
+    var rows = mine.map(function (e) {
+      var st = new Date(e.start.dateTime), en = new Date(e.end.dateTime);
+      return '<div class="slot' + (en.getTime() < now ? " past" : "") + '">' +
+        '<div class="t">' + fmtTime.format(st) + " – " + fmtTime.format(en) + "</div>" +
+        '<div class="w">' + esc(e.summary || "Untitled") + "</div></div>";
+    });
+
+    var last = mine.length ? new Date(mine[mine.length - 1].end.dateTime) : null;
+    if (!last || last.getTime() <= now) {
+      rows.push('<div class="slot free"><div class="t">Now &rarr;</div>' +
+        '<div class="w">Nothing else scheduled today</div></div>');
+    } else {
+      rows.push('<div class="slot free"><div class="t">' + fmtTime.format(last) +
+        ' &rarr;</div><div class="w">Open after your last commitment</div></div>');
+    }
+
+    box.innerHTML = rows.join("");
+    var tn = document.getElementById("todaynote");
+    if (tn) tn.textContent = "Live from your calendar";
+  }
+
+  function reportDelta(events, threads) {
+    var items = [];
+
+    timedEvents(events).forEach(function (e) {
+      var made = e.created ? new Date(e.created).getTime() : 0;
+      if (made > BASELINE_MS) {
+        items.push("<li><span class=\"who\">New event</span> — " + esc(e.summary) +
+          ", " + fmtDate.format(new Date(e.start.dateTime)) + " " +
+          fmtTime.format(new Date(e.start.dateTime)) + "</li>");
+      }
+    });
+
+    (threads || []).forEach(function (t) {
+      var fresh = (t.messages || []).filter(function (m) {
+        return m.date && new Date(m.date).getTime() > BASELINE_MS &&
+          (m.labelIds || []).indexOf("SENT") === -1;
+      });
+      if (!fresh.length) return;
+      var m = fresh[fresh.length - 1];
+      items.push("<li><span class=\"who\">" + esc(m.sender || "Unknown") + "</span> — " +
+        esc(m.subject || t.snippet || "(no subject)") + "</li>");
+    });
+
+    deltaBox.classList.add("on");
+    deltaStamp.textContent = "checked " + fmtTime.format(new Date());
+
+    if (!items.length) {
+      deltaBox.className = "deltabox on quiet";
+      deltaTitle.textContent = "Nothing new since Claude compiled this brief";
+      deltaBody.innerHTML = '<p>Calendar and inbox match what is written below. ' +
+        'The analysis is still current.</p>';
+      return;
+    }
+
+    deltaBox.className = "deltabox on" + (items.length > 4 ? " bad" : "");
+    deltaTitle.textContent = items.length + (items.length === 1 ? " change" : " changes") +
+      " since this brief was compiled";
+    deltaBody.innerHTML = "<ul>" + items.slice(0, 12).join("") + "</ul>" +
+      (items.length > 12 ? "<p class=\"stale\">and " + (items.length - 12) + " more.</p>" : "") +
+      '<p class="stale">The schedule and week chart above are now live. ' +
+      'Priorities, flags and drafts below were written at 3:45 PM and do not update themselves — ' +
+      'ask Claude for a full refresh to have those rewritten.</p>';
+  }
+
+  function refresh() {
+    if (!mcp) return;
+    refreshBtn.disabled = true;
+    var original = refreshBtn.textContent;
+    refreshBtn.textContent = "Refreshing…";
+    deltaBox.className = "deltabox on";
+    deltaTitle.textContent = "Reading your calendar and inbox…";
+    deltaStamp.textContent = "";
+    deltaBody.innerHTML = "";
+
+    var from = new Date();
+    var to = new Date(from.getTime() + 10 * 86400000);
+
+    var cal = mcp.callTool("Google Calendar", "list_events", {
+      startTime: from.toISOString(),
+      endTime: to.toISOString(),
+      orderBy: "startTime",
+      pageSize: 100,
+      timeZone: TZ
+    }, { cache: { refresh: true } });
+
+    var mail = mcp.callTool("Gmail", "search_threads", {
+      query: "in:inbox newer_than:10d -category:promotions -category:social",
+      pageSize: 40
+    }, { cache: { refresh: true } });
+
+    // Each half is allowed to fail on its own; one dead connector must not
+    // blank the other's section.
+    Promise.all([
+      cal.then(function (r) { return { ok: true, v: r }; },
+               function (e) { return { ok: false, e: e }; }),
+      mail.then(function (r) { return { ok: true, v: r }; },
+                function (e) { return { ok: false, e: e }; })
+    ]).then(function (out) {
+      var calRes = out[0], mailRes = out[1];
+      var events = [], threads = [], problems = [];
+
+      if (calRes.ok) {
+        var pc = (calRes.v && calRes.v.payload) || {};
+        events = pc.events || [];
+        redrawChart(events);
+        redrawToday(events);
+      } else {
+        problems.push("Calendar: " + explain(calRes.e));
+      }
+
+      if (mailRes.ok) {
+        var pm = (mailRes.v && mailRes.v.payload) || {};
+        threads = pm.threads || [];
+      } else {
+        problems.push("Gmail: " + explain(mailRes.e));
+      }
+
+      if (problems.length === 2) {
+        deltaBox.className = "deltabox on bad";
+        deltaTitle.textContent = "Could not refresh";
+        deltaBody.innerHTML = "<ul><li>" + problems.map(esc).join("</li><li>") + "</li></ul>";
+      } else {
+        reportDelta(events, threads);
+        if (problems.length) {
+          deltaBody.innerHTML += '<p class="stale">' + esc(problems[0]) + "</p>";
+        }
+      }
+    }).then(null, function (err) {
+      deltaBox.className = "deltabox on bad";
+      deltaTitle.textContent = "Could not refresh";
+      deltaBody.innerHTML = "<p>" + esc(explain(err)) + "</p>";
+    }).then(function () {
+      refreshBtn.disabled = false;
+      refreshBtn.textContent = original;
+    });
+  }
+
+  refreshBtn.addEventListener("click", refresh);
 
   // wire everything up front so the page works the moment the bridge lands
   Array.prototype.forEach.call(document.querySelectorAll(".prop"), wireAdd);
