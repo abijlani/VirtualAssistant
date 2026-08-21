@@ -246,19 +246,18 @@
   }
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
-
 <div class="wrap">
 
   <div class="mast">
     <div>
-      <div class="eyebrow">Wednesday, August 19 &middot; 2026</div>
+      <div class="eyebrow">Friday, August 21 &middot; 2026</div>
       <h1>Good afternoon, Bodhi.</h1>
-      <p class="sub">One thing is on fire, two days this week don't fit, and four tasks have never found a window.</p>
+      <p class="sub">Four things closed since Wednesday and Lakeland went quiet. Today is the heaviest day I've tracked, and Ilya is still waiting on you.</p>
     </div>
     <div class="stamp">
-      <div><b>Brief compiled</b> 3:45 PM CT</div>
+      <div><b>Brief compiled</b> 4:45 PM CT</div>
       <div>Calendar &middot; Gmail &middot; Granola</div>
-      <div><b>30</b> tracked tasks &middot; <b>8</b> proposals</div>
+      <div><b>27</b> tracked tasks &middot; <b>6</b> proposals</div>
       <div style="margin-top:9px"><button id="refresh" class="primary" disabled>Refresh data</button></div>
     </div>
   </div>
@@ -276,8 +275,8 @@
   <nav class="tabbar">
     <label for="t-today">Today <span class="cnt">3</span></label>
     <label for="t-week">Week <span class="cnt">2</span></label>
-    <label for="t-proj">Projects <span class="cnt">30</span></label>
-    <label for="t-inbox">Inbox <span class="cnt">4</span></label>
+    <label for="t-proj">Projects <span class="cnt">27</span></label>
+    <label for="t-inbox">Inbox <span class="cnt">2</span></label>
   </nav>
 
   <div class="panels">
@@ -286,28 +285,41 @@
   <div class="panel" id="p-today">
 
     <section>
+      <div class="sechead"><h2>Closed since Wednesday</h2></div>
+      <div class="flag good">
+        <h3><span class="pill good">4 done</span> The Lakeland fire is out</h3>
+        <p><b>lk-reply</b> &mdash; you answered Randell and Daniel. Nothing further has come in from Lakeland in three days, after three messages in thirty-one minutes on Wednesday. That silence is the result.</p>
+        <p><b>lk-train</b> &mdash; training-mode prompt language delivered. This unblocks Danielle's structured training calls, which is the path to the Labor Day sales agent.</p>
+        <p><b>lk-migrate</b> &mdash; infrastructure flipped. Six days late, but done, and the transcription fix is now live.</p>
+        <p><b>iz-sms</b> &mdash; SMS alerts tested before the In-Telecom call, as planned.</p>
+        <p style="margin-top:10px"><b>Newly unblocked:</b> <b>lk-analyze</b> was waiting on your reply and is now actionable &mdash; Jeff's transcripts and .wav files are still sitting there, and reading them is how you confirm the migration actually fixed the transfer failures rather than assuming it. <b>v2-ticket</b> (the training-mode Linear ticket) also comes off the blocks now that the prompt language exists.</p>
+      </div>
+    </section>
+
+    <section>
       <div class="sechead">
         <h2>Needs a decision today</h2>
-        <span class="note">Escalated since this morning</span>
+        <span class="note">Before you leave for the party</span>
       </div>
       <div class="stack">
 
         <div class="flag crit">
-          <h3><span class="pill crit">Churn risk</span> Lakeland threatened to pull all AI offline &mdash; today</h3>
-          <p><b>Randell Durk, 2:40 PM:</b> &ldquo;I can not see many more calls like this or we will be forced to take all AI offline.&rdquo; Daniel Goodwin followed at 2:50 PM (&ldquo;happening way too often&hellip; I thought we had this corrected&rdquo;) and again at 3:11 PM asking for the training-mode prompt language from last week's call. Three messages in 31 minutes, on top of Jeff Ogden's two forwards yesterday.</p>
-          <p><b>The fix is already approved and not shipped.</b> Randell signed off on the infrastructure migration on Aug 13 &mdash; six days ago. That migration is what carries the new portal and the transcription fix. Per the Aug 12 sync it's a ~5-minute job: you flip the instance, Jeff loads the injection, scheduled outside business hours.</p>
-          <p><b>Do tonight:</b> reply to the thread with a root cause and a named flip window, and send Daniel the training-mode language he has now asked for twice. Don't wait for Thursday's in-person &mdash; a customer who wrote &ldquo;take all AI offline&rdquo; needs an answer the same day.</p>
+          <h3><span class="pill crit">Overdue</span> Ilya's prototype was due yesterday and he still can't start</h3>
+          <p><b>hr-slack</b> has been open since Aug 13 &mdash; eight days. It is one Slack invite and one set of LiveKit credentials. <b>hr-proto</b>, Ilya's warm-transfer prototype, was due <b>Aug 20</b>. It is now a day past due and none of the delay is his.</p>
+          <p>This was number five on Wednesday's list and it is the only item from that list still open. The other four got done because they were on fire; this one didn't because nobody was shouting about it. That's precisely the failure mode worth naming.</p>
+          <p><b>Five minutes before you leave tonight.</b> Proposal below.</p>
         </div>
 
         <div class="flag serious">
-          <h3><span class="pill serious">Collision</span> Tomorrow is triple-booked from 11 to 2:30</h3>
-          <p>Roadmap planning holds 10:00&ndash;5:00. Inside it: the B2B Ad Funnels webinar 11:00&ndash;12:30, The Lift 1:00&ndash;1:45 plus recovery to 2:30, and Reserved 3:30&ndash;4:00. That's 3.5 hours of conflict inside a day you already committed to four other people.</p>
-          <p><b>Drop the webinar</b> &mdash; it's a marketing webinar, it will be recorded, and Moby already emailed the replay pattern. <b>Move The Lift to 8:00 AM</b> (proposed below). <b>Delete Reserved</b> &mdash; it's a placeholder holding 30 minutes you don't have.</p>
+          <h3><span class="pill serious">15.5h</span> Today is the heaviest day I have on record</h3>
+          <p>Roadmap planning 9:00&ndash;5:00 with Jeff, Grayson and Junior, overlapped by <b>Smart City catch-up 3:00&ndash;3:30</b> and the <b>workshop run-through 3:30&ndash;5:30</b> you are in right now. Then <b>Dane Maxwell's birthday 6:00&ndash;10:00</b> at 1800 Fontaine Ct.</p>
+          <p>Nothing here is droppable and I'm not going to pretend otherwise &mdash; the run-through is Monday's insurance and the birthday is a friend. The only real decision is the half hour from 5:30: that is your entire buffer to close the laptop and drive. Don't put anything in it except Ilya's credentials.</p>
         </div>
 
         <div class="flag warn">
-          <h3><span class="pill warn">Deadline</span> SMS alerts still untested, In-Telecom call is Friday</h3>
-          <p>Thursday and Friday are consumed by roadmap planning 9&ndash;5. If the SMS alert test doesn't happen in the next few hours, it doesn't happen before the customer call. It's a 15-minute job: text yourself, confirm delivery.</p>
+          <h3><span class="pill warn">Monday</span> The Gevity workshop is now the only live deadline</h3>
+          <p><b>ws-slides</b>, <b>ws-email</b> and <b>ws-dash</b> are all due Aug 24 and the workshop starts Monday 3:00 PM. Your only weekday gap before it is <b>Monday 2:00&ndash;3:00</b> &mdash; one hour, which is a run-through, not a build.</p>
+          <p>Which means the slides get built this weekend or they get built badly. Saturday morning is proposed for it, with the rest of the weekend held for recovery.</p>
         </div>
 
       </div>
@@ -316,48 +328,47 @@
     <section>
       <div class="sechead">
         <h2>Rest of today</h2>
-        <span class="note" id="todaynote">One window left, after 4:00 PM</span>
+        <span class="note" id="todaynote">Half an hour of slack, at 5:30</span>
       </div>
       <div class="card sched" id="todaysched">
-        <div class="slot past"><div class="t">9:30 &ndash; 10:30</div><div class="w">Sustainable Ambition</div></div>
-        <div class="slot past"><div class="t">10:30 &ndash; 11:30</div><div class="w">Sustainable Ambition: Sequence &amp; Structure<small>Granola captured &mdash; events &amp; content inside cohort</small></div></div>
-        <div class="slot past"><div class="t">11:30 &ndash; 2:03</div><div class="w">AI Employee Workshop Sync &middot; Taylor Davis<small>Granola captured &mdash; dashboard baseline agreed</small></div></div>
-        <div class="slot past"><div class="t">2:03 &ndash; 3:45</div><div class="w">AI Productivity Workshop<small>Granola captured &mdash; &ldquo;research copilot interaction&rdquo; logged as next step</small></div></div>
-        <div class="slot"><div class="t">3:45 &ndash; 4:00</div><div class="w">Workshop sync block runs to 4:00<small>Calendar holds it until 4; the room is winding down</small></div></div>
-        <div class="slot free"><div class="t">4:00 PM &rarr;</div><div class="w">Open &mdash; your last unclaimed block until Saturday<small>Thursday and Friday are roadmap planning 9&ndash;5</small></div></div>
+        <div class="slot past"><div class="t">9:00 &ndash; 5:00</div><div class="w">Voxtell AI: in-person roadmap planning<small>Jeff Ogden, Grayson Akerly, Junior &middot; Granola captured</small></div></div>
+        <div class="slot past"><div class="t">3:00 &ndash; 3:30</div><div class="w">Smart City catch-up &middot; Emilio Biasutto<small>Added Thursday, lands inside the roadmap day</small></div></div>
+        <div class="slot"><div class="t">3:30 &ndash; 5:30</div><div class="w">Workshop run-through with Taylor &mdash; happening now<small>Granola is capturing it as &ldquo;AI Employee Workshop &mdash; Dry Run&rdquo;</small></div></div>
+        <div class="slot free"><div class="t">5:30 &ndash; 6:00</div><div class="w">Your only gap &mdash; send Ilya's credentials, then drive<small>Proposal below claims fifteen minutes of it</small></div></div>
+        <div class="slot"><div class="t">6:00 &ndash; 10:00</div><div class="w">Dane Maxwell birthday<small>1800 Fontaine Ct &middot; Ariana and Amit also attending</small></div></div>
       </div>
     </section>
 
     <section>
       <div class="sechead">
         <h2>Top 5 right now</h2>
-        <span class="note">Ranked by deadline, unblocks-others, age and customer impact</span>
+        <span class="note">Re-ranked after Wednesday's four completions</span>
       </div>
       <ol class="prio">
         <li><div>
-          <h4>Reply to Randell &amp; Daniel on the Lakeland thread</h4>
-          <p class="why">A named account put cancellation in writing today. Also unblocks <b>lk-analyze</b> &mdash; Jeff's two forwards carry the transcripts and .wav files you were waiting on Daniel for since Aug 12.</p>
-          <div class="meta"><span class="pill crit">Due today</span><span class="pill quiet">Unblocks 1</span><span class="pill quiet">lk-reply</span></div>
-        </div></li>
-        <li><div>
-          <h4>Write the training-mode prompt language</h4>
-          <p class="why">Daniel asked on the Aug 12 call, then again in writing today. It unblocks Danielle's 40&ndash;50 structured training calls, which is the whole path to the Labor Day sales agent. This stopped being backlog the moment a customer asked twice.</p>
-          <div class="meta"><span class="pill warn">Customer waiting</span><span class="pill quiet">Seen 8/12 &middot; 7d</span><span class="pill quiet">lk-train</span></div>
-        </div></li>
-        <li><div>
-          <h4>Schedule the infrastructure flip with Jeff</h4>
-          <p class="why">Approved Aug 13, unshipped for 6 days, and it is the fix for the calls Lakeland is escalating. Needs an after-hours window and Jeff loading the injection &mdash; ~5 minutes of actual work, blocked entirely on a decision.</p>
-          <div class="meta"><span class="pill crit">Blocking the fix</span><span class="pill quiet">Approved 8/13</span><span class="pill quiet">lk-migrate</span></div>
-        </div></li>
-        <li><div>
-          <h4>Test SMS alerts (text yourself)</h4>
-          <p class="why">Friday's In-Telecom customer call demos this. Thu&ndash;Fri have no gaps. 15 minutes today or it ships untested.</p>
-          <div class="meta"><span class="pill warn">Due 8/21</span><span class="pill quiet">iz-sms</span></div>
-        </div></li>
-        <li><div>
           <h4>Send Ilya the Slack channel and LiveKit credentials</h4>
-          <p class="why">Ilya's warm-transfer prototype is due tomorrow and he cannot start without access. You've held this since Aug 13 &mdash; it is a five-minute task blocking someone else's deadline.</p>
-          <div class="meta"><span class="pill serious">Blocks hr-proto, due 8/20</span><span class="pill quiet">hr-slack</span></div>
+          <p class="why">The only Wednesday top-5 item still open, and the only one blocking another human. His deadline has already passed. Five minutes.</p>
+          <div class="meta"><span class="pill crit">Overdue</span><span class="pill quiet">Blocks hr-proto</span><span class="pill quiet">hr-slack</span></div>
+        </div></li>
+        <li><div>
+          <h4>Build the AI-employee slides &mdash; QR code and sign-up on every slide</h4>
+          <p class="why">Due Monday, and Monday's only gap is a single hour immediately before you present. Came out of Wednesday's AI Productivity Workshop as an explicit next step.</p>
+          <div class="meta"><span class="pill warn">Due 8/24</span><span class="pill quiet">ws-slides</span></div>
+        </div></li>
+        <li><div>
+          <h4>Read Jeff's transcripts and .wav files</h4>
+          <p class="why">Newly unblocked by your reply. The migration is live &mdash; this is how you find out whether it actually fixed the transfer failures, before Lakeland finds out for you. Fits inside Tuesday's deep-work block.</p>
+          <div class="meta"><span class="pill good">Newly unblocked</span><span class="pill quiet">lk-analyze</span></div>
+        </div></li>
+        <li><div>
+          <h4>Sign the Start Matter NDA</h4>
+          <p class="why">Fourteen days old today. It crossed from stalled into chronic while you were in roadmap planning, and it gates the whole Start Matter relationship.</p>
+          <div class="meta"><span class="pill crit">Chronic &middot; 14d</span><span class="pill quiet">hr-nda</span></div>
+        </div></li>
+        <li><div>
+          <h4>Answer Gabi Rosen</h4>
+          <p class="why">Her Austin workshop is Aug 28 &mdash; one week out. Your calendar that morning is still completely clear. A yes costs you nothing and the question has been open since Aug 18.</p>
+          <div class="meta"><span class="pill warn">Aug 28</span><span class="pill quiet">ws-gabi</span></div>
         </div></li>
       </ol>
     </section>
@@ -366,14 +377,17 @@
       <div class="sechead"><h2>Coming up &mdash; what to bring</h2></div>
       <div class="stack">
         <div class="card">
-          <h4 style="font-size:14px">Thu Aug 20 &middot; Voxtell AI in-person roadmap planning &middot; 10:00&ndash;5:00</h4>
-          <p style="font-size:13px;color:var(--ink-2);margin-top:7px"><b>Bring:</b> the Lakeland escalation thread and your reply, the training-mode approach from the Aug 12 sync, and the v2 MCP-tools-to-scenarios sketch. <b>Ask:</b> who owns the two-way SMS approach, and whether the omnichannel path (voice/SMS/email/chat on one Iris agent) goes in this roadmap or next.</p>
-          <p style="font-size:13px;color:var(--ink-2);margin-top:6px"><b>Jeff Ogden is in the room.</b> Settle the migration flip window face-to-face if it isn't already locked tonight.</p>
+          <h4 style="font-size:14px">Mon Aug 24 &middot; Build an AI Employee workshop at Gevity &middot; 3:00&ndash;5:00</h4>
+          <p style="font-size:13px;color:var(--ink-2);margin-top:7px"><b>Bring:</b> the slides with QR and sign-up, the email-organisation prompt as the opening demo, the FAQ reference doc, and this dashboard. <b>Stage the build</b> &mdash; Today tab, then Week, then Projects &mdash; rather than revealing the finished thing, per the plan you and Taylor agreed.</p>
+          <p style="font-size:13px;color:var(--ink-2);margin-top:6px"><b>From today's run-through:</b> whatever Taylor flagged in the dry run is the highest-value thing to fix on Saturday. Check the Granola note before you start building.</p>
         </div>
         <div class="card">
-          <h4 style="font-size:14px">Mon Aug 24 &middot; Build an AI Employee workshop at Gevity &middot; 3:00&ndash;5:00</h4>
-          <p style="font-size:13px;color:var(--ink-2);margin-top:7px"><b>Bring:</b> the email-organisation prompt (the agreed opener), the FAQ reference doc, and this dashboard. <b>Ask attendees</b> to bring their own offers/FAQ doc to attach. Per today's sync: stage the build &mdash; Today tab, then Week, then Projects &mdash; rather than revealing the finished thing.</p>
-          <p style="font-size:13px;color:var(--ink-2);margin-top:6px"><b>Your only prep gap is 2:00&ndash;3:00 PM that day</b>, and it is currently labelled &ldquo;Transition, Talking, Triage.&rdquo; Proposal below claims it.</p>
+          <h4 style="font-size:14px">Tue Aug 25 &middot; Izzy weekly check-in &middot; 10:00&ndash;10:30</h4>
+          <p style="font-size:13px;color:var(--ink-2);margin-top:7px"><b>Bring:</b> the SMS alert test result &mdash; it's done, so lead with it. <b>Ask:</b> where Oracle Lighting stands, since <b>iz-oracle</b> has been open ten days, and whether the Tennessee city-government demos have a date.</p>
+        </div>
+        <div class="card">
+          <h4 style="font-size:14px">Thu Aug 27 &middot; Call with Scott Van Camp &middot; 4:00&ndash;5:00</h4>
+          <p style="font-size:13px;color:var(--ink-2);margin-top:7px">Recurring personal call, no prep needed. Noted so it doesn't surprise you at the end of a deep-work day.</p>
         </div>
       </div>
     </section>
@@ -385,29 +399,29 @@
     <section>
       <div class="sechead">
         <h2>Committed hours</h2>
-        <span class="note" id="weeknote">Wed Aug 19 &ndash; Tue Aug 25 &middot; meeting-room duplicates excluded</span>
+        <span class="note" id="weeknote">Fri Aug 21 &ndash; Thu Aug 27 &middot; meeting-room duplicates excluded</span>
       </div>
       <div class="chartcard">
         <div class="plot" id="plot">
-          <div class="cap8"><span>8h sustainable load</span></div>
-          <div class="bar"><div class="tot" style="bottom:calc(53.57% + 6px)">7.5</div>
-            <div class="seg m" style="height:46.43%"></div><div class="seg p" style="height:7.14%"></div></div>
-          <div class="bar"><div class="tot" style="bottom:calc(82.14% + 6px)">11.5</div>
-            <div class="seg m" style="height:60.71%"></div><div class="seg f" style="height:3.57%"></div><div class="seg p" style="height:17.86%"></div></div>
-          <div class="bar"><div class="tot" style="bottom:calc(92.86% + 6px)">13.0</div>
-            <div class="seg m" style="height:57.14%"></div><div class="seg p" style="height:35.71%"></div></div>
-          <div class="bar"><div class="tot" style="bottom:calc(7.14% + 6px)">1.0</div>
-            <div class="seg p" style="height:7.14%"></div></div>
-          <div class="bar"><div class="tot" style="bottom:calc(7.14% + 6px)">1.0</div>
-            <div class="seg p" style="height:7.14%"></div></div>
-          <div class="bar"><div class="tot" style="bottom:calc(62.5% + 6px)">8.75</div>
-            <div class="seg m" style="height:19.64%"></div><div class="seg f" style="height:35.71%"></div><div class="seg p" style="height:7.14%"></div></div>
-          <div class="bar"><div class="tot" style="bottom:calc(51.79% + 6px)">7.25</div>
-            <div class="seg m" style="height:3.57%"></div><div class="seg f" style="height:35.71%"></div><div class="seg p" style="height:12.5%"></div></div>
+          <div class="cap8" style="bottom:50%"><span>8h sustainable load</span></div>
+          <div class="bar"><div class="tot" style="bottom:calc(96.88% + 6px)">15.5</div>
+            <div class="seg m" style="height:65.63%"></div><div class="seg p" style="height:31.25%"></div></div>
+          <div class="bar"><div class="tot" style="bottom:calc(6.25% + 6px)">1.0</div>
+            <div class="seg p" style="height:6.25%"></div></div>
+          <div class="bar"><div class="tot" style="bottom:calc(6.25% + 6px)">1.0</div>
+            <div class="seg p" style="height:6.25%"></div></div>
+          <div class="bar"><div class="tot" style="bottom:calc(54.69% + 6px)">8.75</div>
+            <div class="seg m" style="height:17.19%"></div><div class="seg f" style="height:31.25%"></div><div class="seg p" style="height:6.25%"></div></div>
+          <div class="bar"><div class="tot" style="bottom:calc(45.31% + 6px)">7.25</div>
+            <div class="seg m" style="height:3.13%"></div><div class="seg f" style="height:31.25%"></div><div class="seg p" style="height:10.94%"></div></div>
+          <div class="bar"><div class="tot" style="bottom:calc(51.56% + 6px)">8.25</div>
+            <div class="seg m" style="height:6.25%"></div><div class="seg f" style="height:31.25%"></div><div class="seg p" style="height:14.06%"></div></div>
+          <div class="bar"><div class="tot" style="bottom:calc(50% + 6px)">8.0</div>
+            <div class="seg m" style="height:6.25%"></div><div class="seg f" style="height:28.13%"></div><div class="seg p" style="height:15.63%"></div></div>
         </div>
         <div class="xaxis" id="xaxis">
-          <div><b>Wed</b>19</div><div><b>Thu</b>20</div><div><b>Fri</b>21</div>
-          <div><b>Sat</b>22</div><div><b>Sun</b>23</div><div><b>Mon</b>24</div><div><b>Tue</b>25</div>
+          <div><b>Fri</b>21</div><div><b>Sat</b>22</div><div><b>Sun</b>23</div>
+          <div><b>Mon</b>24</div><div><b>Tue</b>25</div><div><b>Wed</b>26</div><div><b>Thu</b>27</div>
         </div>
         <div class="legend">
           <span><i class="swatch" style="background:var(--meet)"></i>Meetings</span>
@@ -422,25 +436,26 @@
       <div class="sechead"><h2>Where the week breaks</h2></div>
       <div class="stack">
 
-        <div class="flag serious">
-          <h3><span class="pill serious">11.5h</span> Thursday Aug 20 &mdash; 3.5 hours of it is double-booked</h3>
-          <p><b>Roadmap planning 10:00&ndash;5:00</b> is the commitment. Colliding with it: <b>B2B Ad Funnels webinar 11:00&ndash;12:30</b>, <b>The Lift 1:00&ndash;1:45</b> plus <b>Recover + Shower to 2:30</b>, and <b>Reserved 3:30&ndash;4:00</b>.</p>
-          <p><b>Drop:</b> the webinar (recorded, and it's lead-gen content, not a commitment to a person). <b>Move:</b> The Lift to 8:00 AM &mdash; you're already up at 6:30. <b>Delete:</b> Reserved. That returns the roadmap day to four uninterrupted people-hours.</p>
-        </div>
-
-        <div class="flag serious">
-          <h3><span class="pill serious">13.0h</span> Friday Aug 21 &mdash; the longest day of the week</h3>
-          <p>Roadmap planning 9:00&ndash;5:00, then <b>Dane Maxwell's birthday 6:00&ndash;10:00 PM</b>. One hour between them, and that hour includes the drive. Both are commitments to people, so neither should move &mdash; but go in knowing it's a thirteen-hour day and don't schedule anything into that gap.</p>
-        </div>
-
-        <div class="flag good">
-          <h3><span class="pill good">Protected</span> Saturday recovery, Sunday Day Up</h3>
-          <p>Both days are clear apart from stretching and the dog. After a 13-hour Friday, that's correct &mdash; hold them. Your own Aug 15 quarterly-goals note called out that &ldquo;Sundays into Mondays is a strong rhythm,&rdquo; so Sunday is booked as a Day Up in nature rather than left ambiguous. Ambiguous free days get eaten.</p>
+        <div class="flag crit">
+          <h3><span class="pill crit">15.5h</span> Today &mdash; nearly double a sustainable day</h3>
+          <p>Roadmap 9:00&ndash;5:00 (8h), Smart City 3:00&ndash;3:30 and the workshop run-through 3:30&ndash;5:30 both landing inside it, then the birthday 6:00&ndash;10:00. Two of those three afternoon items overlap the roadmap block outright.</p>
+          <p>There is nothing to cut &mdash; it's already happening and the evening is a friend's birthday. Recording it because a 15.5-hour Friday is the thing that makes next week expensive, and because Saturday's recovery block below is the correction, not a luxury.</p>
         </div>
 
         <div class="flag warn">
-          <h3><span class="pill warn">Tight</span> Monday Aug 24 &mdash; workshop at 3:00, one prep gap</h3>
-          <p>Product sync 8:00, deep work 10:00&ndash;2:00, then the Gevity workshop 3:00&ndash;5:00. The only gap is <b>2:00&ndash;3:00</b>, currently &ldquo;Transition, Talking, Triage.&rdquo; That hour is your entire final prep. The proposal below renames it so it doesn't get casually filled.</p>
+          <h3><span class="pill warn">Trade-off</span> The weekend has to do two jobs</h3>
+          <p>Saturday and Sunday are clear apart from stretching and the dog. But the workshop slides are due Monday and Monday has one free hour. So the weekend cannot be pure recovery this time.</p>
+          <p><b>The split proposed below:</b> Saturday 10:00&ndash;12:00 to build the slides while the run-through is fresh, Saturday afternoon protected, and Sunday held whole as a Day Up. That buys the workshop what it needs without spending the entire weekend on it. If you'd rather protect Saturday completely, the honest alternative is Sunday morning &mdash; but then the Day Up goes, and your own Aug 15 note was explicit that the Sunday-into-Monday rhythm is what makes Mondays work.</p>
+        </div>
+
+        <div class="flag warn">
+          <h3><span class="pill warn">8.75h</span> Monday &mdash; workshop day, one hour of prep</h3>
+          <p>Product sync 8:00&ndash;8:45, deep work 10:00&ndash;2:00, then the Gevity workshop 3:00&ndash;5:00. The gap is <b>2:00&ndash;3:00</b>, currently labelled &ldquo;Transition, Talking, Triage&rdquo; &mdash; a name vague enough that it will get filled by something else if you don't claim it.</p>
+        </div>
+
+        <div class="flag good">
+          <h3><span class="pill good">Healthy</span> Tuesday to Thursday is the first balanced stretch in weeks</h3>
+          <p>7.25, 8.25 and 8.0 hours, and most of it is your own deep-work blocks rather than other people's meetings. This is where the backlog actually gets cleared &mdash; see the Projects tab for what goes in each block. Protect it: if something wants a slot next week, it should cost one of these, consciously.</p>
         </div>
 
       </div>
@@ -454,104 +469,78 @@
       <div class="stack" id="proposals">
 
         <article class="prop" data-id="p1"
-          data-summary="Lakeland: reply to Randell &amp; Daniel"
-          data-start="2026-08-19T16:00:00-05:00" data-end="2026-08-19T16:45:00-05:00"
-          data-desc="Root cause + named migration window. Reply to the 'Again and still going on today' thread.">
+          data-summary="Send Ilya Slack channel + LiveKit credentials"
+          data-start="2026-08-21T17:30:00-05:00" data-end="2026-08-21T17:45:00-05:00"
+          data-desc="Unblocks hr-proto, Ilya's warm-transfer prototype, which was due Aug 20.">
           <div class="info">
-            <h4>Lakeland: reply to Randell &amp; Daniel</h4>
-            <div class="when">Today &middot; 4:00 &ndash; 4:45 PM</div>
-            <p class="why">The churn-threat reply. First thing in your only remaining window.</p>
+            <h4>Send Ilya the Slack channel and LiveKit credentials</h4>
+            <div class="when">Today &middot; 5:30 &ndash; 5:45 PM</div>
+            <p class="why">Fifteen minutes out of your drive buffer. Clears an eight-day hold on someone else's overdue work.</p>
           </div>
           <div class="acts"><button class="primary act-add">Add to calendar</button><button class="act-rej">Reject</button></div>
           <div class="propmsg"></div>
         </article>
 
         <article class="prop" data-id="p2"
-          data-summary="Write training-mode prompt language"
-          data-start="2026-08-19T16:45:00-05:00" data-end="2026-08-19T17:15:00-05:00"
-          data-desc="Deliverable Daniel Goodwin has now requested twice. Unblocks Danielle's structured training calls.">
+          data-summary="Workshop build — slides, QR, sign-up"
+          data-start="2026-08-22T10:00:00-05:00" data-end="2026-08-22T12:00:00-05:00"
+          data-desc="AI-employee slides with QR code and sign-up on every slide, plus fixes from Friday's dry run.">
           <div class="info">
-            <h4>Write training-mode prompt language</h4>
-            <div class="when">Today &middot; 4:45 &ndash; 5:15 PM</div>
-            <p class="why">Send it with the reply above, so one email closes both of Daniel's asks.</p>
+            <h4>Workshop build &mdash; slides, QR, sign-up</h4>
+            <div class="when">Sat Aug 22 &middot; 10:00 AM &ndash; 12:00 PM</div>
+            <p class="why">While today's run-through is still fresh. Two hours, in the morning, so the rest of the weekend stays yours.</p>
           </div>
           <div class="acts"><button class="primary act-add">Add to calendar</button><button class="act-rej">Reject</button></div>
           <div class="propmsg"></div>
         </article>
 
         <article class="prop" data-id="p3"
-          data-summary="Test SMS alerts"
-          data-start="2026-08-19T17:15:00-05:00" data-end="2026-08-19T17:30:00-05:00"
-          data-desc="Text yourself, confirm delivery. Required before Friday's In-Telecom customer call.">
+          data-summary="Recovery — protected"
+          data-start="2026-08-22T13:00:00-05:00" data-end="2026-08-22T17:00:00-05:00"
+          data-desc="Held after a 15.5-hour Friday. Not a work block.">
           <div class="info">
-            <h4>Test SMS alerts &mdash; text yourself</h4>
-            <div class="when">Today &middot; 5:15 &ndash; 5:30 PM</div>
-            <p class="why">Last chance before Friday. Thu and Fri are roadmap 9&ndash;5.</p>
+            <h4>Recovery &mdash; protected</h4>
+            <div class="when">Sat Aug 22 &middot; 1:00 &ndash; 5:00 PM</div>
+            <p class="why">Named and blocked so it survives contact with the weekend. After 15.5 hours yesterday this is maintenance, not indulgence.</p>
           </div>
           <div class="acts"><button class="primary act-add">Add to calendar</button><button class="act-rej">Reject</button></div>
           <div class="propmsg"></div>
         </article>
 
         <article class="prop" data-id="p4"
-          data-summary="The Lift (Full Body) — moved"
-          data-start="2026-08-20T08:00:00-05:00" data-end="2026-08-20T08:45:00-05:00"
-          data-desc="Moved off the 1:00 PM slot, which collided with in-person roadmap planning.">
-          <div class="info">
-            <h4>The Lift &mdash; moved to the morning</h4>
-            <div class="when">Thu Aug 20 &middot; 8:00 &ndash; 8:45 AM</div>
-            <p class="why">Clears the 1:00&ndash;2:30 collision with roadmap planning. Delete the old 1:00 PM entry and its recovery block once this is in.</p>
-          </div>
-          <div class="acts"><button class="primary act-add">Add to calendar</button><button class="act-rej">Reject</button></div>
-          <div class="propmsg"></div>
-        </article>
-
-        <article class="prop" data-id="p5"
-          data-summary="Admin batch: NDA, MSA, Ilya credentials"
-          data-start="2026-08-21T07:30:00-05:00" data-end="2026-08-21T08:30:00-05:00"
-          data-desc="Batched admin: sign Start Matter NDA, send MSA to Valery, send Slack channel + LiveKit creds to Ilya.">
-          <div class="info">
-            <h4>Admin batch &mdash; NDA, MSA, Ilya's credentials</h4>
-            <div class="when">Fri Aug 21 &middot; 7:30 &ndash; 8:30 AM</div>
-            <p class="why">Three small items that together unblock three different people. The NDA has sat 12 days; the credentials block a prototype due tomorrow &mdash; if you can, send those tonight rather than waiting for this block.</p>
-          </div>
-          <div class="acts"><button class="primary act-add">Add to calendar</button><button class="act-rej">Reject</button></div>
-          <div class="propmsg"></div>
-        </article>
-
-        <article class="prop" data-id="p6"
-          data-summary="Recovery — protected"
-          data-start="2026-08-22T10:00:00-05:00" data-end="2026-08-22T16:00:00-05:00"
-          data-desc="Held after a 13-hour Friday. Not a work block.">
-          <div class="info">
-            <h4>Recovery &mdash; protected</h4>
-            <div class="when">Sat Aug 22 &middot; 10:00 AM &ndash; 4:00 PM</div>
-            <p class="why">Named and blocked so it survives contact with the week. After Friday's thirteen hours this isn't indulgence, it's maintenance.</p>
-          </div>
-          <div class="acts"><button class="primary act-add">Add to calendar</button><button class="act-rej">Reject</button></div>
-          <div class="propmsg"></div>
-        </article>
-
-        <article class="prop" data-id="p7"
           data-summary="Day Up — nature"
           data-start="2026-08-23T09:00:00-05:00" data-end="2026-08-23T15:00:00-05:00"
           data-desc="From the Aug 15 quarterly-goals note: Sundays into Mondays is a strong rhythm.">
           <div class="info">
             <h4>Day Up &mdash; out in nature</h4>
             <div class="when">Sun Aug 23 &middot; 9:00 AM &ndash; 3:00 PM</div>
-            <p class="why">Your own words from the Aug 15 goals session. Monday opens with a product sync and closes with a workshop &mdash; this is what makes that day work.</p>
+            <p class="why">Monday opens with a product sync and closes with a workshop you're running. Your own words: this is what makes that day work.</p>
           </div>
           <div class="acts"><button class="primary act-add">Add to calendar</button><button class="act-rej">Reject</button></div>
           <div class="propmsg"></div>
         </article>
 
-        <article class="prop" data-id="p8"
+        <article class="prop" data-id="p5"
+          data-summary="Inbox batch — Gabi RSVP, AC3 reply"
+          data-start="2026-08-24T08:45:00-05:00" data-end="2026-08-24T10:00:00-05:00"
+          data-desc="Two replies that have both been open a week. Drafts are ready in the Inbox tab.">
+          <div class="info">
+            <h4>Inbox batch &mdash; Gabi and AC3</h4>
+            <div class="when">Mon Aug 24 &middot; 8:45 &ndash; 10:00 AM</div>
+            <p class="why">The gap between product sync and deep work. Both drafts are already written &mdash; this block is for reading and sending them, not composing.</p>
+          </div>
+          <div class="acts"><button class="primary act-add">Add to calendar</button><button class="act-rej">Reject</button></div>
+          <div class="propmsg"></div>
+        </article>
+
+        <article class="prop" data-id="p6"
           data-summary="Gevity workshop — final prep"
           data-start="2026-08-24T14:00:00-05:00" data-end="2026-08-24T15:00:00-05:00"
-          data-desc="Only prep gap before the 3:00 PM workshop. Slides, QR code, sign-up flow, staged dashboard demo.">
+          data-desc="Final run-through before the 3:00 PM workshop. Renames the vague Transition block so it does not get filled.">
           <div class="info">
             <h4>Gevity workshop &mdash; final prep</h4>
             <div class="when">Mon Aug 24 &middot; 2:00 &ndash; 3:00 PM</div>
-            <p class="why">Claims the only gap before you're on. Slides with the QR code and sign-up on each, and the staged Today &rarr; Week &rarr; Projects demo order.</p>
+            <p class="why">Claims the only gap before you're on. A run-through, not a build &mdash; the building happens Saturday.</p>
           </div>
           <div class="acts"><button class="primary act-add">Add to calendar</button><button class="act-rej">Reject</button></div>
           <div class="propmsg"></div>
@@ -561,9 +550,17 @@
     </section>
 
     <section>
-      <div class="sechead"><h2>Two things I can't schedule for you</h2></div>
+      <div class="sechead">
+        <h2>Already have a home</h2>
+        <span class="note">These need attention, not a new calendar event</span>
+      </div>
       <div class="card">
-        <p style="font-size:13.5px;color:var(--ink-2)">Declining the <b>B2B Ad Funnels webinar</b> (Thu 11:00&ndash;12:30) and deleting <b>Reserved</b> (Thu 3:30&ndash;4:00) are removals, not additions &mdash; the buttons above only create events. Both take one tap each in Google Calendar, and together they're the difference between Thursday working and Thursday not.</p>
+        <p style="font-size:13.5px;color:var(--ink-2)">Your Tuesday to Thursday deep-work blocks are already booked and already yours. Adding events inside them would double-book you for no gain, so here is what belongs in each instead:</p>
+        <table class="tasks" style="margin-top:11px">
+          <tr><td class="tid">Tue 10&ndash;2</td><td><b>Deep Work (Client + Admin + Sales)</b> &mdash; hr-nda, hr-msa, iz-oracle, lk-analyze<div class="src">The block is literally labelled for this. Izzy's check-in takes 10:00&ndash;10:30 out of it.</div></td></tr>
+          <tr><td class="tid">Wed 11&ndash;3</td><td><b>Deep Work (Project Engineering)</b> &mdash; v2-mcp, v2-ticket<div class="src">v2-ticket is newly unblocked now that the training-mode language exists.</div></td></tr>
+          <tr><td class="tid">Thu 8:30&ndash;12:30</td><td><b>Deep Work (Project Engineering)</b> &mdash; v2-livekit follow-up with Junior, chase lk-render with Grayson<div class="src">Both are other people's work; your part is a nudge, not a build.</div></td></tr>
+        </table>
       </div>
     </section>
   </div>
@@ -572,73 +569,62 @@
   <div class="panel" id="p-proj">
 
     <section>
-      <div class="sechead"><h2>A question, because the pattern is now clear</h2></div>
+      <div class="sechead"><h2>A question, and it's a different one this week</h2></div>
       <div class="flag warn">
-        <h3><span class="pill warn">Check-in</span> Four offer-design tasks have never once been scheduled</h3>
-        <p><b>ws-cta</b> ($200 workshop + $499 VIP CTA), <b>ws-offer</b> (AI-brain DIY + DFY upgrade), <b>ws-assess</b> (in-workshop assessment) and <b>ws-nate</b> (book Nate Ginsburg) have been on the list since the Aug 15 goals session and have never been given a window &mdash; not because a block got dropped, but because no free block ever existed to give them.</p>
-        <p>Separately, <b>hr-nda</b> is 12 days old and <b>hr-msa</b>, <b>iz-oracle</b> are 8 days each. That's three stalled plus a chronic cluster, which is the threshold you set for me to stop re-listing and ask.</p>
+        <h3><span class="pill warn">Check-in</span> You clear things when they're loud. The quiet ones are rotting.</h3>
+        <p>Four items closed in two days &mdash; every one of them had a customer shouting or a deadline attached. In the same two days, <b>hr-nda</b> crossed fourteen days into chronic, <b>hr-slack</b> reached eight days and let Ilya's deadline pass, and <b>hr-msa</b> and <b>iz-oracle</b> both hit ten.</p>
+        <p>All four of those are small. None of them is hard. What they have in common is that nobody is chasing you for them, and the Start Matter cluster in particular is now three items deep where each one gates a different person's work.</p>
+        <p>The four offer-design tasks &mdash; <b>ws-cta</b>, <b>ws-offer</b>, <b>ws-assess</b>, <b>ws-nate</b> &mdash; have now gone six days without ever being scheduled, for the second week running.</p>
         <p style="margin-top:11px"><b>So: which is it?</b> &nbsp; Unclear what the next step is &nbsp;&middot;&nbsp; Waiting on someone else &nbsp;&middot;&nbsp; Not actually a priority this quarter &nbsp;&middot;&nbsp; Genuinely no time</p>
-        <p style="margin-top:9px;color:var(--ink-3);font-size:12.5px">If it's the last one, the honest read is that the offer-design work needs a half-day carved out of roadmap or workshop time &mdash; it isn't going to fit in the gaps, and pretending otherwise just moves it down this list again next week.</p>
+        <p style="margin-top:9px;color:var(--ink-3);font-size:12.5px">Tuesday's deep-work block is labelled &ldquo;Client + Admin + Sales&rdquo; and is four hours long. If the answer is &ldquo;no time&rdquo;, that block disproves it &mdash; which would mean the real answer is one of the other three.</p>
       </div>
     </section>
 
     <section>
       <div class="sechead">
         <h2>Living project brief</h2>
-        <span class="note">Built from Granola notes Aug 7&ndash;19, refreshed against today's mail</span>
+        <span class="note">Granola Aug 7&ndash;21, refreshed against today's calendar and mail</span>
       </div>
 
       <div class="proj">
-        <h3>Lakeland &amp; SpectrumVoIP <span class="rule"></span> <span class="pill crit">Escalated</span></h3>
+        <h3>Lakeland &amp; SpectrumVoIP <span class="rule"></span> <span class="pill good">Stabilised</span></h3>
         <div class="card"><table class="tasks">
-          <tr><td class="tid">lk-reply</td><td>Reply to Randell &amp; Daniel on the escalation thread<div class="src">Gmail &middot; 3 messages today</div></td><td class="chips"><span class="chip due">Due today</span><span class="chip blk">Blocks lk-analyze</span></td></tr>
-          <tr><td class="tid">lk-migrate</td><td>Flip the infrastructure instance; Jeff loads the injection<div class="src">Granola Aug 12 &middot; approved by Randell Aug 13</div></td><td class="chips"><span class="chip old">6d unshipped</span><span class="chip due">Due 8/21</span></td></tr>
-          <tr><td class="tid">lk-train</td><td>Training-mode prompt language for the sales agent<div class="src">Granola Aug 12 &middot; Daniel asked again today 3:11 PM</div></td><td class="chips"><span class="chip unb">Customer waiting</span><span class="chip">Labor Day target</span></td></tr>
-          <tr><td class="tid">lk-analyze</td><td>Analyse the transcripts and .wav files Jeff forwarded<div class="src">Gmail Aug 18 &middot; these are the call IDs you were waiting for</div></td><td class="chips"><span class="chip unb">Now unblocked</span></td></tr>
-          <tr><td class="tid">lk-render</td><td>Grayson: host the MCP inventory tool on Render (SSL blocker)<div class="src">Granola Aug 12</div></td><td class="chips"><span class="chip">Owner: Grayson</span></td></tr>
+          <tr><td class="tid">lk-analyze</td><td>Analyse the transcripts and .wav files Jeff forwarded<div class="src">Gmail Aug 18 &middot; unblocked by your reply Wednesday</div></td><td class="chips"><span class="chip unb">Newly unblocked</span><span class="chip">Tue block</span></td></tr>
+          <tr><td class="tid">lk-render</td><td>Grayson: host the MCP inventory tool on Render (SSL blocker)<div class="src">Granola Aug 12 &middot; raised again in Friday roadmap</div></td><td class="chips"><span class="chip">Owner: Grayson</span></td></tr>
         </table></div>
       </div>
 
       <div class="proj">
-        <h3>Voxtell v2 <span class="rule"></span></h3>
+        <h3>Voxtell v2 <span class="rule"></span> <span class="pill quiet">Roadmap set Thu&ndash;Fri</span></h3>
         <div class="card"><table class="tasks">
-          <tr><td class="tid">v2-mcp</td><td>MCP tools &rarr; scenarios<div class="src">Granola Aug 10</div></td><td class="chips"><span class="chip">Roadmap Thu</span></td></tr>
-          <tr><td class="tid">v2-ticket</td><td>Training-mode Linear ticket<div class="src">Granola Aug 12</div></td><td class="chips"><span class="chip">Pairs with lk-train</span></td></tr>
-          <tr><td class="tid">v2-reengage</td><td>v2 email + preview video to 6 months of prospects<div class="src">Granola Aug 10</div></td><td class="chips"><span class="chip">Pairs with em-draft</span></td></tr>
+          <tr><td class="tid">v2-ticket</td><td>Training-mode Linear ticket<div class="src">Granola Aug 12 &middot; unblocked now the prompt language is written</div></td><td class="chips"><span class="chip unb">Newly unblocked</span></td></tr>
+          <tr><td class="tid">v2-mcp</td><td>MCP tools &rarr; scenarios<div class="src">Granola Aug 10, revisited in roadmap planning</div></td><td class="chips"><span class="chip">Wed block</span></td></tr>
+          <tr><td class="tid">v2-sms</td><td>Two-way SMS approach &mdash; needs the 10DLC campaign<div class="src">Granola Aug 12 &middot; roadmap Aug 20&ndash;21</div></td><td class="chips"><span class="chip">Team</span></td></tr>
           <tr><td class="tid">v2-livekit</td><td>Junior: LiveKit ticket<div class="src">Granola Aug 18</div></td><td class="chips"><span class="chip">Owner: Junior</span></td></tr>
-          <tr><td class="tid">v2-sms</td><td>Team: settle the two-way SMS approach<div class="src">Granola Aug 12 &middot; needs 10DLC campaign</div></td><td class="chips"><span class="chip">Roadmap Thu</span></td></tr>
+          <tr><td class="tid">v2-reengage</td><td>v2 email + preview video to 6 months of prospects<div class="src">Granola Aug 10</div></td><td class="chips"><span class="chip">Pairs with em-draft</span></td></tr>
         </table></div>
       </div>
 
       <div class="proj">
-        <h3>Izzy &amp; In-Telecom <span class="rule"></span></h3>
+        <h3>Hiring &mdash; Start Matter <span class="rule"></span> <span class="pill crit">3 people blocked on you</span></h3>
         <div class="card"><table class="tasks">
-          <tr><td class="tid">iz-sms</td><td>Test SMS alerts before the customer call<div class="src">Granola Aug 18 &middot; Izzy weekly checkin</div></td><td class="chips"><span class="chip due">Due 8/21</span></td></tr>
-          <tr><td class="tid">iz-oracle</td><td>Re-engage Oracle Lighting<div class="src">Granola Aug 11</div></td><td class="chips"><span class="chip old">8d stalled</span></td></tr>
-          <tr><td class="tid">iz-tn</td><td>Tennessee city-government demos<div class="src">Granola Aug 18</div></td><td class="chips"><span class="chip">No date</span></td></tr>
-        </table></div>
-      </div>
-
-      <div class="proj">
-        <h3>Hiring &mdash; Start Matter <span class="rule"></span> <span class="pill warn">3 blocked on you</span></h3>
-        <div class="card"><table class="tasks">
-          <tr><td class="tid">hr-slack</td><td>Slack channel + LiveKit credentials to Ilya<div class="src">Granola Aug 13</div></td><td class="chips"><span class="chip blk">Blocks hr-proto, due 8/20</span></td></tr>
-          <tr><td class="tid">hr-proto</td><td>Ilya's warm-transfer prototype<div class="src">Granola Aug 13</div></td><td class="chips"><span class="chip due">Due 8/20</span><span class="chip blk">Blocked</span></td></tr>
-          <tr><td class="tid">hr-nda</td><td>Sign the NDA<div class="src">Granola Aug 7</div></td><td class="chips"><span class="chip old">12d &mdash; chronic soon</span></td></tr>
-          <tr><td class="tid">hr-msa</td><td>MSA to Valery<div class="src">Granola Aug 11</div></td><td class="chips"><span class="chip old">8d stalled</span><span class="chip blk">Blocks hr-dmitry</span></td></tr>
+          <tr><td class="tid">hr-slack</td><td>Slack channel + LiveKit credentials to Ilya<div class="src">Granola Aug 13</div></td><td class="chips"><span class="chip old">8d</span><span class="chip blk">Blocks hr-proto</span></td></tr>
+          <tr><td class="tid">hr-proto</td><td>Ilya's warm-transfer prototype<div class="src">Granola Aug 13</div></td><td class="chips"><span class="chip old">Overdue 8/20</span><span class="chip blk">Blocked</span></td></tr>
+          <tr><td class="tid">hr-nda</td><td>Sign the NDA<div class="src">Granola Aug 7</div></td><td class="chips"><span class="chip old">14d &mdash; chronic</span></td></tr>
+          <tr><td class="tid">hr-msa</td><td>MSA to Valery<div class="src">Granola Aug 11</div></td><td class="chips"><span class="chip old">10d stalled</span><span class="chip blk">Blocks hr-dmitry</span></td></tr>
           <tr><td class="tid">hr-dmitry</td><td>Scope Dmitry's trial<div class="src">Granola Aug 11</div></td><td class="chips"><span class="chip blk">Blocked by hr-msa</span></td></tr>
           <tr><td class="tid">hr-kate</td><td>Kate intro call<div class="src">Granola Aug 11</div></td><td class="chips"><span class="chip">No date</span></td></tr>
         </table></div>
       </div>
 
       <div class="proj">
-        <h3>Workshops &amp; Sustainable Ambition <span class="rule"></span></h3>
+        <h3>Workshops &amp; Sustainable Ambition <span class="rule"></span> <span class="pill warn">Monday</span></h3>
         <div class="card"><table class="tasks">
+          <tr><td class="tid">ws-slides</td><td>AI-employee slides, QR code + sign-up on every slide<div class="src">Granola Aug 19 &middot; AI Productivity Workshop</div></td><td class="chips"><span class="chip due">Due 8/24</span></td></tr>
           <tr><td class="tid">ws-email</td><td>Email-organisation prompt + FAQ reference doc<div class="src">Granola Aug 19 &middot; the workshop's opening demo</div></td><td class="chips"><span class="chip due">Due 8/24</span></td></tr>
-          <tr><td class="tid">ws-dash</td><td>Dashboard baseline + hosting test<div class="src">Granola Aug 19</div></td><td class="chips"><span class="chip due">Due 8/24</span><span class="chip unb">In progress</span></td></tr>
-          <tr><td class="tid">ws-slides</td><td>AI-employee slides, QR code + sign-up on every slide<div class="src">Granola Aug 19 &middot; AI Productivity Workshop</div></td><td class="chips"><span class="chip due">Due 8/24</span><span class="chip unb">New</span></td></tr>
-          <tr><td class="tid">ws-gabi</td><td>RSVP to Gabi Rosen &mdash; Aug 28 Austin workshop<div class="src">Gmail Aug 18 &middot; calendar is free that morning</div></td><td class="chips"><span class="chip">Easy yes</span></td></tr>
-          <tr><td class="tid">ws-goals</td><td>Put numbers on the three quarterly goals<div class="src">Granola Aug 15</div></td><td class="chips"><span class="chip old">4d</span></td></tr>
+          <tr><td class="tid">ws-dash</td><td>Dashboard baseline + hosting path<div class="src">Granola Aug 19 &middot; dry run held Aug 21</div></td><td class="chips"><span class="chip due">Due 8/24</span><span class="chip unb">In progress</span></td></tr>
+          <tr><td class="tid">ws-gabi</td><td>RSVP to Gabi Rosen &mdash; Aug 28 Austin workshop<div class="src">Gmail Aug 18 &middot; that morning is still free</div></td><td class="chips"><span class="chip due">Aug 28</span></td></tr>
+          <tr><td class="tid">ws-goals</td><td>Put numbers on the three quarterly goals<div class="src">Granola Aug 15</div></td><td class="chips"><span class="chip old">6d</span></td></tr>
           <tr><td class="tid">ws-cta</td><td>$200 workshop + $499 VIP CTA<div class="src">Granola Aug 15</div></td><td class="chips"><span class="chip old">Never scheduled</span></td></tr>
           <tr><td class="tid">ws-offer</td><td>AI-brain DIY + DFY upgrade<div class="src">Granola Aug 15</div></td><td class="chips"><span class="chip old">Never scheduled</span></td></tr>
           <tr><td class="tid">ws-assess</td><td>In-workshop assessment<div class="src">Granola Aug 15</div></td><td class="chips"><span class="chip old">Never scheduled</span></td></tr>
@@ -647,30 +633,20 @@
       </div>
 
       <div class="proj">
-        <h3>Inbox-origin <span class="rule"></span></h3>
+        <h3>Izzy &amp; In-Telecom <span class="rule"></span></h3>
         <div class="card"><table class="tasks">
-          <tr><td class="tid">em-ac3</td><td>Reply to AC3 Performance about the updated investor deck<div class="src">Gmail Aug 17 &middot; still unread</div></td><td class="chips"><span class="chip old">2d</span></td></tr>
-          <tr><td class="tid">em-draft</td><td>Finish or kill the Laura Mathwig webinar draft<div class="src">Gmail &middot; drafted Mar 4, 168 days ago</div></td><td class="chips"><span class="chip old">168d</span></td></tr>
+          <tr><td class="tid">iz-oracle</td><td>Re-engage Oracle Lighting<div class="src">Granola Aug 11</div></td><td class="chips"><span class="chip old">10d stalled</span><span class="chip">Tue block</span></td></tr>
+          <tr><td class="tid">iz-tn</td><td>Tennessee city-government demos<div class="src">Granola Aug 18</div></td><td class="chips"><span class="chip">Ask Tuesday</span></td></tr>
         </table></div>
       </div>
-    </section>
 
-    <section>
-      <div class="sechead">
-        <h2>Batched into real windows</h2>
-        <span class="note">Grouped by type, fitted to gaps that actually exist</span>
-      </div>
-      <div class="stack">
-        <div class="card"><h4 style="font-size:13.5px">Customer &amp; escalation &mdash; today 4:00&ndash;5:30 PM</h4>
-          <p style="font-size:13px;color:var(--ink-2);margin-top:6px">lk-reply, lk-train, iz-sms. The only window before Thursday.</p></div>
-        <div class="card"><h4 style="font-size:13.5px">Admin &mdash; Friday 7:30&ndash;8:30 AM</h4>
-          <p style="font-size:13px;color:var(--ink-2);margin-top:6px">hr-nda, hr-msa, hr-slack. Send Ilya's credentials tonight if you can &mdash; his deadline is tomorrow.</p></div>
-        <div class="card"><h4 style="font-size:13.5px">Product &amp; Linear &mdash; Thursday's roadmap day</h4>
-          <p style="font-size:13px;color:var(--ink-2);margin-top:6px">v2-mcp, v2-sms, v2-ticket. Don't schedule these separately; they're the agenda.</p></div>
-        <div class="card"><h4 style="font-size:13.5px">Workshop &mdash; Monday 2:00&ndash;3:00 PM</h4>
-          <p style="font-size:13px;color:var(--ink-2);margin-top:6px">ws-slides, ws-email, final run-through. One hour for all of it.</p></div>
-        <div class="card" style="border-color:var(--warn)"><h4 style="font-size:13.5px;color:var(--warn)">Offer design &mdash; no window exists</h4>
-          <p style="font-size:13px;color:var(--ink-2);margin-top:6px">ws-cta, ws-offer, ws-assess, ws-nate. I'm not going to bin-pack these into gaps that aren't there. This is overcommitment, not a scheduling puzzle &mdash; see the question at the top of this tab.</p></div>
+      <div class="proj">
+        <h3>Inbox-origin <span class="rule"></span></h3>
+        <div class="card"><table class="tasks">
+          <tr><td class="tid">em-ac3</td><td>Reply to AC3 Performance about the updated investor deck<div class="src">Gmail Aug 17 &middot; still unread</div></td><td class="chips"><span class="chip old">4d</span></td></tr>
+          <tr><td class="tid">em-draft</td><td>Finish or kill the Laura Mathwig webinar draft<div class="src">Gmail &middot; drafted Mar 4, 170 days ago</div></td><td class="chips"><span class="chip old">170d</span></td></tr>
+          <tr><td class="tid">em-gevity</td><td>Three Sustainable Ambition applications from Connor to review<div class="src">Gmail Aug 18&ndash;21 &middot; Alex Poscente, Michael Hasegawa, Louison Dumont</div></td><td class="chips"><span class="chip unb">New</span></td></tr>
+        </table></div>
       </div>
     </section>
   </div>
@@ -686,78 +662,9 @@
       <div class="stack">
 
         <div class="mail">
-          <div class="from">Randell Durk &middot; Lakeland Automall <span class="pill crit">Churn risk</span></div>
-          <div class="subj">&ldquo;Again and still going on today.&rdquo; &mdash; today, 2:40 PM &middot; Daniel replied 2:50 PM</div>
-          <p class="why">Randell wrote that they'll be &ldquo;forced to take all AI offline.&rdquo; He is the person who approved the migration on Aug 13 that would fix this. The reply needs to name the root cause (real-time versus post-call transcription), own the six-day delay, and give a specific after-hours flip window.</p>
-          <div class="acts">
-            <button class="primary act-draft"
-              data-to='["RDurk@lakelandautomall.com","DGoodwin@lakelandautomall.com"]'
-              data-cc='["jogden@spectrumvoip.com","gakerly@spectrumvoip.com"]'
-              data-reply="1a01b9327e8f1f41"
-              data-subject="RE: Again and still going on today."
-              data-body="Randell, Daniel &#8212;
-
-You are right to be frustrated, and I want to be straight with you about where this stands.
-
-What is happening: the transfer failures are in the real-time transcription path, which is a different mechanism from the post-call transcription that looks clean in your logs. That is why the agent can appear to hear &quot;sales&quot; or &quot;service&quot; and still not transfer, and why it clusters for a few hours and then resolves.
-
-What fixes it: the infrastructure migration you approved on August 13. That carries both the corrected transcription path and the new portal. It has not been flipped yet, and that is on me &#8212; six days is too long given what you have been seeing.
-
-What I am proposing: Jeff and I flip it outside business hours. The work itself is about five minutes &#8212; I flip the instance, Jeff loads the injection. Tell me which evening works and I will hold it.
-
-Daniel &#8212; the training mode prompt language is coming to you in a separate note today so Danielle can start structured training calls without waiting on the toggle feature.
-
-I am also going through the transcripts and recordings Jeff forwarded yesterday and will come back with specifics on the freeze-and-hang-up pattern.
-
-Bodhi">Draft this reply</button>
-            <button class="act-open" data-url="https://mail.google.com/mail/u/0/#inbox">Open in Gmail</button>
-          </div>
-          <div class="propmsg"></div>
-        </div>
-
-        <div class="mail">
-          <div class="from">Daniel Goodwin &middot; Lakeland Automall <span class="pill warn">Asked twice</span></div>
-          <div class="subj">&ldquo;Lakeland Automall&rdquo; &mdash; today, 3:11 PM &middot; unread</div>
-          <p class="why">Asking for the exact training-mode wording from the Aug 12 call. This is <b>lk-train</b> &mdash; a backlog item that just became a customer deliverable. The draft gives him the prompt language and the 40&ndash;50 call process you agreed.</p>
-          <div class="acts">
-            <button class="primary act-draft"
-              data-to='["DGoodwin@lakelandautomall.com"]'
-              data-cc='["RDurk@lakelandautomall.com","it@lakelandautomall.com"]'
-              data-reply="1a01ba69b179ed0f"
-              data-subject="RE: Lakeland Automall — training mode language"
-              data-body="Daniel &#8212;
-
-Here is the training mode language to add to the agent prompt, plus how to run it.
-
-Add to the prompt:
-
-TRAINING MODE
-When the caller identifies themselves with the training passphrase, enter training mode for the remainder of the call. In training mode: treat the caller as an internal reviewer, not a customer. If the caller corrects an answer, acknowledge the correction explicitly, restate the corrected answer back to them in one sentence, and use the corrected version for the rest of the call. Do not argue with a correction. If you do not know an answer, say so plainly rather than guessing. At the end of the call, summarise every correction you received.
-
-Two things to know about how this behaves:
-
-1. Corrections hold for the duration of that one call and reset on hang-up. The agent cannot write to its own prompt or knowledge base, so this is deliberately a capture mechanism, not self-learning.
-2. Keep instructions to one at a time. The freeze-and-hang-up we saw on Monday happened when the agent received several instructions in a single turn.
-
-The process we agreed:
-
-- Danielle calls in as a customer and works through the question set, correcting wrong answers as she goes.
-- After roughly 40 to 50 calls we batch-download the transcripts.
-- We run those through an LLM to find the gaps and generate a markdown knowledge base file.
-- A human reviews it before anything is published to the knowledge base.
-
-That gets Danielle started now rather than waiting on the agent-level training toggle, which is still a longer-term item.
-
-Bodhi">Draft this reply</button>
-            <button class="act-open" data-url="https://mail.google.com/mail/u/0/#inbox">Open in Gmail</button>
-          </div>
-          <div class="propmsg"></div>
-        </div>
-
-        <div class="mail">
-          <div class="from">Gabi Rosen <span class="pill good">Easy yes</span></div>
+          <div class="from">Gabi Rosen <span class="pill warn">One week out</span></div>
           <div class="subj">&ldquo;Aug 28: outbound for Austin founders&rdquo; &mdash; Aug 18</div>
-          <p class="why">A direct question &mdash; &ldquo;will you be in Austin?&rdquo; &mdash; sitting two days. Private workshop at Chai House, 8:30&ndash;10:00 AM on Aug 28. <b>Your calendar is completely clear that morning.</b> This is a yes that only needs sending.</p>
+          <p class="why">A direct question &mdash; &ldquo;will you be in Austin?&rdquo; &mdash; now three days old, for an event seven days away. Private workshop at Chai House, 8:30&ndash;10:00 AM. <b>Your calendar that morning is still completely clear.</b> She needs a number for breakfast.</p>
           <div class="acts">
             <button class="primary act-draft"
               data-to='["gabirosen@gooutreachcovision.com"]'
@@ -767,9 +674,9 @@ Bodhi">Draft this reply</button>
 
 Yes, I will be in Austin and I would like to come. The 28th at 8:30 is open on my end.
 
-Count me in, and send over anything you would like attendees to prepare beforehand.
+Apologies for the slow reply &#8212; the last stretch has been unusually full.
 
-Thanks for thinking of me.
+Count me in, and send over anything you would like attendees to prepare beforehand.
 
 Bodhi">Draft the yes</button>
             <button class="act-open" data-url="https://mail.google.com/mail/u/0/#inbox">Open in Gmail</button>
@@ -778,9 +685,9 @@ Bodhi">Draft the yes</button>
         </div>
 
         <div class="mail">
-          <div class="from">AC3 Performance <span class="pill quiet">2 days unread</span></div>
-          <div class="subj">&ldquo;Re: Investor Memo&rdquo; &mdash; Aug 17 &middot; updated deck attached</div>
-          <p class="why">He acted on feedback you already gave and is asking for time. Low effort, and leaving a founder hanging after they revised on your notes is the kind of thing that quietly costs you a relationship.</p>
+          <div class="from">AC3 Performance <span class="pill quiet">4 days</span></div>
+          <div class="subj">&ldquo;Re: Investor Memo&rdquo; &mdash; Aug 17 &middot; updated deck, still unread</div>
+          <p class="why">He revised the deck on feedback you gave and asked for time. Four days of silence after someone acts on your notes is how that relationship quietly ends. Next week is genuinely clearer, so the draft offers real windows.</p>
           <div class="acts">
             <button class="primary act-draft"
               data-to='["vf@ac3performance.com"]'
@@ -788,9 +695,9 @@ Bodhi">Draft the yes</button>
               data-subject="RE: Investor Memo"
               data-body="Hey &#8212;
 
-Thanks for turning the deck around on that feedback, and sorry for the slow reply &#8212; this week has been unusually full.
+Thanks for turning the deck around on that feedback, and apologies for the slow reply &#8212; we had two days of in-person roadmap planning that ate the week.
 
-Happy to give you my thoughts properly rather than in passing. I am tied up with roadmap planning Thursday and Friday, so early next week is better. Would Tuesday or Wednesday afternoon work for a half hour?
+Happy to give you proper thoughts rather than something rushed. Next week is much clearer on my side. Would Tuesday or Wednesday afternoon work for half an hour?
 
 Send a couple of windows that suit you and I will make one work.
 
@@ -804,23 +711,30 @@ Bodhi">Draft this reply</button>
     </section>
 
     <section>
+      <div class="sechead"><h2>Worth a look, not a reply</h2></div>
+      <div class="flag good">
+        <h3><span class="pill good">Three in</span> Sustainable Ambition applications are arriving</h3>
+        <p>Connor has forwarded three completed applications since Tuesday &mdash; <b>Alex Poscente</b> (Aug 18), <b>Michael Hasegawa</b> (Aug 21) and <b>Louison Dumont</b> (Aug 21). Taylor is watching the thread and replied yesterday. No reply needed from you, but this is the cohort filling up, and it's worth reading them before Monday's workshop &mdash; the same audience is in the room.</p>
+      </div>
+    </section>
+
+    <section>
       <div class="sechead"><h2>Stale draft</h2></div>
       <div class="flag warn">
-        <h3><span class="pill warn">168 days</span> The Laura Mathwig webinar draft stops mid-sentence</h3>
-        <p>Written Mar 4 to Laura Mathwig at SpectrumVoIP. The body reads, in full: <i>&ldquo;Hey Laura, We are planning to doing a webinar and was wondering if I could&rdquo;</i> &mdash; and then it ends.</p>
-        <p>Five and a half months is well past the point where sending it would be strange. It pairs naturally with <b>v2-reengage</b>, the v2 email and preview video to six months of prospects &mdash; either fold it into that campaign as a warm re-open, or delete it. What it should not do is sit there for another six months.</p>
+        <h3><span class="pill warn">170 days</span> The Laura Mathwig draft still stops mid-sentence</h3>
+        <p>Written Mar 4 to Laura Mathwig at SpectrumVoIP. The body, in full: <i>&ldquo;Hey Laura, We are planning to doing a webinar and was wondering if I could&rdquo;</i> &mdash; and then it ends.</p>
+        <p>Unchanged since Wednesday and two days older. It pairs naturally with <b>v2-reengage</b> &mdash; fold it into that campaign as a warm re-open, or delete it. It is not going to finish itself.</p>
       </div>
     </section>
 
     <section>
       <div class="sechead"><h2>Noted, no action</h2></div>
       <div class="card"><ul class="fyi">
-        <li><b>Linear</b> &mdash; GraysonA commented on SPE-101 (Jupiter vs Juniper naming for voice options), plus 9 unread notifications.</li>
-        <li><b>Connor Michalek, Gevity</b> &mdash; first Sustainable Ambition application in (Alex Poscente). You already replied.</li>
-        <li><b>Twilio</b> &mdash; account auto-recharged. <b>OpenAI</b> &mdash; $10.04 credit top-up. <b>Eleven Labs</b> &mdash; receipt.</li>
-        <li><b>Langfuse</b> &mdash; v4 migration required by Nov 16. Genuinely actionable, but not this month.</li>
-        <li><b>Kaushik Kulkarni</b> &mdash; second cold outreach, first one was trashed. Safe to ignore.</li>
-        <li><b>Newsletters</b> &mdash; AINews, Krisp, This Week in Startups, PostHog, Vapi, Mercury. Nothing needing you.</li>
+        <li><b>Sentry</b> &mdash; replays at 80% of the monthly reserved budget. Worth knowing before it bills over, not worth doing anything about today.</li>
+        <li><b>Twilio</b> &mdash; account auto-recharged. <b>OpenAI</b> &mdash; credit top-up. <b>Eleven Labs</b> &mdash; receipt.</li>
+        <li><b>Linear</b> &mdash; GraysonA on SPE-101 (Jupiter vs Juniper voice naming), plus unread notifications.</li>
+        <li><b>Langfuse</b> &mdash; v4 migration required by Nov 16. Real, but not this month.</li>
+        <li><b>Newsletters</b> &mdash; Kilo, AINews, Krisp, art-of-sell. Nothing needing you.</li>
       </ul></div>
     </section>
   </div>
@@ -843,8 +757,9 @@ Bodhi">Draft this reply</button>
   </div>
 
   <p style="font-size:11.5px;color:var(--ink-3);margin-top:20px;line-height:1.7">
-    Compiled 3:45 PM CT, Wed Aug 19 2026, from Google Calendar (Aug 19&ndash;30), Gmail (inbox, 10 days, plus drafts) and Granola (16 meetings, Aug 7&ndash;19).
-    Task ids and <i>seen</i> dates carry forward between refreshes so nothing silently disappears.
+    Compiled 4:45 PM CT, Fri Aug 21 2026, from Google Calendar (Aug 21&ndash;31), Gmail (inbox and drafts) and Granola (Aug 7&ndash;21).
+    Four tasks closed since the Aug 19 brief; task ids and <i>seen</i> dates carry forward so ages stay honest.
+    <b>Refresh data</b> re-reads your calendar and inbox live; the written analysis is rewritten by Claude, not by the button.
   </p>
 </div>
 
@@ -1049,7 +964,7 @@ Bodhi">Draft this reply</button>
   // ---- live refresh ---------------------------------------------------
   // Claude compiled the brief at this moment; the delta is always measured
   // from here, so the case for a full re-analysis grows visibly over time.
-  var BASELINE = "2026-08-19T15:45:00-05:00";
+  var BASELINE = "2026-08-21T16:45:00-05:00";
   var BASELINE_MS = new Date(BASELINE).getTime();
 
   var refreshBtn = document.getElementById("refresh");
