@@ -1,0 +1,1569 @@
+<title>Bodhi's Command Center</title>
+<style>
+  :root{
+    --page:#f9f9f7; --surface:#fcfcfb; --raised:#ffffff;
+    --ink:#0b0b0b; --ink-2:#52514e; --ink-3:#898781;
+    --grid:#e1e0d9; --rule:#eceae3;
+    --meet:#2a78d6; --focus:#eb6834; --pers:#1baf7a;
+    --good:#0ca30c; --warn:#fab219; --serious:#ec835a; --crit:#d03b3b;
+    --crit-wash:#fbeaea; --warn-wash:#fdf4e2; --good-wash:#e9f6e9; --serious-wash:#fdefe9;
+    --shadow:0 1px 2px rgba(11,11,11,.05),0 4px 12px rgba(11,11,11,.04);
+    --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --page:#0d0d0d; --surface:#1a1a19; --raised:#212120;
+      --ink:#f4f3ef; --ink-2:#b3b1a9; --ink-3:#89877f;
+      --grid:#33322e; --rule:#2a2926;
+      --meet:#3987e5; --focus:#d95926; --pers:#199e70;
+      --good:#3fbf3f; --warn:#e0a52a; --serious:#e07f56; --crit:#e05555;
+      --crit-wash:#2e1a1a; --warn-wash:#2b2415; --good-wash:#162516; --serious-wash:#2c1d17;
+      --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);
+    }
+  }
+  :root[data-theme="dark"]{
+    --page:#0d0d0d; --surface:#1a1a19; --raised:#212120;
+    --ink:#f4f3ef; --ink-2:#b3b1a9; --ink-3:#89877f;
+    --grid:#33322e; --rule:#2a2926;
+    --meet:#3987e5; --focus:#d95926; --pers:#199e70;
+    --good:#3fbf3f; --warn:#e0a52a; --serious:#e07f56; --crit:#e05555;
+    --crit-wash:#2e1a1a; --warn-wash:#2b2415; --good-wash:#162516; --serious-wash:#2c1d17;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);
+  }
+
+  *{box-sizing:border-box}
+  body{background:var(--page);color:var(--ink);font-family:var(--sans);
+    line-height:1.5;margin:0;padding:0;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:28px 20px 72px}
+  h1,h2,h3,h4{text-wrap:balance;margin:0;font-weight:640;letter-spacing:-.011em}
+  p{margin:0}
+  a{color:var(--meet)}
+  .eyebrow{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+  .num{font-variant-numeric:tabular-nums}
+
+  /* ---------- masthead ---------- */
+  .mast{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;
+    padding-bottom:18px;border-bottom:1px solid var(--rule);margin-bottom:22px}
+  .mast h1{font-size:27px}
+  .mast .sub{color:var(--ink-2);font-size:14px;margin-top:5px}
+  .stamp{text-align:right;font-size:12px;color:var(--ink-3);line-height:1.7}
+  .stamp b{color:var(--ink-2);font-weight:600}
+
+  /* ---------- tabs (CSS only) ---------- */
+  .tabinput{position:absolute;opacity:0;pointer-events:none;width:0;height:0}
+  .tabbar{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:24px;
+    border-bottom:1px solid var(--rule);padding-bottom:0}
+  .tabbar label{font-size:13.5px;font-weight:600;color:var(--ink-3);cursor:pointer;
+    padding:9px 15px;border-radius:7px 7px 0 0;border-bottom:2px solid transparent;
+    display:inline-flex;align-items:center;gap:7px;user-select:none}
+  .tabbar label:hover{color:var(--ink);background:var(--surface)}
+  .tabbar label .cnt{font-size:11px;font-weight:700;color:var(--ink-3);
+    background:var(--grid);border-radius:20px;padding:1px 7px;font-variant-numeric:tabular-nums}
+  #t-today:focus-visible  ~ .tabbar label[for="t-today"],
+  #t-week:focus-visible   ~ .tabbar label[for="t-week"],
+  #t-proj:focus-visible   ~ .tabbar label[for="t-proj"],
+  #t-inbox:focus-visible  ~ .tabbar label[for="t-inbox"]{outline:2px solid var(--meet);outline-offset:-2px}
+  .panel{display:none}
+  #t-today:checked  ~ .panels #p-today,
+  #t-week:checked   ~ .panels #p-week,
+  #t-proj:checked   ~ .panels #p-proj,
+  #t-inbox:checked  ~ .panels #p-inbox{display:block}
+  #t-today:checked ~ .tabbar label[for="t-today"],
+  #t-week:checked  ~ .tabbar label[for="t-week"],
+  #t-proj:checked  ~ .tabbar label[for="t-proj"],
+  #t-inbox:checked ~ .tabbar label[for="t-inbox"]{color:var(--ink);border-bottom-color:var(--ink)}
+  #t-today:checked ~ .tabbar label[for="t-today"] .cnt,
+  #t-week:checked  ~ .tabbar label[for="t-week"] .cnt,
+  #t-proj:checked  ~ .tabbar label[for="t-proj"] .cnt,
+  #t-inbox:checked ~ .tabbar label[for="t-inbox"] .cnt{background:var(--ink);color:var(--surface)}
+
+  /* ---------- generic blocks ---------- */
+  section{margin-bottom:34px}
+  .sechead{display:flex;align-items:baseline;gap:11px;margin-bottom:13px;flex-wrap:wrap}
+  .sechead h2{font-size:16px}
+  .sechead .note{font-size:12.5px;color:var(--ink-3)}
+  .card{background:var(--surface);border:1px solid var(--rule);border-radius:11px;
+    padding:16px 18px;box-shadow:var(--shadow)}
+  .stack{display:flex;flex-direction:column;gap:11px}
+
+  /* severity flags */
+  .flag{border-radius:11px;padding:15px 17px 16px;border:1px solid var(--rule);
+    border-left-width:4px;background:var(--surface);box-shadow:var(--shadow)}
+  .flag.crit{border-left-color:var(--crit);background:var(--crit-wash)}
+  .flag.serious{border-left-color:var(--serious);background:var(--serious-wash)}
+  .flag.warn{border-left-color:var(--warn);background:var(--warn-wash)}
+  .flag.good{border-left-color:var(--good);background:var(--good-wash)}
+  .flag h3{font-size:14.5px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+  .flag p{font-size:13.5px;color:var(--ink-2);margin-top:7px}
+  .flag p + p{margin-top:6px}
+  .pill{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    padding:2.5px 8px;border-radius:20px;white-space:nowrap;border:1px solid transparent}
+  .pill.crit{background:var(--crit);color:#fff}
+  .pill.serious{background:var(--serious);color:#231a14}
+  .pill.warn{background:var(--warn);color:#231d09}
+  .pill.good{background:var(--good);color:#fff}
+  .pill.quiet{background:transparent;color:var(--ink-3);border-color:var(--grid)}
+
+  /* schedule strip */
+  .sched{display:flex;flex-direction:column;gap:0}
+  .slot{display:grid;grid-template-columns:112px 1fr;gap:14px;padding:9px 0;
+    border-top:1px solid var(--rule);align-items:baseline}
+  .slot:first-child{border-top:0}
+  .slot .t{font-size:12.5px;color:var(--ink-3);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .slot .w{font-size:13.5px}
+  .slot .w small{display:block;color:var(--ink-3);font-size:12px;margin-top:2px}
+  .slot.free .w{color:var(--pers);font-weight:600}
+  .slot.past{opacity:.45}
+
+  /* priorities */
+  ol.prio{list-style:none;margin:0;padding:0;counter-reset:p;display:flex;flex-direction:column;gap:9px}
+  ol.prio li{counter-increment:p;display:grid;grid-template-columns:26px 1fr;gap:13px;
+    background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:13px 15px;
+    box-shadow:var(--shadow)}
+  ol.prio li::before{content:counter(p);font-size:12px;font-weight:700;color:var(--ink-3);
+    background:var(--grid);border-radius:6px;width:24px;height:24px;display:grid;place-items:center}
+  ol.prio h4{font-size:14px}
+  ol.prio .why{font-size:12.5px;color:var(--ink-2);margin-top:5px}
+  ol.prio .meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+
+  /* chart */
+  .chartcard{background:var(--surface);border:1px solid var(--rule);border-radius:11px;
+    padding:20px 20px 14px;box-shadow:var(--shadow);overflow-x:auto}
+  .plot{position:relative;height:210px;display:flex;align-items:flex-end;gap:14px;
+    border-bottom:1px solid var(--grid);min-width:520px}
+  .cap8{position:absolute;left:0;right:0;bottom:57.14%;border-top:1.5px dashed var(--ink-3);opacity:.75}
+  .cap8 span{position:absolute;right:0;top:-17px;font-size:10.5px;color:var(--ink-3);
+    background:var(--surface);padding:0 5px;letter-spacing:.03em}
+  .bar{flex:1;display:flex;flex-direction:column-reverse;position:relative;height:100%;min-width:44px}
+  .seg{width:100%}
+  .seg.m{background:var(--meet)}
+  .seg.f{background:var(--focus)}
+  .seg.p{background:var(--pers)}
+  .bar .tot{position:absolute;left:0;right:0;text-align:center;font-size:11.5px;font-weight:650;
+    color:var(--ink-2);font-variant-numeric:tabular-nums}
+  .xaxis{display:flex;gap:14px;margin-top:9px;min-width:520px}
+  .xaxis div{flex:1;text-align:center;font-size:11.5px;color:var(--ink-3);min-width:44px}
+  .xaxis div b{display:block;color:var(--ink-2);font-weight:650;font-size:12px}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:15px;padding-top:13px;border-top:1px solid var(--rule)}
+  .legend span{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-2)}
+  .swatch{width:11px;height:11px;border-radius:3px;display:inline-block}
+
+  /* proposals */
+  .prop{background:var(--surface);border:1px solid var(--rule);border-radius:11px;
+    padding:14px 16px;box-shadow:var(--shadow);display:flex;gap:14px;
+    justify-content:space-between;align-items:flex-start;flex-wrap:wrap}
+  .prop .info{flex:1;min-width:250px}
+  .prop h4{font-size:14px}
+  .prop .when{font-size:12.5px;color:var(--ink-3);margin-top:4px;font-variant-numeric:tabular-nums}
+  .prop .why{font-size:12.5px;color:var(--ink-2);margin-top:7px}
+  .acts{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+  button{font-family:inherit;font-size:12.5px;font-weight:600;border-radius:7px;
+    padding:7px 13px;cursor:pointer;border:1px solid var(--grid);
+    background:var(--raised);color:var(--ink);transition:background .12s,border-color .12s}
+  button:hover:not(:disabled){border-color:var(--ink-3)}
+  button:focus-visible{outline:2px solid var(--meet);outline-offset:2px}
+  button:disabled{opacity:.45;cursor:not-allowed}
+  button.primary{background:var(--ink);color:var(--page);border-color:var(--ink)}
+  button.primary:hover:not(:disabled){opacity:.87}
+  .propmsg{font-size:12px;margin-top:9px;display:none;width:100%}
+  .propmsg.on{display:block}
+  .propmsg.ok{color:var(--good)}
+  .propmsg.err{color:var(--crit)}
+  .prop[data-state="added"]{border-color:var(--good)}
+  .prop[data-state="rejected"]{opacity:.5}
+
+  /* projects */
+  .proj{margin-bottom:20px}
+  .proj > h3{font-size:13.5px;display:flex;align-items:center;gap:9px;margin-bottom:9px}
+  .proj > h3 .rule{flex:1;height:1px;background:var(--rule)}
+  table.tasks{width:100%;border-collapse:collapse;font-size:13px}
+  table.tasks td{padding:8px 10px;border-top:1px solid var(--rule);vertical-align:top}
+  table.tasks tr:first-child td{border-top:0}
+  table.tasks .tid{color:var(--ink-3);font-size:11px;font-variant-numeric:tabular-nums;white-space:nowrap;width:74px}
+  table.tasks .chips{white-space:nowrap;text-align:right;width:1%}
+  .chip{font-size:10.5px;font-weight:600;color:var(--ink-2);background:var(--grid);
+    border-radius:5px;padding:2px 7px;margin-left:5px;display:inline-block;white-space:nowrap}
+  .chip.due{background:var(--warn-wash);color:var(--warn)}
+  .chip.old{background:var(--crit-wash);color:var(--crit)}
+  .chip.blk{background:var(--serious-wash);color:var(--serious)}
+  .chip.unb{background:var(--good-wash);color:var(--good)}
+  .src{font-size:11.5px;color:var(--ink-3);margin-top:3px}
+
+  /* inbox */
+  .mail{background:var(--surface);border:1px solid var(--rule);border-radius:11px;
+    padding:14px 16px;box-shadow:var(--shadow)}
+  .mail .from{font-size:13.5px;font-weight:650;display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+  .mail .subj{font-size:13px;color:var(--ink-2);margin-top:3px}
+  .mail .why{font-size:12.5px;color:var(--ink-2);margin-top:8px;
+    padding-left:11px;border-left:2px solid var(--grid)}
+  .mail .acts{margin-top:11px}
+  ul.fyi{list-style:none;margin:0;padding:0;font-size:13px;color:var(--ink-2)}
+  ul.fyi li{padding:7px 0;border-top:1px solid var(--rule)}
+  ul.fyi li:first-child{border-top:0}
+  ul.fyi b{color:var(--ink);font-weight:600}
+
+  /* copilot */
+  .copilot{background:var(--surface);border:1px solid var(--rule);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow);margin-top:12px}
+  .copilot h2{font-size:15px;margin-bottom:4px}
+  .copilot .lede{font-size:12.5px;color:var(--ink-3);margin-bottom:14px}
+  .bridge{font-size:12px;border-radius:9px;padding:11px 13px;border:1px solid var(--rule);
+    background:var(--raised);color:var(--ink-2);line-height:1.65}
+  .bridge b{color:var(--ink);font-weight:650}
+  .dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:7px;
+    background:var(--ink-3);vertical-align:middle}
+  .dot.ok{background:var(--good)}
+  .dot.bad{background:var(--crit)}
+  .dot.warn{background:var(--warn)}
+  .toolgrid{margin-top:9px;font-size:11.5px;color:var(--ink-3);
+    font-variant-numeric:tabular-nums;line-height:1.8}
+  .toolgrid code{background:var(--grid);border-radius:4px;padding:1px 5px;font-size:11px}
+  .qa{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}
+
+  .deltabox{display:none;margin:0 0 22px;border:1px solid var(--rule);border-left:4px solid var(--meet);
+    border-radius:11px;padding:14px 16px;background:var(--surface);box-shadow:var(--shadow)}
+  .deltabox.on{display:block}
+  .deltabox.quiet{border-left-color:var(--good)}
+  .deltabox.bad{border-left-color:var(--crit)}
+  .deltahead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .deltahead b{font-size:13.5px}
+  .deltahead span{font-size:11.5px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+  #deltabody{font-size:13px;color:var(--ink-2);margin-top:8px}
+  #deltabody ul{list-style:none;margin:8px 0 0;padding:0}
+  #deltabody li{padding:5px 0;border-top:1px solid var(--rule)}
+  #deltabody li:first-child{border-top:0}
+  #deltabody .who{font-weight:600;color:var(--ink)}
+  .stale{font-size:11.5px;color:var(--ink-3);margin-top:7px}
+  .bar.live .seg{transition:height .35s ease}
+  @media (prefers-reduced-motion:reduce){.bar.live .seg{transition:none}}
+
+  /* ---------- reaction layer ---------- */
+  .react{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+  .rbtn{font-size:11.5px;font-weight:600;border-radius:6px;padding:4px 9px;cursor:pointer;
+    border:1px solid var(--grid);background:var(--raised);color:var(--ink-2)}
+  .rbtn:hover{border-color:var(--ink-3);color:var(--ink)}
+  .rbtn:focus-visible{outline:2px solid var(--meet);outline-offset:2px}
+  .rbtn[aria-pressed="true"]{background:var(--ink);color:var(--page);border-color:var(--ink)}
+  .rbtn[aria-pressed="true"][data-v="done"]{background:var(--good);border-color:var(--good);color:#fff}
+  .rbtn[aria-pressed="true"][data-v="rejected"],
+  .rbtn[aria-pressed="true"][data-v="dropped"]{background:var(--crit);border-color:var(--crit);color:#fff}
+  .rbtn[aria-pressed="true"][data-v="deferred"],
+  .rbtn[aria-pressed="true"][data-v="waiting"],
+  .rbtn[aria-pressed="true"][data-v="blocked"]{background:var(--warn);border-color:var(--warn);color:#231d09}
+
+  tr[data-react-task]{transition:opacity .15s}
+  tr[data-state="done"]{opacity:.5}
+  tr[data-state="done"] td:nth-child(2){text-decoration:line-through;text-decoration-color:var(--ink-3)}
+  .prop[data-state="deferred"]{opacity:.7;border-color:var(--warn)}
+
+  .rnote{width:100%;font-family:inherit;font-size:12.5px;color:var(--ink);background:var(--raised);
+    border:1px solid var(--grid);border-radius:8px;padding:9px 11px;margin-top:9px;resize:vertical;
+    min-height:62px;line-height:1.55}
+  .rnote::placeholder{color:var(--ink-3)}
+  .rnote:focus{outline:2px solid var(--meet);outline-offset:-1px;border-color:transparent}
+
+  .savebar{position:sticky;bottom:0;z-index:20;margin:26px -20px -72px;padding:13px 20px 20px;
+    background:linear-gradient(to bottom,transparent,var(--page) 22%);display:none}
+  .savebar.on{display:block}
+  .savebar .inner{background:var(--ink);color:var(--page);border-radius:11px;padding:12px 16px;
+    display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+    box-shadow:0 6px 24px rgba(11,11,11,.22)}
+  .savebar .what{font-size:13px;font-weight:600}
+  .savebar .what small{display:block;font-weight:400;opacity:.72;font-size:11.5px;margin-top:2px}
+  .savebar button{border:1px solid transparent;font-size:12.5px}
+  .savebar .go{background:var(--page);color:var(--ink)}
+  .savebar .go:hover:not(:disabled){opacity:.88}
+  .savebar .undo{background:transparent;color:var(--page);border-color:rgba(255,255,255,.28)}
+  .savebar .undo:hover:not(:disabled){border-color:var(--page)}
+
+  .saved{border-radius:11px;padding:13px 16px;border:1px solid var(--rule);border-left:4px solid var(--good);
+    background:var(--surface);box-shadow:var(--shadow);margin-bottom:18px;display:none}
+  .saved.on{display:block}
+  .saved h3{font-size:13.5px}
+  .saved ul{list-style:none;margin:8px 0 0;padding:0;font-size:12.5px;color:var(--ink-2)}
+  .saved li{padding:4px 0;border-top:1px solid var(--rule)}
+  .saved li:first-child{border-top:0}
+  .saved b{color:var(--ink)}
+  .rowmsg{font-size:12px;color:var(--ink-3);margin-top:7px}
+
+  @media (max-width:620px){
+    .wrap{padding:20px 14px 60px}
+    .mast{align-items:flex-start}
+    .stamp{text-align:left}
+    .slot{grid-template-columns:1fr;gap:2px}
+    table.tasks .chips{text-align:left;white-space:normal}
+    .chip{margin-left:0;margin-right:5px}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<div class="wrap" data-build="2026-08-21T16:45:00-05:00">
+
+  <div class="mast">
+    <div>
+      <div class="eyebrow">Friday, August 21 &middot; 2026</div>
+      <h1>Good afternoon, Bodhi.</h1>
+      <p class="sub">Four things closed since Wednesday and Lakeland went quiet. Today is the heaviest day I've tracked, and Ilya is still waiting on you.</p>
+    </div>
+    <div class="stamp">
+      <div><b>Brief compiled</b> 4:45 PM CT</div>
+      <div>Calendar &middot; Gmail &middot; Granola</div>
+      <div><b>27</b> tracked tasks &middot; <b>6</b> proposals</div>
+      <div style="margin-top:9px"><button id="refresh" class="primary" disabled>Refresh data</button></div>
+    </div>
+  </div>
+
+  <div id="delta" class="deltabox">
+    <div class="deltahead"><b id="deltatitle">Checking for changes&hellip;</b><span id="deltastamp"></span></div>
+    <div id="deltabody"></div>
+  </div>
+
+  <input class="tabinput" type="radio" name="cctab" id="t-today" checked>
+  <input class="tabinput" type="radio" name="cctab" id="t-week">
+  <input class="tabinput" type="radio" name="cctab" id="t-proj">
+  <input class="tabinput" type="radio" name="cctab" id="t-inbox">
+
+  <nav class="tabbar">
+    <label for="t-today">Today <span class="cnt">3</span></label>
+    <label for="t-week">Week <span class="cnt">2</span></label>
+    <label for="t-proj">Projects <span class="cnt">27</span></label>
+    <label for="t-inbox">Inbox <span class="cnt">2</span></label>
+  </nav>
+
+  <div class="saved" id="savedbox">
+    <h3><span class="pill good">Saved</span> Your reactions, carried into the next refresh</h3>
+    <ul id="savedlist"></ul>
+  </div>
+
+  <div class="panels">
+
+  <!-- ============ TODAY ============ -->
+  <div class="panel" id="p-today">
+
+    <section>
+      <div class="sechead"><h2>Closed since Wednesday</h2></div>
+      <div class="flag good">
+        <h3><span class="pill good">4 done</span> The Lakeland fire is out</h3>
+        <p><b>lk-reply</b> &mdash; you answered Randell and Daniel. Nothing further has come in from Lakeland in three days, after three messages in thirty-one minutes on Wednesday. That silence is the result.</p>
+        <p><b>lk-train</b> &mdash; training-mode prompt language delivered. This unblocks Danielle's structured training calls, which is the path to the Labor Day sales agent.</p>
+        <p><b>lk-migrate</b> &mdash; infrastructure flipped. Six days late, but done, and the transcription fix is now live.</p>
+        <p><b>iz-sms</b> &mdash; SMS alerts tested before the In-Telecom call, as planned.</p>
+        <p style="margin-top:10px"><b>Newly unblocked:</b> <b>lk-analyze</b> was waiting on your reply and is now actionable &mdash; Jeff's transcripts and .wav files are still sitting there, and reading them is how you confirm the migration actually fixed the transfer failures rather than assuming it. <b>v2-ticket</b> (the training-mode Linear ticket) also comes off the blocks now that the prompt language exists.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="sechead">
+        <h2>Needs a decision today</h2>
+        <span class="note">Before you leave for the party</span>
+      </div>
+      <div class="stack">
+
+        <div class="flag crit">
+          <h3><span class="pill crit">Overdue</span> Ilya's prototype was due yesterday and he still can't start</h3>
+          <p><b>hr-slack</b> has been open since Aug 13 &mdash; eight days. It is one Slack invite and one set of LiveKit credentials. <b>hr-proto</b>, Ilya's warm-transfer prototype, was due <b>Aug 20</b>. It is now a day past due and none of the delay is his.</p>
+          <p>This was number five on Wednesday's list and it is the only item from that list still open. The other four got done because they were on fire; this one didn't because nobody was shouting about it. That's precisely the failure mode worth naming.</p>
+          <p><b>Five minutes before you leave tonight.</b> Proposal below.</p>
+        </div>
+
+        <div class="flag serious">
+          <h3><span class="pill serious">15.5h</span> Today is the heaviest day I have on record</h3>
+          <p>Roadmap planning 9:00&ndash;5:00 with Jeff, Grayson and Junior, overlapped by <b>Smart City catch-up 3:00&ndash;3:30</b> and the <b>workshop run-through 3:30&ndash;5:30</b> you are in right now. Then <b>Dane Maxwell's birthday 6:00&ndash;10:00</b> at 1800 Fontaine Ct.</p>
+          <p>Nothing here is droppable and I'm not going to pretend otherwise &mdash; the run-through is Monday's insurance and the birthday is a friend. The only real decision is the half hour from 5:30: that is your entire buffer to close the laptop and drive. Don't put anything in it except Ilya's credentials.</p>
+        </div>
+
+        <div class="flag warn">
+          <h3><span class="pill warn">Monday</span> The Gevity workshop is now the only live deadline</h3>
+          <p><b>ws-slides</b>, <b>ws-email</b> and <b>ws-dash</b> are all due Aug 24 and the workshop starts Monday 3:00 PM. Your only weekday gap before it is <b>Monday 2:00&ndash;3:00</b> &mdash; one hour, which is a run-through, not a build.</p>
+          <p>Which means the slides get built this weekend or they get built badly. Saturday morning is proposed for it, with the rest of the weekend held for recovery.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <section>
+      <div class="sechead">
+        <h2>Rest of today</h2>
+        <span class="note" id="todaynote">Half an hour of slack, at 5:30</span>
+      </div>
+      <div class="card sched" id="todaysched">
+        <div class="slot past"><div class="t">9:00 &ndash; 5:00</div><div class="w">Voxtell AI: in-person roadmap planning<small>Jeff Ogden, Grayson Akerly, Junior &middot; Granola captured</small></div></div>
+        <div class="slot past"><div class="t">3:00 &ndash; 3:30</div><div class="w">Smart City catch-up &middot; Emilio Biasutto<small>Added Thursday, lands inside the roadmap day</small></div></div>
+        <div class="slot"><div class="t">3:30 &ndash; 5:30</div><div class="w">Workshop run-through with Taylor &mdash; happening now<small>Granola is capturing it as &ldquo;AI Employee Workshop &mdash; Dry Run&rdquo;</small></div></div>
+        <div class="slot free"><div class="t">5:30 &ndash; 6:00</div><div class="w">Your only gap &mdash; send Ilya's credentials, then drive<small>Proposal below claims fifteen minutes of it</small></div></div>
+        <div class="slot"><div class="t">6:00 &ndash; 10:00</div><div class="w">Dane Maxwell birthday<small>1800 Fontaine Ct &middot; Ariana and Amit also attending</small></div></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sechead">
+        <h2>Top 5 right now</h2>
+        <span class="note">Re-ranked after Wednesday's four completions</span>
+      </div>
+      <ol class="prio">
+        <li><div>
+          <h4>Send Ilya the Slack channel and LiveKit credentials</h4>
+          <p class="why">The only Wednesday top-5 item still open, and the only one blocking another human. His deadline has already passed. Five minutes.</p>
+          <div class="meta"><span class="pill crit">Overdue</span><span class="pill quiet">Blocks hr-proto</span><span class="pill quiet">hr-slack</span></div>
+        </div></li>
+        <li><div>
+          <h4>Build the AI-employee slides &mdash; QR code and sign-up on every slide</h4>
+          <p class="why">Due Monday, and Monday's only gap is a single hour immediately before you present. Came out of Wednesday's AI Productivity Workshop as an explicit next step.</p>
+          <div class="meta"><span class="pill warn">Due 8/24</span><span class="pill quiet">ws-slides</span></div>
+        </div></li>
+        <li><div>
+          <h4>Read Jeff's transcripts and .wav files</h4>
+          <p class="why">Newly unblocked by your reply. The migration is live &mdash; this is how you find out whether it actually fixed the transfer failures, before Lakeland finds out for you. Fits inside Tuesday's deep-work block.</p>
+          <div class="meta"><span class="pill good">Newly unblocked</span><span class="pill quiet">lk-analyze</span></div>
+        </div></li>
+        <li><div>
+          <h4>Sign the Start Matter NDA</h4>
+          <p class="why">Fourteen days old today. It crossed from stalled into chronic while you were in roadmap planning, and it gates the whole Start Matter relationship.</p>
+          <div class="meta"><span class="pill crit">Chronic &middot; 14d</span><span class="pill quiet">hr-nda</span></div>
+        </div></li>
+        <li><div>
+          <h4>Answer Gabi Rosen</h4>
+          <p class="why">Her Austin workshop is Aug 28 &mdash; one week out. Your calendar that morning is still completely clear. A yes costs you nothing and the question has been open since Aug 18.</p>
+          <div class="meta"><span class="pill warn">Aug 28</span><span class="pill quiet">ws-gabi</span></div>
+        </div></li>
+      </ol>
+    </section>
+
+    <section>
+      <div class="sechead"><h2>Coming up &mdash; what to bring</h2></div>
+      <div class="stack">
+        <div class="card">
+          <h4 style="font-size:14px">Mon Aug 24 &middot; Build an AI Employee workshop at Gevity &middot; 3:00&ndash;5:00</h4>
+          <p style="font-size:13px;color:var(--ink-2);margin-top:7px"><b>Bring:</b> the slides with QR and sign-up, the email-organisation prompt as the opening demo, the FAQ reference doc, and this dashboard. <b>Stage the build</b> &mdash; Today tab, then Week, then Projects &mdash; rather than revealing the finished thing, per the plan you and Taylor agreed.</p>
+          <p style="font-size:13px;color:var(--ink-2);margin-top:6px"><b>From today's run-through:</b> whatever Taylor flagged in the dry run is the highest-value thing to fix on Saturday. Check the Granola note before you start building.</p>
+        </div>
+        <div class="card">
+          <h4 style="font-size:14px">Tue Aug 25 &middot; Izzy weekly check-in &middot; 10:00&ndash;10:30</h4>
+          <p style="font-size:13px;color:var(--ink-2);margin-top:7px"><b>Bring:</b> the SMS alert test result &mdash; it's done, so lead with it. <b>Ask:</b> where Oracle Lighting stands, since <b>iz-oracle</b> has been open ten days, and whether the Tennessee city-government demos have a date.</p>
+        </div>
+        <div class="card">
+          <h4 style="font-size:14px">Thu Aug 27 &middot; Call with Scott Van Camp &middot; 4:00&ndash;5:00</h4>
+          <p style="font-size:13px;color:var(--ink-2);margin-top:7px">Recurring personal call, no prep needed. Noted so it doesn't surprise you at the end of a deep-work day.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ WEEK ============ -->
+  <div class="panel" id="p-week">
+
+    <section>
+      <div class="sechead">
+        <h2>Committed hours</h2>
+        <span class="note" id="weeknote">Fri Aug 21 &ndash; Thu Aug 27 &middot; meeting-room duplicates excluded</span>
+      </div>
+      <div class="chartcard">
+        <div class="plot" id="plot">
+          <div class="cap8" style="bottom:50%"><span>8h sustainable load</span></div>
+          <div class="bar"><div class="tot" style="bottom:calc(96.88% + 6px)">15.5</div>
+            <div class="seg m" style="height:65.63%"></div><div class="seg p" style="height:31.25%"></div></div>
+          <div class="bar"><div class="tot" style="bottom:calc(6.25% + 6px)">1.0</div>
+            <div class="seg p" style="height:6.25%"></div></div>
+          <div class="bar"><div class="tot" style="bottom:calc(6.25% + 6px)">1.0</div>
+            <div class="seg p" style="height:6.25%"></div></div>
+          <div class="bar"><div class="tot" style="bottom:calc(54.69% + 6px)">8.75</div>
+            <div class="seg m" style="height:17.19%"></div><div class="seg f" style="height:31.25%"></div><div class="seg p" style="height:6.25%"></div></div>
+          <div class="bar"><div class="tot" style="bottom:calc(45.31% + 6px)">7.25</div>
+            <div class="seg m" style="height:3.13%"></div><div class="seg f" style="height:31.25%"></div><div class="seg p" style="height:10.94%"></div></div>
+          <div class="bar"><div class="tot" style="bottom:calc(51.56% + 6px)">8.25</div>
+            <div class="seg m" style="height:6.25%"></div><div class="seg f" style="height:31.25%"></div><div class="seg p" style="height:14.06%"></div></div>
+          <div class="bar"><div class="tot" style="bottom:calc(50% + 6px)">8.0</div>
+            <div class="seg m" style="height:6.25%"></div><div class="seg f" style="height:28.13%"></div><div class="seg p" style="height:15.63%"></div></div>
+        </div>
+        <div class="xaxis" id="xaxis">
+          <div><b>Fri</b>21</div><div><b>Sat</b>22</div><div><b>Sun</b>23</div>
+          <div><b>Mon</b>24</div><div><b>Tue</b>25</div><div><b>Wed</b>26</div><div><b>Thu</b>27</div>
+        </div>
+        <div class="legend">
+          <span><i class="swatch" style="background:var(--meet)"></i>Meetings</span>
+          <span><i class="swatch" style="background:var(--focus)"></i>Focus blocks</span>
+          <span><i class="swatch" style="background:var(--pers)"></i>Personal &amp; recovery</span>
+          <span style="color:var(--ink-3)">Hours committed, not hours worked</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sechead"><h2>Where the week breaks</h2></div>
+      <div class="stack">
+
+        <div class="flag crit">
+          <h3><span class="pill crit">15.5h</span> Today &mdash; nearly double a sustainable day</h3>
+          <p>Roadmap 9:00&ndash;5:00 (8h), Smart City 3:00&ndash;3:30 and the workshop run-through 3:30&ndash;5:30 both landing inside it, then the birthday 6:00&ndash;10:00. Two of those three afternoon items overlap the roadmap block outright.</p>
+          <p>There is nothing to cut &mdash; it's already happening and the evening is a friend's birthday. Recording it because a 15.5-hour Friday is the thing that makes next week expensive, and because Saturday's recovery block below is the correction, not a luxury.</p>
+        </div>
+
+        <div class="flag warn">
+          <h3><span class="pill warn">Trade-off</span> The weekend has to do two jobs</h3>
+          <p>Saturday and Sunday are clear apart from stretching and the dog. But the workshop slides are due Monday and Monday has one free hour. So the weekend cannot be pure recovery this time.</p>
+          <p><b>The split proposed below:</b> Saturday 10:00&ndash;12:00 to build the slides while the run-through is fresh, Saturday afternoon protected, and Sunday held whole as a Day Up. That buys the workshop what it needs without spending the entire weekend on it. If you'd rather protect Saturday completely, the honest alternative is Sunday morning &mdash; but then the Day Up goes, and your own Aug 15 note was explicit that the Sunday-into-Monday rhythm is what makes Mondays work.</p>
+        </div>
+
+        <div class="flag warn">
+          <h3><span class="pill warn">8.75h</span> Monday &mdash; workshop day, one hour of prep</h3>
+          <p>Product sync 8:00&ndash;8:45, deep work 10:00&ndash;2:00, then the Gevity workshop 3:00&ndash;5:00. The gap is <b>2:00&ndash;3:00</b>, currently labelled &ldquo;Transition, Talking, Triage&rdquo; &mdash; a name vague enough that it will get filled by something else if you don't claim it.</p>
+        </div>
+
+        <div class="flag good">
+          <h3><span class="pill good">Healthy</span> Tuesday to Thursday is the first balanced stretch in weeks</h3>
+          <p>7.25, 8.25 and 8.0 hours, and most of it is your own deep-work blocks rather than other people's meetings. This is where the backlog actually gets cleared &mdash; see the Projects tab for what goes in each block. Protect it: if something wants a slot next week, it should cost one of these, consciously.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <section>
+      <div class="sechead">
+        <h2>Proposals</h2>
+        <span class="note">Nothing reaches your calendar without a click</span>
+      </div>
+      <div class="stack" id="proposals">
+
+        <article class="prop" data-id="p1"
+          data-summary="Send Ilya Slack channel + LiveKit credentials"
+          data-start="2026-08-21T17:30:00-05:00" data-end="2026-08-21T17:45:00-05:00"
+          data-desc="Unblocks hr-proto, Ilya's warm-transfer prototype, which was due Aug 20.">
+          <div class="info">
+            <h4>Send Ilya the Slack channel and LiveKit credentials</h4>
+            <div class="when">Today &middot; 5:30 &ndash; 5:45 PM</div>
+            <p class="why">Fifteen minutes out of your drive buffer. Clears an eight-day hold on someone else's overdue work.</p>
+          </div>
+          <div class="acts"><button class="primary act-add">Add to calendar</button><button class="rbtn" data-react="prop" data-id="p1" data-v="deferred" aria-pressed="false">Defer</button><button class="rbtn" data-react="prop" data-id="p1" data-v="rejected" aria-pressed="false">Reject</button></div>
+          <div class="propmsg"></div>
+        </article>
+
+        <article class="prop" data-id="p2"
+          data-summary="Workshop build — slides, QR, sign-up"
+          data-start="2026-08-22T10:00:00-05:00" data-end="2026-08-22T12:00:00-05:00"
+          data-desc="AI-employee slides with QR code and sign-up on every slide, plus fixes from Friday's dry run.">
+          <div class="info">
+            <h4>Workshop build &mdash; slides, QR, sign-up</h4>
+            <div class="when">Sat Aug 22 &middot; 10:00 AM &ndash; 12:00 PM</div>
+            <p class="why">While today's run-through is still fresh. Two hours, in the morning, so the rest of the weekend stays yours.</p>
+          </div>
+          <div class="acts"><button class="primary act-add">Add to calendar</button><button class="rbtn" data-react="prop" data-id="p2" data-v="deferred" aria-pressed="false">Defer</button><button class="rbtn" data-react="prop" data-id="p2" data-v="rejected" aria-pressed="false">Reject</button></div>
+          <div class="propmsg"></div>
+        </article>
+
+        <article class="prop" data-id="p3"
+          data-summary="Recovery — protected"
+          data-start="2026-08-22T13:00:00-05:00" data-end="2026-08-22T17:00:00-05:00"
+          data-desc="Held after a 15.5-hour Friday. Not a work block.">
+          <div class="info">
+            <h4>Recovery &mdash; protected</h4>
+            <div class="when">Sat Aug 22 &middot; 1:00 &ndash; 5:00 PM</div>
+            <p class="why">Named and blocked so it survives contact with the weekend. After 15.5 hours yesterday this is maintenance, not indulgence.</p>
+          </div>
+          <div class="acts"><button class="primary act-add">Add to calendar</button><button class="rbtn" data-react="prop" data-id="p3" data-v="deferred" aria-pressed="false">Defer</button><button class="rbtn" data-react="prop" data-id="p3" data-v="rejected" aria-pressed="false">Reject</button></div>
+          <div class="propmsg"></div>
+        </article>
+
+        <article class="prop" data-id="p4"
+          data-summary="Day Up — nature"
+          data-start="2026-08-23T09:00:00-05:00" data-end="2026-08-23T15:00:00-05:00"
+          data-desc="From the Aug 15 quarterly-goals note: Sundays into Mondays is a strong rhythm.">
+          <div class="info">
+            <h4>Day Up &mdash; out in nature</h4>
+            <div class="when">Sun Aug 23 &middot; 9:00 AM &ndash; 3:00 PM</div>
+            <p class="why">Monday opens with a product sync and closes with a workshop you're running. Your own words: this is what makes that day work.</p>
+          </div>
+          <div class="acts"><button class="primary act-add">Add to calendar</button><button class="rbtn" data-react="prop" data-id="p4" data-v="deferred" aria-pressed="false">Defer</button><button class="rbtn" data-react="prop" data-id="p4" data-v="rejected" aria-pressed="false">Reject</button></div>
+          <div class="propmsg"></div>
+        </article>
+
+        <article class="prop" data-id="p5"
+          data-summary="Inbox batch — Gabi RSVP, AC3 reply"
+          data-start="2026-08-24T08:45:00-05:00" data-end="2026-08-24T10:00:00-05:00"
+          data-desc="Two replies that have both been open a week. Drafts are ready in the Inbox tab.">
+          <div class="info">
+            <h4>Inbox batch &mdash; Gabi and AC3</h4>
+            <div class="when">Mon Aug 24 &middot; 8:45 &ndash; 10:00 AM</div>
+            <p class="why">The gap between product sync and deep work. Both drafts are already written &mdash; this block is for reading and sending them, not composing.</p>
+          </div>
+          <div class="acts"><button class="primary act-add">Add to calendar</button><button class="rbtn" data-react="prop" data-id="p5" data-v="deferred" aria-pressed="false">Defer</button><button class="rbtn" data-react="prop" data-id="p5" data-v="rejected" aria-pressed="false">Reject</button></div>
+          <div class="propmsg"></div>
+        </article>
+
+        <article class="prop" data-id="p6"
+          data-summary="Gevity workshop — final prep"
+          data-start="2026-08-24T14:00:00-05:00" data-end="2026-08-24T15:00:00-05:00"
+          data-desc="Final run-through before the 3:00 PM workshop. Renames the vague Transition block so it does not get filled.">
+          <div class="info">
+            <h4>Gevity workshop &mdash; final prep</h4>
+            <div class="when">Mon Aug 24 &middot; 2:00 &ndash; 3:00 PM</div>
+            <p class="why">Claims the only gap before you're on. A run-through, not a build &mdash; the building happens Saturday.</p>
+          </div>
+          <div class="acts"><button class="primary act-add">Add to calendar</button><button class="rbtn" data-react="prop" data-id="p6" data-v="deferred" aria-pressed="false">Defer</button><button class="rbtn" data-react="prop" data-id="p6" data-v="rejected" aria-pressed="false">Reject</button></div>
+          <div class="propmsg"></div>
+        </article>
+
+      </div>
+    </section>
+
+    <section>
+      <div class="sechead"><h2>Push back on this week</h2></div>
+      <div class="card">
+        <p style="font-size:13.5px;color:var(--ink-2)">If the read above is wrong &mdash; a day I called heavy is fine, a proposal is pointed at the wrong thing, something matters more than I ranked it &mdash; say so here. It goes into the next refresh, so the plan changes rather than being re-argued every morning.</p>
+        <textarea class="rnote" data-note="week" placeholder="e.g. Friday is always long and that is fine — stop flagging it. Or: the workshop matters more than Lakeland right now."></textarea>
+      </div>
+    </section>
+
+    <section>
+      <div class="sechead">
+        <h2>Already have a home</h2>
+        <span class="note">These need attention, not a new calendar event</span>
+      </div>
+      <div class="card">
+        <p style="font-size:13.5px;color:var(--ink-2)">Your Tuesday to Thursday deep-work blocks are already booked and already yours. Adding events inside them would double-book you for no gain, so here is what belongs in each instead:</p>
+        <table class="tasks" style="margin-top:11px">
+          <tr><td class="tid">Tue 10&ndash;2</td><td><b>Deep Work (Client + Admin + Sales)</b> &mdash; hr-nda, hr-msa, iz-oracle, lk-analyze<div class="src">The block is literally labelled for this. Izzy's check-in takes 10:00&ndash;10:30 out of it.</div></td></tr>
+          <tr><td class="tid">Wed 11&ndash;3</td><td><b>Deep Work (Project Engineering)</b> &mdash; v2-mcp, v2-ticket<div class="src">v2-ticket is newly unblocked now that the training-mode language exists.</div></td></tr>
+          <tr><td class="tid">Thu 8:30&ndash;12:30</td><td><b>Deep Work (Project Engineering)</b> &mdash; v2-livekit follow-up with Junior, chase lk-render with Grayson<div class="src">Both are other people's work; your part is a nudge, not a build.</div></td></tr>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ PROJECTS ============ -->
+  <div class="panel" id="p-proj">
+
+    <section>
+      <div class="sechead"><h2>A question, and it's a different one this week</h2></div>
+      <div class="flag warn">
+        <h3><span class="pill warn">Check-in</span> You clear things when they're loud. The quiet ones are rotting.</h3>
+        <p>Four items closed in two days &mdash; every one of them had a customer shouting or a deadline attached. In the same two days, <b>hr-nda</b> crossed fourteen days into chronic, <b>hr-slack</b> reached eight days and let Ilya's deadline pass, and <b>hr-msa</b> and <b>iz-oracle</b> both hit ten.</p>
+        <p>All four of those are small. None of them is hard. What they have in common is that nobody is chasing you for them, and the Start Matter cluster in particular is now three items deep where each one gates a different person's work.</p>
+        <p>The four offer-design tasks &mdash; <b>ws-cta</b>, <b>ws-offer</b>, <b>ws-assess</b>, <b>ws-nate</b> &mdash; have now gone six days without ever being scheduled, for the second week running.</p>
+        <p style="margin-top:13px"><b>So: which is it?</b></p>
+        <div class="react" style="margin-top:8px">
+          <button class="rbtn" data-react="checkin" data-id="checkin" data-v="unclear" aria-pressed="false">Unclear next step</button>
+          <button class="rbtn" data-react="checkin" data-id="checkin" data-v="waiting" aria-pressed="false">Waiting on someone</button>
+          <button class="rbtn" data-react="checkin" data-id="checkin" data-v="not-priority" aria-pressed="false">Not a priority</button>
+          <button class="rbtn" data-react="checkin" data-id="checkin" data-v="no-time" aria-pressed="false">No time</button>
+        </div>
+        <textarea class="rnote" data-note="checkin" placeholder="Anything else I should know? I read this on the next refresh."></textarea>
+        <p style="margin-top:9px;color:var(--ink-3);font-size:12.5px">Tuesday's deep-work block is labelled &ldquo;Client + Admin + Sales&rdquo; and is four hours long. If the answer is &ldquo;no time&rdquo;, that block disproves it &mdash; which would mean the real answer is one of the other three.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="sechead">
+        <h2>Living project brief</h2>
+        <span class="note">Granola Aug 7&ndash;21, refreshed against today's calendar and mail</span>
+      </div>
+
+      <div class="proj">
+        <h3>Lakeland &amp; SpectrumVoIP <span class="rule"></span> <span class="pill good">Stabilised</span></h3>
+        <div class="card"><table class="tasks">
+          <tr data-react-task="lk-analyze" data-state=""><td class="tid">lk-analyze</td><td>Analyse the transcripts and .wav files Jeff forwarded<div class="src">Gmail Aug 18 &middot; unblocked by your reply Wednesday</div><div class="react"><button class="rbtn" data-react="task" data-id="lk-analyze" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="lk-analyze" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="lk-analyze" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="lk-analyze" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip unb">Newly unblocked</span><span class="chip">Tue block</span></td></tr>
+          <tr data-react-task="lk-render" data-state=""><td class="tid">lk-render</td><td>Grayson: host the MCP inventory tool on Render (SSL blocker)<div class="src">Granola Aug 12 &middot; raised again in Friday roadmap</div><div class="react"><button class="rbtn" data-react="task" data-id="lk-render" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="lk-render" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="lk-render" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="lk-render" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip">Owner: Grayson</span></td></tr>
+        </table></div>
+      </div>
+
+      <div class="proj">
+        <h3>Voxtell v2 <span class="rule"></span> <span class="pill quiet">Roadmap set Thu&ndash;Fri</span></h3>
+        <div class="card"><table class="tasks">
+          <tr data-react-task="v2-ticket" data-state=""><td class="tid">v2-ticket</td><td>Training-mode Linear ticket<div class="src">Granola Aug 12 &middot; unblocked now the prompt language is written</div><div class="react"><button class="rbtn" data-react="task" data-id="v2-ticket" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="v2-ticket" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="v2-ticket" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="v2-ticket" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip unb">Newly unblocked</span></td></tr>
+          <tr data-react-task="v2-mcp" data-state=""><td class="tid">v2-mcp</td><td>MCP tools &rarr; scenarios<div class="src">Granola Aug 10, revisited in roadmap planning</div><div class="react"><button class="rbtn" data-react="task" data-id="v2-mcp" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="v2-mcp" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="v2-mcp" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="v2-mcp" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip">Wed block</span></td></tr>
+          <tr data-react-task="v2-sms" data-state=""><td class="tid">v2-sms</td><td>Two-way SMS approach &mdash; needs the 10DLC campaign<div class="src">Granola Aug 12 &middot; roadmap Aug 20&ndash;21</div><div class="react"><button class="rbtn" data-react="task" data-id="v2-sms" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="v2-sms" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="v2-sms" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="v2-sms" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip">Team</span></td></tr>
+          <tr data-react-task="v2-livekit" data-state=""><td class="tid">v2-livekit</td><td>Junior: LiveKit ticket<div class="src">Granola Aug 18</div><div class="react"><button class="rbtn" data-react="task" data-id="v2-livekit" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="v2-livekit" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="v2-livekit" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="v2-livekit" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip">Owner: Junior</span></td></tr>
+          <tr data-react-task="v2-reengage" data-state=""><td class="tid">v2-reengage</td><td>v2 email + preview video to 6 months of prospects<div class="src">Granola Aug 10</div><div class="react"><button class="rbtn" data-react="task" data-id="v2-reengage" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="v2-reengage" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="v2-reengage" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="v2-reengage" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip">Pairs with em-draft</span></td></tr>
+        </table></div>
+      </div>
+
+      <div class="proj">
+        <h3>Hiring &mdash; Start Matter <span class="rule"></span> <span class="pill crit">3 people blocked on you</span></h3>
+        <div class="card"><table class="tasks">
+          <tr data-react-task="hr-slack" data-state=""><td class="tid">hr-slack</td><td>Slack channel + LiveKit credentials to Ilya<div class="src">Granola Aug 13</div><div class="react"><button class="rbtn" data-react="task" data-id="hr-slack" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="hr-slack" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="hr-slack" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="hr-slack" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip old">8d</span><span class="chip blk">Blocks hr-proto</span></td></tr>
+          <tr data-react-task="hr-proto" data-state=""><td class="tid">hr-proto</td><td>Ilya's warm-transfer prototype<div class="src">Granola Aug 13</div><div class="react"><button class="rbtn" data-react="task" data-id="hr-proto" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="hr-proto" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="hr-proto" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="hr-proto" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip old">Overdue 8/20</span><span class="chip blk">Blocked</span></td></tr>
+          <tr data-react-task="hr-nda" data-state=""><td class="tid">hr-nda</td><td>Sign the NDA<div class="src">Granola Aug 7</div><div class="react"><button class="rbtn" data-react="task" data-id="hr-nda" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="hr-nda" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="hr-nda" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="hr-nda" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip old">14d &mdash; chronic</span></td></tr>
+          <tr data-react-task="hr-msa" data-state=""><td class="tid">hr-msa</td><td>MSA to Valery<div class="src">Granola Aug 11</div><div class="react"><button class="rbtn" data-react="task" data-id="hr-msa" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="hr-msa" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="hr-msa" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="hr-msa" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip old">10d stalled</span><span class="chip blk">Blocks hr-dmitry</span></td></tr>
+          <tr data-react-task="hr-dmitry" data-state=""><td class="tid">hr-dmitry</td><td>Scope Dmitry's trial<div class="src">Granola Aug 11</div><div class="react"><button class="rbtn" data-react="task" data-id="hr-dmitry" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="hr-dmitry" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="hr-dmitry" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="hr-dmitry" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip blk">Blocked by hr-msa</span></td></tr>
+          <tr data-react-task="hr-kate" data-state=""><td class="tid">hr-kate</td><td>Kate intro call<div class="src">Granola Aug 11</div><div class="react"><button class="rbtn" data-react="task" data-id="hr-kate" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="hr-kate" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="hr-kate" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="hr-kate" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip">No date</span></td></tr>
+        </table></div>
+      </div>
+
+      <div class="proj">
+        <h3>Workshops &amp; Sustainable Ambition <span class="rule"></span> <span class="pill warn">Monday</span></h3>
+        <div class="card"><table class="tasks">
+          <tr data-react-task="ws-slides" data-state=""><td class="tid">ws-slides</td><td>AI-employee slides, QR code + sign-up on every slide<div class="src">Granola Aug 19 &middot; AI Productivity Workshop</div><div class="react"><button class="rbtn" data-react="task" data-id="ws-slides" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="ws-slides" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="ws-slides" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="ws-slides" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip due">Due 8/24</span></td></tr>
+          <tr data-react-task="ws-email" data-state=""><td class="tid">ws-email</td><td>Email-organisation prompt + FAQ reference doc<div class="src">Granola Aug 19 &middot; the workshop's opening demo</div><div class="react"><button class="rbtn" data-react="task" data-id="ws-email" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="ws-email" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="ws-email" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="ws-email" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip due">Due 8/24</span></td></tr>
+          <tr data-react-task="ws-dash" data-state=""><td class="tid">ws-dash</td><td>Dashboard baseline + hosting path<div class="src">Granola Aug 19 &middot; dry run held Aug 21</div><div class="react"><button class="rbtn" data-react="task" data-id="ws-dash" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="ws-dash" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="ws-dash" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="ws-dash" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip due">Due 8/24</span><span class="chip unb">In progress</span></td></tr>
+          <tr data-react-task="ws-gabi" data-state=""><td class="tid">ws-gabi</td><td>RSVP to Gabi Rosen &mdash; Aug 28 Austin workshop<div class="src">Gmail Aug 18 &middot; that morning is still free</div><div class="react"><button class="rbtn" data-react="task" data-id="ws-gabi" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="ws-gabi" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="ws-gabi" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="ws-gabi" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip due">Aug 28</span></td></tr>
+          <tr data-react-task="ws-goals" data-state=""><td class="tid">ws-goals</td><td>Put numbers on the three quarterly goals<div class="src">Granola Aug 15</div><div class="react"><button class="rbtn" data-react="task" data-id="ws-goals" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="ws-goals" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="ws-goals" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="ws-goals" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip old">6d</span></td></tr>
+          <tr data-react-task="ws-cta" data-state=""><td class="tid">ws-cta</td><td>$200 workshop + $499 VIP CTA<div class="src">Granola Aug 15</div><div class="react"><button class="rbtn" data-react="task" data-id="ws-cta" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="ws-cta" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="ws-cta" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="ws-cta" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip old">Never scheduled</span></td></tr>
+          <tr data-react-task="ws-offer" data-state=""><td class="tid">ws-offer</td><td>AI-brain DIY + DFY upgrade<div class="src">Granola Aug 15</div><div class="react"><button class="rbtn" data-react="task" data-id="ws-offer" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="ws-offer" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="ws-offer" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="ws-offer" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip old">Never scheduled</span></td></tr>
+          <tr data-react-task="ws-assess" data-state=""><td class="tid">ws-assess</td><td>In-workshop assessment<div class="src">Granola Aug 15</div><div class="react"><button class="rbtn" data-react="task" data-id="ws-assess" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="ws-assess" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="ws-assess" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="ws-assess" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip old">Never scheduled</span></td></tr>
+          <tr data-react-task="ws-nate" data-state=""><td class="tid">ws-nate</td><td>Book Nate Ginsburg 1:1<div class="src">Granola Aug 15</div><div class="react"><button class="rbtn" data-react="task" data-id="ws-nate" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="ws-nate" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="ws-nate" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="ws-nate" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip old">Never scheduled</span></td></tr>
+        </table></div>
+      </div>
+
+      <div class="proj">
+        <h3>Izzy &amp; In-Telecom <span class="rule"></span></h3>
+        <div class="card"><table class="tasks">
+          <tr data-react-task="iz-oracle" data-state=""><td class="tid">iz-oracle</td><td>Re-engage Oracle Lighting<div class="src">Granola Aug 11</div><div class="react"><button class="rbtn" data-react="task" data-id="iz-oracle" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="iz-oracle" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="iz-oracle" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="iz-oracle" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip old">10d stalled</span><span class="chip">Tue block</span></td></tr>
+          <tr data-react-task="iz-tn" data-state=""><td class="tid">iz-tn</td><td>Tennessee city-government demos<div class="src">Granola Aug 18</div><div class="react"><button class="rbtn" data-react="task" data-id="iz-tn" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="iz-tn" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="iz-tn" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="iz-tn" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip">Ask Tuesday</span></td></tr>
+        </table></div>
+      </div>
+
+      <div class="proj">
+        <h3>Inbox-origin <span class="rule"></span></h3>
+        <div class="card"><table class="tasks">
+          <tr data-react-task="em-ac3" data-state=""><td class="tid">em-ac3</td><td>Reply to AC3 Performance about the updated investor deck<div class="src">Gmail Aug 17 &middot; still unread</div><div class="react"><button class="rbtn" data-react="task" data-id="em-ac3" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="em-ac3" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="em-ac3" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="em-ac3" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip old">4d</span></td></tr>
+          <tr data-react-task="em-draft" data-state=""><td class="tid">em-draft</td><td>Finish or kill the Laura Mathwig webinar draft<div class="src">Gmail &middot; drafted Mar 4, 170 days ago</div><div class="react"><button class="rbtn" data-react="task" data-id="em-draft" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="em-draft" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="em-draft" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="em-draft" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip old">170d</span></td></tr>
+          <tr data-react-task="em-gevity" data-state=""><td class="tid">em-gevity</td><td>Three Sustainable Ambition applications from Connor to review<div class="src">Gmail Aug 18&ndash;21 &middot; Alex Poscente, Michael Hasegawa, Louison Dumont</div><div class="react"><button class="rbtn" data-react="task" data-id="em-gevity" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="em-gevity" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="em-gevity" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="em-gevity" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip unb">New</span></td></tr>
+        </table></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ INBOX ============ -->
+  <div class="panel" id="p-inbox">
+
+    <section>
+      <div class="sechead">
+        <h2>Needs a reply</h2>
+        <span class="note">Drafts are written and saved to Gmail &mdash; nothing sends itself</span>
+      </div>
+      <div class="stack">
+
+        <div class="mail">
+          <div class="from">Gabi Rosen <span class="pill warn">One week out</span></div>
+          <div class="subj">&ldquo;Aug 28: outbound for Austin founders&rdquo; &mdash; Aug 18</div>
+          <p class="why">A direct question &mdash; &ldquo;will you be in Austin?&rdquo; &mdash; now three days old, for an event seven days away. Private workshop at Chai House, 8:30&ndash;10:00 AM. <b>Your calendar that morning is still completely clear.</b> She needs a number for breakfast.</p>
+          <div class="acts">
+            <button class="primary act-draft"
+              data-to='["gabirosen@gooutreachcovision.com"]'
+              data-reply="1a0157659b379e2b"
+              data-subject="RE: Aug 28: outbound for Austin founders"
+              data-body="Gabi &#8212;
+
+Yes, I will be in Austin and I would like to come. The 28th at 8:30 is open on my end.
+
+Apologies for the slow reply &#8212; the last stretch has been unusually full.
+
+Count me in, and send over anything you would like attendees to prepare beforehand.
+
+Bodhi">Draft the yes</button>
+            <button class="act-open" data-url="https://mail.google.com/mail/u/0/#inbox">Open in Gmail</button>
+          </div>
+          <div class="propmsg"></div>
+        </div>
+
+        <div class="mail">
+          <div class="from">AC3 Performance <span class="pill quiet">4 days</span></div>
+          <div class="subj">&ldquo;Re: Investor Memo&rdquo; &mdash; Aug 17 &middot; updated deck, still unread</div>
+          <p class="why">He revised the deck on feedback you gave and asked for time. Four days of silence after someone acts on your notes is how that relationship quietly ends. Next week is genuinely clearer, so the draft offers real windows.</p>
+          <div class="acts">
+            <button class="primary act-draft"
+              data-to='["vf@ac3performance.com"]'
+              data-reply="1a01062d755f4ff6"
+              data-subject="RE: Investor Memo"
+              data-body="Hey &#8212;
+
+Thanks for turning the deck around on that feedback, and apologies for the slow reply &#8212; we had two days of in-person roadmap planning that ate the week.
+
+Happy to give you proper thoughts rather than something rushed. Next week is much clearer on my side. Would Tuesday or Wednesday afternoon work for half an hour?
+
+Send a couple of windows that suit you and I will make one work.
+
+Bodhi">Draft this reply</button>
+            <button class="act-open" data-url="https://mail.google.com/mail/u/0/#inbox">Open in Gmail</button>
+          </div>
+          <div class="propmsg"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <section>
+      <div class="sechead"><h2>Worth a look, not a reply</h2></div>
+      <div class="flag good">
+        <h3><span class="pill good">Three in</span> Sustainable Ambition applications are arriving</h3>
+        <p>Connor has forwarded three completed applications since Tuesday &mdash; <b>Alex Poscente</b> (Aug 18), <b>Michael Hasegawa</b> (Aug 21) and <b>Louison Dumont</b> (Aug 21). Taylor is watching the thread and replied yesterday. No reply needed from you, but this is the cohort filling up, and it's worth reading them before Monday's workshop &mdash; the same audience is in the room.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="sechead"><h2>Stale draft</h2></div>
+      <div class="flag warn">
+        <h3><span class="pill warn">170 days</span> The Laura Mathwig draft still stops mid-sentence</h3>
+        <p>Written Mar 4 to Laura Mathwig at SpectrumVoIP. The body, in full: <i>&ldquo;Hey Laura, We are planning to doing a webinar and was wondering if I could&rdquo;</i> &mdash; and then it ends.</p>
+        <p>Unchanged since Wednesday and two days older. It pairs naturally with <b>v2-reengage</b> &mdash; fold it into that campaign as a warm re-open, or delete it. It is not going to finish itself.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="sechead"><h2>Noted, no action</h2></div>
+      <div class="card"><ul class="fyi">
+        <li><b>Sentry</b> &mdash; replays at 80% of the monthly reserved budget. Worth knowing before it bills over, not worth doing anything about today.</li>
+        <li><b>Twilio</b> &mdash; account auto-recharged. <b>OpenAI</b> &mdash; credit top-up. <b>Eleven Labs</b> &mdash; receipt.</li>
+        <li><b>Linear</b> &mdash; GraysonA on SPE-101 (Jupiter vs Juniper voice naming), plus unread notifications.</li>
+        <li><b>Langfuse</b> &mdash; v4 migration required by Nov 16. Real, but not this month.</li>
+        <li><b>Newsletters</b> &mdash; Kilo, AINews, Krisp, art-of-sell. Nothing needing you.</li>
+      </ul></div>
+    </section>
+  </div>
+
+  </div><!-- /panels -->
+
+  <div class="copilot">
+    <h2>Co-pilot</h2>
+    <p class="lede">Buttons on this page act through your own connected accounts, with a confirmation on each call.</p>
+    <div class="bridge" id="bridge">
+      <span class="dot" id="bdot"></span><b id="bstate">Checking connectors&hellip;</b>
+      <div id="bdetail" style="margin-top:5px">Looking for the connector bridge in this view.</div>
+      <div class="toolgrid" id="btools"></div>
+    </div>
+    <div class="qa">
+      <button id="recheck">Re-check connectors</button>
+      <button class="act-open" data-url="https://calendar.google.com/">Open Google Calendar</button>
+      <button class="act-open" data-url="https://mail.google.com/mail/u/0/#inbox">Open Gmail</button>
+    </div>
+  </div>
+
+  <div class="savebar" id="savebar">
+    <div class="inner">
+      <div class="what"><span id="savecount">No changes</span>
+        <small id="savehint">Saving writes them into this page so the next refresh reads them.</small></div>
+      <div class="acts">
+        <button class="undo" id="savediscard">Discard</button>
+        <button class="go" id="savego">Save reactions</button>
+      </div>
+    </div>
+  </div>
+
+  <script id="cc-state" type="application/json">__CC_STATE__</script>
+
+  <p style="font-size:11.5px;color:var(--ink-3);margin-top:20px;line-height:1.7">
+    Compiled 4:45 PM CT, Fri Aug 21 2026, from Google Calendar (Aug 21&ndash;31), Gmail (inbox and drafts) and Granola (Aug 7&ndash;21).
+    Four tasks closed since the Aug 19 brief; task ids and <i>seen</i> dates carry forward so ages stay honest.
+    <b>Refresh data</b> re-reads your calendar and inbox live; the written analysis is rewritten by Claude, not by the button.
+  </p>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var TZ = "America/Chicago";
+  var bdot = document.getElementById("bdot");
+  var bstate = document.getElementById("bstate");
+  var bdetail = document.getElementById("bdetail");
+  var btools = document.getElementById("btools");
+  var mcp = null;
+
+  function setBridge(cls, state, detail) {
+    bdot.className = "dot " + (cls || "");
+    bstate.textContent = state;
+    bdetail.innerHTML = detail;
+  }
+
+  function msgEl(node) {
+    return node.querySelector(".propmsg");
+  }
+
+  function say(node, kind, text) {
+    var m = msgEl(node);
+    if (!m) return;
+    m.className = "propmsg on " + kind;
+    m.textContent = text;
+  }
+
+  // Map an McpError code to copy that names the actual fix.
+  function explain(err) {
+    var code = (err && err.code) || "upstream_error";
+    var server = (err && err.server) || "the connector";
+    switch (code) {
+      case "needs_reauth":
+        return "Reconnect " + server + " in claude.ai Settings → Connectors, then try again.";
+      case "server_not_connected":
+        return "Add " + server + " in claude.ai Settings → Connectors.";
+      case "selection_required":
+        return "You have more than one " + server + " connector. Choose one when prompted, then try again.";
+      case "not_in_manifest":
+        return "This page is not permitted to call that tool.";
+      case "blocked_by_policy":
+        return "Your organisation's policy blocks this tool.";
+      case "approval_required":
+        return "This tool needs per-call approval, which artifacts cannot request yet.";
+      case "server_unavailable":
+        return "The connector did not answer. It may still have worked — check before retrying.";
+      case "cancelled":
+        return "Cancelled. The outcome is unknown — check your calendar before retrying.";
+      case "rate_limited":
+        return "Too many calls just now. Wait a moment and try again.";
+      case "tool_error":
+        return "The connector rejected it: " + ((err && err.message) || "no reason given");
+      case "not_granted":
+      case "capability_disabled":
+      case "capability_removed":
+        return "Connector actions are not available in this view.";
+      default:
+        return (err && err.message) || "That did not go through.";
+    }
+  }
+
+  // ---- actions -------------------------------------------------------
+  function wireAdd(node) {
+    var btn = node.querySelector(".act-add");
+    var rej = node.querySelector(".act-rej");
+    if (rej) {
+      rej.addEventListener("click", function () {
+        node.setAttribute("data-state", "rejected");
+        if (btn) btn.disabled = true;
+        rej.disabled = true;
+        say(node, "", "Rejected — it will not be proposed again.");
+      });
+    }
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      if (!mcp) {
+        say(node, "err", "Connector actions are not available in this view.");
+        return;
+      }
+      btn.disabled = true;
+      say(node, "", "Adding…");
+      mcp.callTool("Google Calendar", "create_event", {
+        summary: node.getAttribute("data-summary"),
+        startTime: node.getAttribute("data-start"),
+        endTime: node.getAttribute("data-end"),
+        timeZone: TZ,
+        description: node.getAttribute("data-desc") || ""
+      }).then(function (res) {
+        var ev = (res && res.payload) || {};
+        node.setAttribute("data-state", "added");
+        if (rej) rej.disabled = true;
+        btn.textContent = "Added";
+        var m = msgEl(node);
+        m.className = "propmsg on ok";
+        m.textContent = "Added to your calendar. ";
+        if (ev.htmlLink) {
+          var a = document.createElement("a");
+          a.href = ev.htmlLink;
+          a.target = "_blank";
+          a.rel = "noopener";
+          a.textContent = "Open the event";
+          m.appendChild(a);
+        }
+      }).catch(function (err) {
+        btn.disabled = false;
+        say(node, "err", explain(err));
+      });
+    });
+  }
+
+  function wireDraft(btn) {
+    btn.addEventListener("click", function () {
+      var card = btn.closest(".mail");
+      if (!mcp) {
+        say(card, "err", "Connector actions are not available in this view.");
+        return;
+      }
+      var to, cc;
+      try { to = JSON.parse(btn.getAttribute("data-to") || "[]"); } catch (e) { to = []; }
+      try { cc = JSON.parse(btn.getAttribute("data-cc") || "[]"); } catch (e) { cc = []; }
+      btn.disabled = true;
+      say(card, "", "Writing the draft…");
+      var input = {
+        to: to,
+        subject: btn.getAttribute("data-subject") || "",
+        body: btn.getAttribute("data-body") || ""
+      };
+      if (cc.length) input.cc = cc;
+      var rid = btn.getAttribute("data-reply");
+      if (rid) input.replyToMessageId = rid;
+
+      mcp.callTool("Gmail", "create_draft", input).then(function () {
+        btn.textContent = "Draft saved";
+        say(card, "ok", "Saved to your Gmail drafts. Read it before you send — nothing was sent.");
+      }).catch(function (err) {
+        btn.disabled = false;
+        say(card, "err", explain(err));
+      });
+    });
+  }
+
+  // ---- boot ----------------------------------------------------------
+  function renderTools(list) {
+    if (!list || !list.servers || !list.servers.length) {
+      btools.innerHTML = "";
+      return;
+    }
+    var out = list.servers.map(function (s) {
+      var names = (s.tools || []).map(function (t) { return t.name; });
+      var status = s.authStatus === "connected" ? "" :
+        " — " + (s.authStatus === "needs_reauth" ? "needs reconnecting" : "status unknown");
+      return "<div><b>" + s.server + "</b>" + status + "<br>" +
+        (names.length
+          ? names.map(function (n) { return "<code>" + n + "</code>"; }).join(" ")
+          : "<i>no tools reachable</i>") + "</div>";
+    }).join("");
+    btools.innerHTML = out;
+  }
+
+  function boot() {
+    setBridge("", "Checking connectors…", "Looking for the connector bridge in this view.");
+    btools.innerHTML = "";
+
+    if (!window.claude || typeof window.claude.use !== "function") {
+      setBridge("bad", "No connector bridge in this view",
+        "This looks like a static preview. The brief above is complete and accurate — only the buttons are inert. Open the artifact from claude.ai to enable them.");
+      return;
+    }
+
+    window.claude.use("mcp").then(function (ns) {
+      mcp = ns;
+      if (!mcp) {
+        setBridge("bad", "Connector actions unavailable",
+          "This view cannot run connector calls, so the buttons will not work here. Everything above is still current as of 3:45 PM.");
+        return;
+      }
+      setBridge("warn", "Bridge found — checking what is reachable", "Asking which connectors answer for you.");
+      return mcp.listTools().then(function (list) {
+        var servers = (list && list.servers) || [];
+        var live = servers.filter(function (s) { return (s.tools || []).length; });
+        if (!live.length) {
+          setBridge("warn", "Bridge found, no connectors answering",
+            "Add Google Calendar, Gmail and Granola in claude.ai Settings → Connectors, then re-check.");
+        } else {
+          setBridge("ok", "Connected — " + live.length + " of " + servers.length + " ready",
+            "Buttons will act through your own accounts. Each call asks you first, and nothing sends email on its own.");
+          refreshBtn.disabled = false;
+        }
+        renderTools(list);
+      }).catch(function (err) {
+        setBridge("warn", "Bridge found, could not list connectors", explain(err));
+      });
+    }).catch(function (err) {
+      setBridge("bad", "Connector check failed", explain(err));
+    });
+  }
+
+  // ---- live refresh ---------------------------------------------------
+  // Claude compiled the brief at this moment; the delta is always measured
+  // from here, so the case for a full re-analysis grows visibly over time.
+  var BASELINE = "2026-08-21T16:45:00-05:00";
+  var BASELINE_MS = new Date(BASELINE).getTime();
+
+  var refreshBtn = document.getElementById("refresh");
+  var deltaBox = document.getElementById("delta");
+  var deltaTitle = document.getElementById("deltatitle");
+  var deltaStamp = document.getElementById("deltastamp");
+  var deltaBody = document.getElementById("deltabody");
+
+  var fmtTime = new Intl.DateTimeFormat("en-US",
+    { timeZone: TZ, hour: "numeric", minute: "2-digit" });
+  var fmtDay = new Intl.DateTimeFormat("en-US",
+    { timeZone: TZ, weekday: "short" });
+  var fmtDate = new Intl.DateTimeFormat("en-US",
+    { timeZone: TZ, month: "short", day: "numeric" });
+  var keyOf = new Intl.DateTimeFormat("en-CA",
+    { timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit" });
+
+  function esc(t) {
+    return String(t == null ? "" : t)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  // Meeting-room calendars mirror real events; counting them inflates every total.
+  function classify(summary) {
+    var t = summary || "";
+    if (/Meeting Room|Huddle Room/i.test(t)) return null;
+    if (/Stretch|Journaling|Doggy|Lift|Recover|Shower|Birthday|Day Up|Recovery/i.test(t)) return "p";
+    if (/Deep Work|Reserved|Transition/i.test(t)) return "f";
+    return "m";
+  }
+
+  function timedEvents(list) {
+    return (list || []).filter(function (e) {
+      return e && e.start && e.start.dateTime && e.end && e.end.dateTime &&
+        e.status !== "cancelled";
+    });
+  }
+
+  function redrawChart(events) {
+    var plot = document.getElementById("plot");
+    var xaxis = document.getElementById("xaxis");
+    if (!plot || !xaxis) return;
+
+    var days = [], i, d = new Date();
+    for (i = 0; i < 7; i++) {
+      days.push({ key: keyOf.format(d), when: new Date(d), m: 0, f: 0, p: 0 });
+      d = new Date(d.getTime() + 86400000);
+    }
+    var index = {};
+    days.forEach(function (x) { index[x.key] = x; });
+
+    timedEvents(events).forEach(function (e) {
+      var bucket = index[keyOf.format(new Date(e.start.dateTime))];
+      if (!bucket) return;
+      var kind = classify(e.summary);
+      if (!kind) return;
+      var hrs = (new Date(e.end.dateTime) - new Date(e.start.dateTime)) / 3600000;
+      if (hrs > 0 && hrs < 24) bucket[kind] += hrs;
+    });
+
+    var peak = 0;
+    days.forEach(function (x) { peak = Math.max(peak, x.m + x.f + x.p); });
+    var scale = Math.max(14, Math.ceil(peak));
+
+    plot.innerHTML = '<div class="cap8" style="bottom:' + (800 / scale).toFixed(2) +
+      '%"><span>8h sustainable load</span></div>' +
+      days.map(function (x) {
+        var total = x.m + x.f + x.p;
+        var pct = function (v) { return (v / scale * 100).toFixed(2); };
+        var seg = function (cls, v) {
+          return v > 0 ? '<div class="seg ' + cls + '" style="height:' + pct(v) + '%"></div>' : "";
+        };
+        return '<div class="bar live"><div class="tot" style="bottom:calc(' +
+          pct(total) + '% + 6px)">' +
+          (Math.round(total * 100) / 100) + "</div>" +
+          seg("m", x.m) + seg("f", x.f) + seg("p", x.p) + "</div>";
+      }).join("");
+
+    xaxis.innerHTML = days.map(function (x) {
+      return "<div><b>" + fmtDay.format(x.when) + "</b>" +
+        fmtDate.format(x.when).replace(/^\D+/, "") + "</div>";
+    }).join("");
+
+    var wn = document.getElementById("weeknote");
+    if (wn) {
+      wn.textContent = fmtDate.format(days[0].when) + " – " +
+        fmtDate.format(days[6].when) + " · live · meeting-room duplicates excluded";
+    }
+  }
+
+  function redrawToday(events) {
+    var box = document.getElementById("todaysched");
+    if (!box) return;
+    var todayKey = keyOf.format(new Date());
+    var now = Date.now();
+
+    var mine = timedEvents(events).filter(function (e) {
+      return keyOf.format(new Date(e.start.dateTime)) === todayKey &&
+        !/Meeting Room|Huddle Room/i.test(e.summary || "");
+    }).sort(function (a, b) {
+      return new Date(a.start.dateTime) - new Date(b.start.dateTime);
+    });
+
+    var rows = mine.map(function (e) {
+      var st = new Date(e.start.dateTime), en = new Date(e.end.dateTime);
+      return '<div class="slot' + (en.getTime() < now ? " past" : "") + '">' +
+        '<div class="t">' + fmtTime.format(st) + " – " + fmtTime.format(en) + "</div>" +
+        '<div class="w">' + esc(e.summary || "Untitled") + "</div></div>";
+    });
+
+    var last = mine.length ? new Date(mine[mine.length - 1].end.dateTime) : null;
+    if (!last || last.getTime() <= now) {
+      rows.push('<div class="slot free"><div class="t">Now &rarr;</div>' +
+        '<div class="w">Nothing else scheduled today</div></div>');
+    } else {
+      rows.push('<div class="slot free"><div class="t">' + fmtTime.format(last) +
+        ' &rarr;</div><div class="w">Open after your last commitment</div></div>');
+    }
+
+    box.innerHTML = rows.join("");
+    var tn = document.getElementById("todaynote");
+    if (tn) tn.textContent = "Live from your calendar";
+  }
+
+  function reportDelta(events, threads) {
+    var items = [];
+
+    timedEvents(events).forEach(function (e) {
+      var made = e.created ? new Date(e.created).getTime() : 0;
+      if (made > BASELINE_MS) {
+        items.push("<li><span class=\"who\">New event</span> — " + esc(e.summary) +
+          ", " + fmtDate.format(new Date(e.start.dateTime)) + " " +
+          fmtTime.format(new Date(e.start.dateTime)) + "</li>");
+      }
+    });
+
+    (threads || []).forEach(function (t) {
+      var fresh = (t.messages || []).filter(function (m) {
+        return m.date && new Date(m.date).getTime() > BASELINE_MS &&
+          (m.labelIds || []).indexOf("SENT") === -1;
+      });
+      if (!fresh.length) return;
+      var m = fresh[fresh.length - 1];
+      items.push("<li><span class=\"who\">" + esc(m.sender || "Unknown") + "</span> — " +
+        esc(m.subject || t.snippet || "(no subject)") + "</li>");
+    });
+
+    deltaBox.classList.add("on");
+    deltaStamp.textContent = "checked " + fmtTime.format(new Date());
+
+    if (!items.length) {
+      deltaBox.className = "deltabox on quiet";
+      deltaTitle.textContent = "Nothing new since Claude compiled this brief";
+      deltaBody.innerHTML = '<p>Calendar and inbox match what is written below. ' +
+        'The analysis is still current.</p>';
+      return;
+    }
+
+    deltaBox.className = "deltabox on" + (items.length > 4 ? " bad" : "");
+    deltaTitle.textContent = items.length + (items.length === 1 ? " change" : " changes") +
+      " since this brief was compiled";
+    deltaBody.innerHTML = "<ul>" + items.slice(0, 12).join("") + "</ul>" +
+      (items.length > 12 ? "<p class=\"stale\">and " + (items.length - 12) + " more.</p>" : "") +
+      '<p class="stale">The schedule and week chart above are now live. ' +
+      'Priorities, flags and drafts below were written at 3:45 PM and do not update themselves — ' +
+      'ask Claude for a full refresh to have those rewritten.</p>';
+  }
+
+  function refresh() {
+    if (!mcp) return;
+    refreshBtn.disabled = true;
+    var original = refreshBtn.textContent;
+    refreshBtn.textContent = "Refreshing…";
+    deltaBox.className = "deltabox on";
+    deltaTitle.textContent = "Reading your calendar and inbox…";
+    deltaStamp.textContent = "";
+    deltaBody.innerHTML = "";
+
+    var from = new Date();
+    var to = new Date(from.getTime() + 10 * 86400000);
+
+    var cal = mcp.callTool("Google Calendar", "list_events", {
+      startTime: from.toISOString(),
+      endTime: to.toISOString(),
+      orderBy: "startTime",
+      pageSize: 100,
+      timeZone: TZ
+    }, { cache: { refresh: true } });
+
+    var mail = mcp.callTool("Gmail", "search_threads", {
+      query: "in:inbox newer_than:10d -category:promotions -category:social",
+      pageSize: 40
+    }, { cache: { refresh: true } });
+
+    // Each half is allowed to fail on its own; one dead connector must not
+    // blank the other's section.
+    Promise.all([
+      cal.then(function (r) { return { ok: true, v: r }; },
+               function (e) { return { ok: false, e: e }; }),
+      mail.then(function (r) { return { ok: true, v: r }; },
+                function (e) { return { ok: false, e: e }; })
+    ]).then(function (out) {
+      var calRes = out[0], mailRes = out[1];
+      var events = [], threads = [], problems = [];
+
+      if (calRes.ok) {
+        var pc = (calRes.v && calRes.v.payload) || {};
+        events = pc.events || [];
+        redrawChart(events);
+        redrawToday(events);
+      } else {
+        problems.push("Calendar: " + explain(calRes.e));
+      }
+
+      if (mailRes.ok) {
+        var pm = (mailRes.v && mailRes.v.payload) || {};
+        threads = pm.threads || [];
+      } else {
+        problems.push("Gmail: " + explain(mailRes.e));
+      }
+
+      if (problems.length === 2) {
+        deltaBox.className = "deltabox on bad";
+        deltaTitle.textContent = "Could not refresh";
+        deltaBody.innerHTML = "<ul><li>" + problems.map(esc).join("</li><li>") + "</li></ul>";
+      } else {
+        reportDelta(events, threads);
+        if (problems.length) {
+          deltaBody.innerHTML += '<p class="stale">' + esc(problems[0]) + "</p>";
+        }
+      }
+    }).then(null, function (err) {
+      deltaBox.className = "deltabox on bad";
+      deltaTitle.textContent = "Could not refresh";
+      deltaBody.innerHTML = "<p>" + esc(explain(err)) + "</p>";
+    }).then(function () {
+      refreshBtn.disabled = false;
+      refreshBtn.textContent = original;
+    });
+  }
+
+  refreshBtn.addEventListener("click", refresh);
+
+  // wire everything up front so the page works the moment the bridge lands
+  Array.prototype.forEach.call(document.querySelectorAll(".prop"), wireAdd);
+  Array.prototype.forEach.call(document.querySelectorAll(".act-draft"), wireDraft);
+  Array.prototype.forEach.call(document.querySelectorAll(".act-open"), function (b) {
+    b.addEventListener("click", function () {
+      window.open(b.getAttribute("data-url"), "_blank", "noopener");
+    });
+  });
+  document.getElementById("recheck").addEventListener("click", boot);
+
+  boot();
+})();
+</script>
+<script>
+/* Reaction layer — Bodhi's decisions persist by publishing this page as a new
+   version of itself. publish() reloads every open view, so changes are batched
+   behind one explicit Save rather than written per click. */
+(function () {
+  "use strict";
+
+  var STASH = "cc-unsaved-v1";
+  var PAGE_TEMPLATE = __CC_TEMPLATE__;
+
+  /* Escapes angle brackets so a value can sit inside a script element
+     without terminating it. Must match the build script's version. */
+  function j(v) {
+    return JSON.stringify(v)
+      .replace(/</g, "\\u003c").replace(/>/g, "\\u003e")
+      .replace(/\u2028/g, "\\u2028").replace(/\u2029/g, "\\u2029");
+  }
+
+  function emptyState() {
+    return { v: 1, updated: null, proposals: {}, tasks: {}, notes: {} };
+  }
+
+  function readBaked() {
+    var el = document.getElementById("cc-state");
+    if (!el) return emptyState();
+    try {
+      var o = JSON.parse(el.textContent || "{}");
+      return {
+        v: 1,
+        updated: o.updated || null,
+        proposals: o.proposals || {},
+        tasks: o.tasks || {},
+        notes: o.notes || {}
+      };
+    } catch (e) { return emptyState(); }
+  }
+
+  var baked = readBaked();
+  var state = JSON.parse(JSON.stringify(baked));
+  var dirty = false;
+  var readOnly = false;
+
+  // A stash newer than what is baked into the page means a previous save was
+  // interrupted (a conflict reload, or a closed tab). Restore it.
+  try {
+    var raw = sessionStorage.getItem(STASH);
+    if (raw) {
+      var st = JSON.parse(raw);
+      if (st && st.updated && (!baked.updated || st.updated > baked.updated)) {
+        state = st.state; dirty = true;
+      } else {
+        sessionStorage.removeItem(STASH);
+      }
+    }
+  } catch (e) { /* private window, or storage blocked */ }
+
+  /* If a refresh rewrote this page's content but reused an older embedded
+     template, saving would silently revert the page to that older content.
+     The build stamp appears in the template only when the two match, so a
+     mismatch disables saving loudly instead of destroying a refresh. */
+  var wrapEl = document.querySelector(".wrap");
+  var buildId = wrapEl ? wrapEl.getAttribute("data-build") : null;
+  var templateStale = !buildId || PAGE_TEMPLATE.indexOf(buildId) === -1;
+
+  var bar = document.getElementById("savebar");
+  var countEl = document.getElementById("savecount");
+  var hintEl = document.getElementById("savehint");
+  var goBtn = document.getElementById("savego");
+  var discardBtn = document.getElementById("savediscard");
+  var savedBox = document.getElementById("savedbox");
+  var savedList = document.getElementById("savedlist");
+
+  var LABEL = {
+    done: "done", blocked: "blocked", waiting: "waiting on someone",
+    dropped: "not a priority", rejected: "rejected", deferred: "deferred",
+    unclear: "unclear next step", "not-priority": "not a priority", "no-time": "no time"
+  };
+
+  function countChanges() {
+    var n = 0, k;
+    for (k in state.proposals) if (state.proposals[k]) n++;
+    for (k in state.tasks) if (state.tasks[k]) n++;
+    for (k in state.notes) if ((state.notes[k] || "").trim()) n++;
+    return n;
+  }
+
+  function changedSinceBaked() {
+    return JSON.stringify(state) !== JSON.stringify(baked);
+  }
+
+  function stash() {
+    try {
+      sessionStorage.setItem(STASH, JSON.stringify({
+        updated: new Date().toISOString(), state: state
+      }));
+    } catch (e) { /* nothing we can do; the Save button still works */ }
+  }
+
+  function paint() {
+    // buttons
+    Array.prototype.forEach.call(document.querySelectorAll(".rbtn"), function (b) {
+      var kind = b.getAttribute("data-react");
+      var id = b.getAttribute("data-id");
+      var val = b.getAttribute("data-v");
+      var cur = kind === "prop" ? state.proposals[id]
+              : kind === "task" ? state.tasks[id]
+              : state.notes.checkinChoice;
+      b.setAttribute("aria-pressed", cur === val ? "true" : "false");
+    });
+    // rows and proposal cards
+    Array.prototype.forEach.call(document.querySelectorAll("[data-react-task]"), function (tr) {
+      tr.setAttribute("data-state", state.tasks[tr.getAttribute("data-react-task")] || "");
+    });
+    Array.prototype.forEach.call(document.querySelectorAll(".prop"), function (p) {
+      var v = state.proposals[p.getAttribute("data-id")];
+      if (v && p.getAttribute("data-state") !== "added") p.setAttribute("data-state", v);
+    });
+    // notes
+    Array.prototype.forEach.call(document.querySelectorAll("[data-note]"), function (t) {
+      var v = state.notes[t.getAttribute("data-note")] || "";
+      if (t.value !== v) t.value = v;
+    });
+
+    dirty = changedSinceBaked();
+    var n = countChanges();
+    bar.classList.toggle("on", dirty && !readOnly && !templateStale);
+    countEl.textContent = n === 1 ? "1 reaction to save" : n + " reactions to save";
+
+    // saved summary
+    var items = [], k;
+    for (k in baked.proposals) items.push("<li>Proposal <b>" + k + "</b> &mdash; " + (LABEL[baked.proposals[k]] || baked.proposals[k]) + "</li>");
+    for (k in baked.tasks) items.push("<li><b>" + k + "</b> &mdash; " + (LABEL[baked.tasks[k]] || baked.tasks[k]) + "</li>");
+    if ((baked.notes.checkinChoice || "").length) items.push("<li>Check-in answer &mdash; <b>" + (LABEL[baked.notes.checkinChoice] || baked.notes.checkinChoice) + "</b></li>");
+    if ((baked.notes.checkin || "").trim()) items.push("<li>Note on the check-in</li>");
+    if ((baked.notes.week || "").trim()) items.push("<li>Note on the week</li>");
+    if (items.length) {
+      savedList.innerHTML = items.join("");
+      savedBox.classList.add("on");
+    } else {
+      savedBox.classList.remove("on");
+    }
+  }
+
+  function set(kind, id, val) {
+    if (readOnly || templateStale) return;
+    if (kind === "prop") {
+      state.proposals[id] = state.proposals[id] === val ? undefined : val;
+      if (!state.proposals[id]) delete state.proposals[id];
+    } else if (kind === "task") {
+      state.tasks[id] = state.tasks[id] === val ? undefined : val;
+      if (!state.tasks[id]) delete state.tasks[id];
+    } else {
+      state.notes.checkinChoice = state.notes.checkinChoice === val ? undefined : val;
+      if (!state.notes.checkinChoice) delete state.notes.checkinChoice;
+    }
+    stash(); paint();
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll(".rbtn"), function (b) {
+    b.addEventListener("click", function () {
+      set(b.getAttribute("data-react"), b.getAttribute("data-id"), b.getAttribute("data-v"));
+    });
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll("[data-note]"), function (t) {
+    t.addEventListener("input", function () {
+      if (readOnly) return;
+      // guard the template placeholders against being typed into the page
+      state.notes[t.getAttribute("data-note")] = t.value.replace(/__CC_(STATE|TEMPLATE)__/g, "");
+      stash();
+      dirty = changedSinceBaked();
+      bar.classList.toggle("on", dirty);
+      var n = countChanges();
+      countEl.textContent = n === 1 ? "1 reaction to save" : n + " reactions to save";
+    });
+  });
+
+  discardBtn.addEventListener("click", function () {
+    state = JSON.parse(JSON.stringify(baked));
+    try { sessionStorage.removeItem(STASH); } catch (e) {}
+    paint();
+  });
+
+  function explainArtifact(err) {
+    switch ((err && err.code) || "upstream_error") {
+      case "conflict":
+        return "This page was updated elsewhere while you were reading. Reloading to the newer version — your reactions are kept and can be saved again.";
+      case "not_writer":
+      case "not_granted":
+      case "consent_required":
+        return "This view is read-only, so reactions cannot be saved from here.";
+      case "not_declared":
+        return "Saving is not enabled on this version of the page.";
+      case "too_large":
+        return "The page is too large to save. Trim the notes and try again.";
+      case "rate_limited":
+        return "Saving too often. Wait a moment, then save again.";
+      case "invalid_content":
+      case "transform_error":
+        return "The page could not be rebuilt for saving. Nothing was changed.";
+      default:
+        return (err && err.message) || "That did not save.";
+    }
+  }
+
+  function goReadOnly(msg) {
+    readOnly = true;
+    bar.classList.remove("on");
+    if (hintEl) hintEl.textContent = msg;
+  }
+
+  goBtn.addEventListener("click", function () {
+    if (readOnly) return;
+    goBtn.disabled = true;
+    discardBtn.disabled = true;
+    var original = goBtn.textContent;
+    goBtn.textContent = "Saving…";
+
+    state.updated = new Date().toISOString();
+    stash(); // survives the reload that follows a successful publish
+
+    // Built by concatenation so these tokens appear exactly once in the
+    // page — as the real placeholders. A literal here would be substituted
+    // during the rebuild and corrupt the next version.
+    var tState = "__CC" + "_STATE__", tTemplate = "__CC" + "_TEMPLATE__";
+    var html = PAGE_TEMPLATE
+      .replace(tState, function () { return j(state); })
+      .replace(tTemplate, function () { return j(PAGE_TEMPLATE); });
+
+    (window.claude && typeof window.claude.use === "function"
+      ? window.claude.use("artifact")
+      : Promise.resolve(null)
+    ).then(function (ns) {
+      if (!ns) {
+        goReadOnly("Saving is not available in this view. Open the artifact from claude.ai.");
+        throw { code: "not_granted" };
+      }
+      return ns.publish(html);
+    }).then(function () {
+      // The shell reloads this view to the new version; nothing more to do.
+      goBtn.textContent = "Saved";
+    }).catch(function (err) {
+      var code = (err && err.code) || "upstream_error";
+      if (code === "not_writer" || code === "not_granted" ||
+          code === "not_declared" || code === "consent_required") {
+        goReadOnly(explainArtifact(err));
+      } else {
+        hintEl.textContent = explainArtifact(err);
+      }
+      goBtn.disabled = false;
+      discardBtn.disabled = false;
+      goBtn.textContent = original;
+    });
+  });
+
+  if (templateStale) {
+    goReadOnly("Saving is disabled: this page was refreshed without rebuilding its " +
+      "save template, so saving would undo the refresh. Ask Claude to republish it.");
+  }
+
+  paint();
+})();
+</script>
