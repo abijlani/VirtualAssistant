@@ -296,7 +296,7 @@
   }
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
-<div class="wrap" data-build="2026-08-24T13:10:00-05:00">
+<div class="wrap" data-build="2026-08-24T15:13:00-05:00">
 
   <div class="mast">
     <div>
@@ -305,7 +305,7 @@
       <p class="sub">Workshop day. Everything before 3 PM funnels into being ready at 3 PM &mdash; and two people are waiting on replies you can send before then.</p>
     </div>
     <div class="stamp">
-      <div><b>Brief compiled</b> 11:05 AM &middot; data checked 1:10 PM CT</div>
+      <div><b>Brief compiled</b> 11:05 AM &middot; data checked 3:13 PM CT</div>
       <div>Calendar &middot; Gmail &middot; Granola</div>
       <div><b>30</b> tracked tasks &middot; <b>3</b> proposals</div>
       <div style="margin-top:9px"><button id="refresh" class="primary" disabled>Refresh data</button></div>
@@ -385,7 +385,7 @@
         <div class="slot past"><div class="t">8:00 &ndash; 8:45</div><div class="w">Weekly Product Sync<small>Eelco, Junior</small></div></div>
         <div class="slot past"><div class="t">10:00 &ndash; 2:00</div><div class="w">Deep Work (Engineering)<small>Interrupted by Dan sync 12:00&ndash;12:30 &mdash; effectively 10&ndash;12 and 12:30&ndash;2</small></div></div>
         <div class="slot past"><div class="t">12:00 &ndash; 12:30</div><div class="w">Dan sync<small>Added since Friday, lands inside the deep block</small></div></div>
-        <div class="slot"><div class="t">2:00 &ndash; 3:00</div><div class="w">Final workshop prep<small>The Transition hour &mdash; slides run-through, QR check, staged demo order</small></div></div>
+        <div class="slot past"><div class="t">2:00 &ndash; 3:00</div><div class="w">Final workshop prep<small>The Transition hour &mdash; slides run-through, QR check, staged demo order</small></div></div>
         <div class="slot"><div class="t">3:00 &ndash; 5:00</div><div class="w">Build an AI Employee Workshop at Gevity<small>With Taylor &middot; the deliverable of the last two weeks</small></div></div>
         <div class="slot free"><div class="t">5:00 &rarr;</div><div class="w">Clear &mdash; nothing booked tonight<small>After Friday's 15.5 hours, keep it that way</small></div></div>
       </div>
@@ -431,6 +431,7 @@
         <div class="card">
           <h4 style="font-size:14px">Tue Aug 25 &middot; Izzy weekly check-in &middot; 10:00&ndash;10:30</h4>
           <p style="font-size:13px;color:var(--ink-2);margin-top:7px"><b>Bring:</b> the SMS alert test result and how Friday's In-Telecom call landed. <b>Ask:</b> Oracle Lighting &mdash; thirteen days stalled, is it yours or theirs? And do the Tennessee city-government demos have a date yet?</p>
+          <p style="font-size:13px;color:var(--serious);margin-top:6px"><b>Schedule change (3:13 PM):</b> the Weekly Product Sync moved to <b>7:00&ndash;7:45 AM tomorrow</b> and now overlaps Doggy Care 7:00&ndash;7:30. Walk the dog before 7 or join the sync from the sidewalk &mdash; one of them has to move.</p>
         </div>
         <div class="card">
           <h4 style="font-size:14px">Fri Aug 28 &middot; Gabi's outbound workshop &middot; 8:30&ndash;10:00 AM &middot; Chai House</h4>
@@ -453,8 +454,8 @@
           <div class="cap8" style="bottom:57.14%"><span>8h sustainable load</span></div>
           <div class="bar"><div class="tot" style="bottom:calc(66.07% + 6px)">9.25</div>
             <div class="seg m" style="height:23.21%"></div><div class="seg f" style="height:35.71%"></div><div class="seg p" style="height:7.14%"></div></div>
-          <div class="bar"><div class="tot" style="bottom:calc(51.79% + 6px)">7.25</div>
-            <div class="seg m" style="height:3.57%"></div><div class="seg f" style="height:35.71%"></div><div class="seg p" style="height:12.5%"></div></div>
+          <div class="bar"><div class="tot" style="bottom:calc(57.14% + 6px)">8.0</div>
+            <div class="seg m" style="height:8.93%"></div><div class="seg f" style="height:35.71%"></div><div class="seg p" style="height:12.5%"></div></div>
           <div class="bar"><div class="tot" style="bottom:calc(58.93% + 6px)">8.25</div>
             <div class="seg m" style="height:7.14%"></div><div class="seg f" style="height:35.71%"></div><div class="seg p" style="height:16.07%"></div></div>
           <div class="bar"><div class="tot" style="bottom:calc(57.14% + 6px)">8.0</div>
@@ -1003,7 +1004,7 @@ Bodhi">Draft this reply</button>
   // ---- live refresh ---------------------------------------------------
   // Claude compiled the brief at this moment; the delta is always measured
   // from here, so the case for a full re-analysis grows visibly over time.
-  var BASELINE = "2026-08-24T13:10:00-05:00";
+  var BASELINE = "2026-08-24T15:13:00-05:00";
   var BASELINE_MS = new Date(BASELINE).getTime();
 
   var refreshBtn = document.getElementById("refresh");
