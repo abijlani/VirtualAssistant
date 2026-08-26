@@ -296,7 +296,7 @@
   }
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
-<div class="wrap" data-build="2026-08-26T07:25:00-05:00">
+<div class="wrap" data-build="2026-08-26T10:16:00-05:00">
 
   <div class="mast">
     <div>
@@ -305,7 +305,7 @@
       <p class="sub">Lakeland's transfer failures are back &mdash; Daniel reported &ldquo;almost 50%&rdquo; at 7:15 this morning. The transcripts you've been carrying all week just became the most important thing on this page.</p>
     </div>
     <div class="stamp">
-      <div><b>Brief compiled</b> 7:25 AM CT</div>
+      <div><b>Brief compiled</b> 7:25 AM &middot; data checked 10:16 AM CT</div>
       <div>Calendar &middot; Gmail &middot; Granola</div>
       <div><b>28</b> tracked tasks &middot; <b>2</b> proposals</div>
       <div style="margin-top:9px"><button id="refresh" class="primary" disabled>Refresh data</button></div>
@@ -347,9 +347,9 @@
       <div class="stack">
 
         <div class="flag crit">
-          <h3><span class="pill crit">Regression</span> Lakeland's transfer failures are back &mdash; the migration didn't fix them</h3>
-          <p><b>Daniel Goodwin, 7:15 AM:</b> &ldquo;This is starting to affect all departments. Caller clearly said 'parts' 2 times&hellip; It's like the agent is not listening and then repeating itself. <b>Almost 50%</b>&hellip;&rdquo; This is the same failure mode as last week's escalation &mdash; and the infrastructure flip on the 21st was supposed to be the fix.</p>
-          <p><b>Two things today, in order.</b> First: reply to Daniel this morning &mdash; acknowledge, and commit to same-day analysis (draft ready in the Inbox tab). Second: <b>lk-analyze stops being a backlog item</b> &mdash; Jeff's transcripts plus today's new examples go under the microscope in your 11:00&ndash;3:00 engineering block. If the post-migration calls still show the failure, this is a deeper real-time-transcription problem and Jeff and Grayson need to know today, with data.</p>
+          <h3><span class="pill crit">Regression</span> Lakeland: churn threat in writing &mdash; findings owed to Daniel today</h3>
+          <p><b>The morning moved fast.</b> You replied at 9:18 (&ldquo;the models are exactly the same so this should not be happening&rdquo;). Daniel came back at 9:32: <b>&ldquo;We have to do something or move to someone else that we know was working.&rdquo;</b> That is an explicit churn threat, in writing, the second in eight days. You forwarded the thread to Junior at 10:12, and Randell sent ticket #292680 (&ldquo;IRIS issues&rdquo;) at 9:24 &mdash; you now have a ticket number, transcripts, and fresh examples.</p>
+          <p><b>The 11:00&ndash;3:00 block is now the whole game.</b> Root-cause with Junior, and get Daniel a same-day answer with specifics &mdash; what you found, what changes, and when he'll see the difference. &ldquo;The models are the same&rdquo; means the regression lives in something the migration <em>did</em> change: routing, the transcription path, or config. That's a findable bug.</p>
         </div>
 
         <div class="flag warn">
@@ -371,9 +371,9 @@
         <span class="note" id="todaynote">The 11&ndash;3 block is the Lakeland block now</span>
       </div>
       <div class="card sched" id="todaysched">
-        <div class="slot"><div class="t">8:15 &ndash; 9:00</div><div class="w">The Lift (Upper Body)</div></div>
-        <div class="slot"><div class="t">9:00 &ndash; 9:30</div><div class="w">Recover + Shower</div></div>
-        <div class="slot"><div class="t">9:30 &ndash; 10:30</div><div class="w">Sustainable Ambition</div></div>
+        <div class="slot past"><div class="t">8:15 &ndash; 9:00</div><div class="w">The Lift (Upper Body)</div></div>
+        <div class="slot past"><div class="t">9:00 &ndash; 9:30</div><div class="w">Recover + Shower</div></div>
+        <div class="slot past"><div class="t">9:30 &ndash; 10:30</div><div class="w">Sustainable Ambition</div></div>
         <div class="slot"><div class="t">11:00 &ndash; 3:00</div><div class="w">Deep Work (Project Engineering) &mdash; Lakeland transcripts first<small>Then iz-silence, v2-mcp, v2-ticket if the analysis leaves room</small></div></div>
         <div class="slot"><div class="t">3:00 &ndash; 4:00</div><div class="w">Transition, Talking, Triage<small>Reply to Jeff/Grayson with findings if not already sent</small></div></div>
         <div class="slot free"><div class="t">4:00 &rarr;</div><div class="w">Clear &mdash; nothing booked tonight</div></div>
@@ -387,8 +387,8 @@
       </div>
       <ol class="prio">
         <li><div>
-          <h4>Reply to Daniel, then put the transcripts under the microscope</h4>
-          <p class="why">&ldquo;Almost 50%&rdquo; across all departments, five days after the fix shipped. The holding reply goes out this morning; the analysis happens in the 11&ndash;3 block; Jeff and Grayson get findings today. A regression handled same-day reads very differently from last week's six-day silence.</p>
+          <h4>Root-cause the Lakeland failures and send findings today</h4>
+          <p class="why">Daniel put switching vendors in writing at 9:32. Your reply committed to digging in; the 11&ndash;3 block with Junior is where that promise gets kept. Ticket #292680, Jeff's transcripts, and this morning's examples are the dataset. Same-day specifics &mdash; cause, fix, timeline &mdash; are what keep this account.</p>
           <div class="meta"><span class="pill crit">Customer regression</span><span class="pill quiet">lk-reply2 &middot; lk-analyze</span></div>
         </div></li>
         <li><div>
@@ -576,7 +576,7 @@
       <div class="proj">
         <h3>Lakeland &amp; SpectrumVoIP <span class="rule"></span> <span class="pill crit">Regressed</span></h3>
         <div class="card"><table class="tasks">
-          <tr data-react-task="lk-reply2" data-state=""><td class="tid">lk-reply2</td><td>Reply to Daniel's regression report &mdash; acknowledge, commit to same-day analysis<div class="src">Gmail 7:15 AM &middot; &ldquo;almost 50%&hellip; all departments&rdquo; &middot; draft ready</div><div class="react"><button class="rbtn" data-react="task" data-id="lk-reply2" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="lk-reply2" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="lk-reply2" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="lk-reply2" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip due">This morning</span><span class="chip unb">New</span></td></tr>
+          <tr data-react-task="lk-reply2" data-state=""><td class="tid">lk-reply2</td><td>Replied to Daniel 9:18 &mdash; now owe him same-day findings; Daniel: &ldquo;or move to someone else&rdquo;<div class="src">Gmail &middot; ticket #292680 from Randell &middot; thread forwarded to Junior</div><div class="react"><button class="rbtn" data-react="task" data-id="lk-reply2" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="lk-reply2" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="lk-reply2" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="lk-reply2" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip due">Findings by EOD</span></td></tr>
           <tr data-react-task="lk-analyze" data-state=""><td class="tid">lk-analyze</td><td>Analyse Jeff's transcripts + today's examples &mdash; did the migration fix anything?<div class="src">Gmail Aug 18 &middot; now the go/no-go on whether this is a deeper real-time-transcription bug</div><div class="react"><button class="rbtn" data-react="task" data-id="lk-analyze" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="lk-analyze" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="lk-analyze" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="lk-analyze" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip due">Today 11&ndash;3</span><span class="chip old">8d</span></td></tr>
           <tr data-react-task="em-roadmap" data-state=""><td class="tid">em-roadmap</td><td>Read the combined roadmap brief<div class="src">Gmail Aug 22 &middot; Jake Leidy + Jeff Ogden</div><div class="react"><button class="rbtn" data-react="task" data-id="em-roadmap" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="em-roadmap" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="em-roadmap" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="em-roadmap" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip old">4d</span><span class="chip">Thu block</span></td></tr>
           <tr data-react-task="v2-video" data-state=""><td class="tid">v2-video</td><td>Shoot the Iris walkthrough &mdash; access, scope and Tella all ready<div class="src">Thursday's slot lost to the Taylor meeting &middot; Friday 9 AM proposed</div><div class="react"><button class="rbtn" data-react="task" data-id="v2-video" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="v2-video" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="v2-video" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="v2-video" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip">Fri proposal</span></td></tr>
@@ -656,28 +656,11 @@
       <div class="stack">
 
         <div class="mail">
-          <div class="from">Daniel Goodwin &middot; Lakeland Automall <span class="pill crit">Regression</span></div>
-          <div class="subj">&ldquo;RE: Daily Digest for Lakeland Automall&rdquo; &mdash; 7:15 AM &middot; cc Grayson, Jeff</div>
-          <p class="why">&ldquo;Almost 50%&rdquo; of calls failing across all departments, with a concrete example (caller said &ldquo;parts&rdquo; twice). The draft acknowledges without over-promising, commits to same-day transcript analysis, and keeps Jeff and Grayson in the loop. Send it before the gym; the analysis fills the 11&ndash;3 block.</p>
+          <div class="from">Daniel Goodwin &middot; Lakeland Automall <span class="pill crit">Churn threat</span></div>
+          <div class="subj">&ldquo;RE: Daily Digest for Lakeland Automall&rdquo; &mdash; live thread &middot; Daniel 9:32: churn threat &middot; cc Grayson, Jeff</div>
+          <p class="why">You replied at 9:18 and Daniel answered with the churn threat at 9:32: &ldquo;We have to do something or move to someone else.&rdquo; The reply that matters now is the <b>findings email</b> after the 11&ndash;3 analysis &mdash; root cause, what changes, and when he sees the difference. Randell's ticket #292680 and the thread's fresh examples are your inputs; Junior has the forward.</p>
           <div class="acts">
-            <button class="primary act-draft"
-              data-to='["DGoodwin@lakelandautomall.com"]'
-              data-cc='["jogden@spectrumvoip.com","gakerly@spectrumvoip.com","RDurk@lakelandautomall.com"]'
-              data-reply="1a03dff6ec16134f"
-              data-subject="RE: Daily Digest for Lakeland Automall — transfer failures"
-              data-body="Daniel &#8212;
-
-Thank you for flagging this with the example &#8212; that detail matters, and I hear the frustration. You should not still be seeing this after last week's migration.
-
-Here is what is happening on our side today: I am going through the call transcripts and recordings this morning, including today's examples, specifically to determine whether the failures you are seeing are the same real-time transcription issue as before or something the migration introduced. I will have findings to you, Jeff and Grayson before end of day, with what we are changing.
-
-Two asks to make that faster:
-1. If you can, send two or three call IDs from this morning &#8212; fresh post-migration examples are the most useful data we can get.
-2. Keep noting the department and time of day; the earlier pattern clustered in windows, and confirming or ruling that out matters.
-
-You will hear from me today, not next week.
-
-Bodhi">Draft this reply</button>
+            <button class="act-open" data-url="https://mail.google.com/mail/u/0/#inbox">Open the thread</button>
             <button class="act-open" data-url="https://mail.google.com/mail/u/0/#inbox">Open in Gmail</button>
           </div>
           <div class="propmsg"></div>
@@ -941,7 +924,7 @@ Bodhi">Draft this reply</button>
   // ---- live refresh ---------------------------------------------------
   // Claude compiled the brief at this moment; the delta is always measured
   // from here, so the case for a full re-analysis grows visibly over time.
-  var BASELINE = "2026-08-26T07:25:00-05:00";
+  var BASELINE = "2026-08-26T10:16:00-05:00";
   var BASELINE_MS = new Date(BASELINE).getTime();
 
   var refreshBtn = document.getElementById("refresh");
