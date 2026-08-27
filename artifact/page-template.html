@@ -296,7 +296,7 @@
   }
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
-<div class="wrap" data-build="2026-08-27T10:16:00-05:00">
+<div class="wrap" data-build="2026-08-27T18:20:00-05:00">
 
   <div class="mast">
     <div>
@@ -305,7 +305,7 @@
       <p class="sub">Both morning flags cleared before 10: the findings email went to Daniel at 9:48, and you declined the 2:00 meeting &mdash; the collision is gone. The afternoon is Taylor at 2:30, then Scott. The deep-work block is yours.</p>
     </div>
     <div class="stamp">
-      <div><b>Brief compiled</b> 7:25 AM &middot; data checked 10:16 AM CT</div>
+      <div><b>Brief compiled</b> 7:25 AM &middot; data checked 6:20 PM CT</div>
       <div>Calendar &middot; Gmail &middot; Granola</div>
       <div><b>29</b> tracked tasks &middot; <b>1</b> proposal</div>
       <div style="margin-top:9px"><button id="refresh" class="primary" disabled>Refresh data</button></div>
@@ -368,9 +368,9 @@
         <div class="slot past"><div class="t">6:30 &ndash; 7:30</div><div class="w">Stretch &middot; Doggy Care</div></div>
         <div class="slot past"><div class="t">8:00 &ndash; 8:45</div><div class="w">The Lift (Full Body)</div></div>
         <div class="slot past"><div class="t">8:45 &ndash; 9:30</div><div class="w">Recover + Shower</div></div>
-        <div class="slot"><div class="t">9:30 &ndash; 2:30</div><div class="w">Deep Work (Project Engineering) &mdash; verify PR #760 on QA, push to production<small>Then iz-silence, em-roadmap, and the v2-11labs audit (due Monday)</small></div></div>
-        <div class="slot"><div class="t">2:30 &ndash; 4:00</div><div class="w">AI Employee &mdash; next steps, with Taylor<small>Reserved 3:30&ndash;4:00 still sits inside this &mdash; delete it</small></div></div>
-        <div class="slot"><div class="t">4:00 &ndash; 5:00</div><div class="w">Call with Scott Van Camp</div></div>
+        <div class="slot past"><div class="t">9:30 &ndash; 2:30</div><div class="w">Deep Work (Project Engineering) &mdash; verify PR #760 on QA, push to production<small>Then iz-silence, em-roadmap, and the v2-11labs audit (due Monday)</small></div></div>
+        <div class="slot past"><div class="t">2:30 &ndash; 4:00</div><div class="w">AI Employee &mdash; next steps, with Taylor<small>Reserved 3:30&ndash;4:00 still sits inside this &mdash; delete it</small></div></div>
+        <div class="slot past"><div class="t">4:00 &ndash; 5:00</div><div class="w">Call with Scott Van Camp</div></div>
         <div class="slot free"><div class="t">5:00 &rarr;</div><div class="w">Clear &mdash; nothing booked tonight</div></div>
       </div>
     </section>
@@ -910,7 +910,7 @@
   // ---- live refresh ---------------------------------------------------
   // Claude compiled the brief at this moment; the delta is always measured
   // from here, so the case for a full re-analysis grows visibly over time.
-  var BASELINE = "2026-08-27T10:16:00-05:00";
+  var BASELINE = "2026-08-27T18:20:00-05:00";
   var BASELINE_MS = new Date(BASELINE).getTime();
 
   var refreshBtn = document.getElementById("refresh");
