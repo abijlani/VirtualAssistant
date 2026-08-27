@@ -296,16 +296,16 @@
   }
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
-<div class="wrap" data-build="2026-08-27T07:25:00-05:00">
+<div class="wrap" data-build="2026-08-27T10:16:00-05:00">
 
   <div class="mast">
     <div>
       <div class="eyebrow">Thursday, August 27 &middot; 2026</div>
       <h1>Good morning, Bodhi.</h1>
-      <p class="sub">The Lakeland fix made it to QA yesterday &mdash; but the findings email you promised Daniel is still sitting in Drafts, unsent. Send it first. And a 2:00 meeting appeared on today's calendar an hour ago, square on top of Taylor.</p>
+      <p class="sub">Both morning flags cleared before 10: the findings email went to Daniel at 9:48, and you declined the 2:00 meeting &mdash; the collision is gone. The afternoon is Taylor at 2:30, then Scott. The deep-work block is yours.</p>
     </div>
     <div class="stamp">
-      <div><b>Brief compiled</b> 7:25 AM &middot; data checked 7:25 AM CT</div>
+      <div><b>Brief compiled</b> 7:25 AM &middot; data checked 10:16 AM CT</div>
       <div>Calendar &middot; Gmail &middot; Granola</div>
       <div><b>29</b> tracked tasks &middot; <b>1</b> proposal</div>
       <div style="margin-top:9px"><button id="refresh" class="primary" disabled>Refresh data</button></div>
@@ -328,10 +328,10 @@
   <input class="tabinput" type="radio" name="cctab" id="t-inbox">
 
   <nav class="tabbar">
-    <label for="t-today">Today <span class="cnt">3</span></label>
+    <label for="t-today">Today <span class="cnt">2</span></label>
     <label for="t-week">Week <span class="cnt">2</span></label>
     <label for="t-proj">Projects <span class="cnt">29</span></label>
-    <label for="t-inbox">Inbox <span class="cnt">2</span></label>
+    <label for="t-inbox">Inbox <span class="cnt">1</span></label>
   </nav>
 
   <div class="panels">
@@ -342,24 +342,18 @@
     <section>
       <div class="sechead">
         <h2>Needs a decision today</h2>
-        <span class="note">The first one is already written &mdash; just send it</span>
+        <span class="note">The morning cleared its two big ones &mdash; one chase left</span>
       </div>
       <div class="stack">
 
-        <div class="flag crit">
-          <h3><span class="pill crit">Unsent</span> The findings email to Daniel is still in Drafts &mdash; send it this morning</h3>
-          <p><b>The work is done; the message never left.</b> You drafted the findings reply Wednesday at 5:22 PM &mdash; to Daniel, cc Grayson, Jeff, Randell, IT, Junior and Eelco &mdash; and it is still sitting in Drafts. Daniel's &ldquo;move to someone else&rdquo; is now more than a day old, and the last thing he heard from you was &ldquo;let me dig into it and get back to you&rdquo; at 9:18 yesterday morning.</p>
-          <p><b>One read, then send.</b> The substance holds: Krisp noise cancellation was breaking the assistant's hearing, PR #760 (per-assistant BVC toggle) has been on QA since 3:41 PM yesterday. After it's sent, use the morning block to verify the fix on QA so the timeline you just promised him is real.</p>
-        </div>
-
-        <div class="flag warn">
-          <h3><span class="pill warn">Collision</span> A 2:00 meeting landed on today an hour ago &mdash; it overlaps Taylor</h3>
-          <p>&ldquo;Voxtell Meeting&rdquo; &mdash; James Estopinal and David Call (In-Telecom), Junior invited too &mdash; hit your calendar at 7:20 this morning for <b>2:00&ndash;3:00 today</b>, no agenda given. It sits over the last half hour of Deep Work and the first half hour of <b>Taylor at 2:30</b>. Your RSVP is unanswered. Either ask James to shift it, or take 2:00&ndash;2:30 and hand Junior the rest &mdash; decide this morning, not at 1:55.</p>
+        <div class="flag good">
+          <h3><span class="pill good">Sent 9:48</span> Daniel has his answer &mdash; now make the fix real</h3>
+          <p>The findings email went out at 9:48 with the full cc list: root cause named (the background-voice-cancellation feature), fix identified, resolution promised. You also declined the 2:00 &ldquo;Voxtell Meeting&rdquo; at 9:53 &mdash; the Taylor collision is gone. What's left is the substance: <b>verify PR #760 on QA and get it to production</b> so the next Daily Digest looks different. Watch for Daniel's reply.</p>
         </div>
 
         <div class="flag warn">
           <h3><span class="pill warn">Still waiting</span> Tiffanie's Drive link &mdash; day three. Chase Tim.</h3>
-          <p>The Oracle back-order file link was expected &ldquo;possibly the next day&rdquo; &mdash; that was Monday. It gates iz-drive, the named launch blocker, and today's 9:30&ndash;2:30 block could absorb the integration the moment it lands. One line to Tim.</p>
+          <p>The Oracle back-order file link was expected &ldquo;possibly the next day&rdquo; &mdash; that was Monday. It gates iz-drive, the named launch blocker, and today's block could absorb the integration the moment it lands. One line to Tim.</p>
         </div>
 
       </div>
@@ -368,14 +362,13 @@
     <section>
       <div class="sechead">
         <h2>Rest of today</h2>
-        <span class="note" id="todaynote">Solid 2:00&ndash;5:00 &mdash; the morning is the only build time</span>
+        <span class="note" id="todaynote">Meetings 2:30&ndash;5:00 &mdash; the deep-work block runs clean to 2:30</span>
       </div>
       <div class="card sched" id="todaysched">
         <div class="slot past"><div class="t">6:30 &ndash; 7:30</div><div class="w">Stretch &middot; Doggy Care</div></div>
-        <div class="slot"><div class="t">8:00 &ndash; 8:45</div><div class="w">The Lift (Full Body)</div></div>
-        <div class="slot"><div class="t">8:45 &ndash; 9:30</div><div class="w">Recover + Shower</div></div>
-        <div class="slot"><div class="t">9:30 &ndash; 2:30</div><div class="w">Deep Work (Project Engineering) &mdash; send Daniel's draft first, then verify PR #760 on QA<small>Then iz-silence, em-roadmap, and the v2-11labs audit (due Monday)</small></div></div>
-        <div class="slot"><div class="t">2:00 &ndash; 3:00</div><div class="w">Voxtell Meeting &mdash; new this morning, RSVP open<small>Overlaps deep work and Taylor &mdash; resolve the collision before lunch</small></div></div>
+        <div class="slot past"><div class="t">8:00 &ndash; 8:45</div><div class="w">The Lift (Full Body)</div></div>
+        <div class="slot past"><div class="t">8:45 &ndash; 9:30</div><div class="w">Recover + Shower</div></div>
+        <div class="slot"><div class="t">9:30 &ndash; 2:30</div><div class="w">Deep Work (Project Engineering) &mdash; verify PR #760 on QA, push to production<small>Then iz-silence, em-roadmap, and the v2-11labs audit (due Monday)</small></div></div>
         <div class="slot"><div class="t">2:30 &ndash; 4:00</div><div class="w">AI Employee &mdash; next steps, with Taylor<small>Reserved 3:30&ndash;4:00 still sits inside this &mdash; delete it</small></div></div>
         <div class="slot"><div class="t">4:00 &ndash; 5:00</div><div class="w">Call with Scott Van Camp</div></div>
         <div class="slot free"><div class="t">5:00 &rarr;</div><div class="w">Clear &mdash; nothing booked tonight</div></div>
@@ -385,18 +378,13 @@
     <section>
       <div class="sechead">
         <h2>Top 5 right now</h2>
-        <span class="note">The unsent draft first; the collision second</span>
+        <span class="note">The fix itself first &mdash; the email promising it is out</span>
       </div>
       <ol class="prio">
         <li><div>
-          <h4>Send the Daniel findings email &mdash; it's already written</h4>
-          <p class="why">Drafted Wednesday 5:22 PM with the right cc list, never sent. Every hour it sits, the churn threat stands unanswered and &ldquo;almost 50%&rdquo; ages another hour. The engineering is done &mdash; PR #760 on QA &mdash; so the email is the deliverable now. Send it, then verify the fix behaves with noise cancellation on.</p>
-          <div class="meta"><span class="pill crit">Customer regression</span><span class="pill quiet">lk-reply2 &middot; lk-analyze</span></div>
-        </div></li>
-        <li><div>
-          <h4>Clear the 2:00 collision before it clears itself</h4>
-          <p class="why">The new Voxtell Meeting (James Estopinal, David Call) sits 2:00&ndash;3:00 with no agenda, square over Taylor at 2:30. Junior is on the invite: ask James to shift it, or take the first half hour and hand Junior the rest. Answer the RSVP either way.</p>
-          <div class="meta"><span class="pill warn">Today 2:00</span><span class="pill quiet">RSVP open</span></div>
+          <h4>Verify PR #760 on QA and push it to production</h4>
+          <p class="why">The 9:48 email promised Daniel the fix is coming &mdash; make the promise true today. Verify the per-assistant BVC toggle behaves with noise cancellation on, then get it deployed so tomorrow's Daily Digest reads differently. This is what the 9:30&ndash;2:30 block is for.</p>
+          <div class="meta"><span class="pill crit">Customer commitment</span><span class="pill quiet">lk-analyze</span></div>
         </div></li>
         <li><div>
           <h4>Walk into Taylor's 2:30 with the cohort story</h4>
@@ -405,13 +393,18 @@
         </div></li>
         <li><div>
           <h4>Chase Tim for Tiffanie's Drive link &mdash; day three</h4>
-          <p class="why">The Izzy launch blocker is one URL away, and today's block could take the integration the moment it lands. One line to Tim, first gap in the morning.</p>
+          <p class="why">The Izzy launch blocker is one URL away, and today's block could take the integration the moment it lands. One line to Tim, next gap in the morning.</p>
           <div class="meta"><span class="pill warn">Launch blocker</span><span class="pill quiet">iz-drive</span></div>
         </div></li>
         <li><div>
           <h4>Confirm the MSA and NDA &mdash; the NDA is 20 days today</h4>
           <p class="why">Valery's revised MSA request went out Tuesday and shows no completion receipt; the NDA has been open since Aug 7. If both are signed, two taps below and they're off the board tomorrow.</p>
           <div class="meta"><span class="pill warn">20d NDA</span><span class="pill quiet">hr-msa &middot; hr-nda</span></div>
+        </div></li>
+        <li><div>
+          <h4>Start the ElevenLabs audit &mdash; the deadline is Monday</h4>
+          <p class="why">ElevenLabs voices retire from LiveKit Inference Aug 31. Audit which assistants use them and plan the migration in today's or tomorrow's block, not Monday morning; it pairs naturally with the iz-voice re-selection.</p>
+          <div class="meta"><span class="pill warn">Due Mon</span><span class="pill quiet">v2-11labs</span></div>
         </div></li>
       </ol>
     </section>
@@ -446,8 +439,8 @@
       <div class="chartcard">
         <div class="plot" id="plot">
           <div class="cap8" style="bottom:57.14%"><span>8h sustainable load</span></div>
-          <div class="bar"><div class="tot" style="bottom:calc(82.14% + 6px)">11.5</div>
-            <div class="seg m" style="height:25%"></div><div class="seg f" style="height:39.29%"></div><div class="seg p" style="height:17.86%"></div></div>
+          <div class="bar"><div class="tot" style="bottom:calc(75% + 6px)">10.5</div>
+            <div class="seg m" style="height:17.86%"></div><div class="seg f" style="height:39.29%"></div><div class="seg p" style="height:17.86%"></div></div>
           <div class="bar"><div class="tot" style="bottom:calc(7.14% + 6px)">1.0</div>
             <div class="seg p" style="height:7.14%"></div></div>
           <div class="bar"><div class="tot" style="bottom:calc(7.14% + 6px)">1.0</div>
@@ -478,8 +471,8 @@
       <div class="stack">
 
         <div class="flag warn">
-          <h3><span class="pill warn">11.5h</span> Today is the heaviest day of the window &mdash; and holds its only collision</h3>
-          <p>The morning is clean (Lift 8:00, deep work 9:30&ndash;2:30), then the afternoon stacks: <b>Voxtell Meeting 2:00&ndash;3:00 over Taylor 2:30&ndash;4:00</b>, Scott 4:00&ndash;5:00, and <b>stale Reserved 3:30&ndash;4:00 still inside the Taylor block</b>. Clear the collision and delete Reserved, and the day is long but coherent. Don't add anything else to it.</p>
+          <h3><span class="pill warn">10.5h</span> Today is still the heaviest day &mdash; but the collision is cleared</h3>
+          <p>You declined the 2:00 Voxtell Meeting, so the afternoon is back to <b>Taylor 2:30&ndash;4:00 into Scott 4:00&ndash;5:00</b>. One piece of clutter remains: <b>stale Reserved 3:30&ndash;4:00 still sits inside the Taylor block</b> &mdash; delete it. At 10.5 hours, don't add anything else to today.</p>
         </div>
 
         <div class="flag warn">
@@ -567,9 +560,9 @@
       </div>
 
       <div class="proj">
-        <h3>Lakeland &amp; SpectrumVoIP <span class="rule"></span> <span class="pill crit">Fix on QA &mdash; email unsent</span></h3>
+        <h3>Lakeland &amp; SpectrumVoIP <span class="rule"></span> <span class="pill good">Answer sent &mdash; verify the fix</span></h3>
         <div class="card"><table class="tasks">
-          <tr data-react-task="lk-reply2" data-state=""><td class="tid">lk-reply2</td><td>Findings email to Daniel &mdash; <b>drafted Wednesday 5:22 PM, still unsent</b>; one read, then send<div class="src">Draft in Gmail &middot; to Daniel, cc Grayson, Jeff, Randell, IT, Junior, Eelco &middot; promised &ldquo;get back to you&rdquo; yesterday 9:18 AM</div><div class="react"><button class="rbtn" data-react="task" data-id="lk-reply2" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="lk-reply2" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="lk-reply2" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="lk-reply2" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip due">Send this morning</span><span class="chip old">Overdue</span></td></tr>
+          <tr data-react-task="lk-reply2" data-state=""><td class="tid">lk-reply2</td><td>Findings email to Daniel &mdash; <b>sent 9:48 AM</b>: root cause, fix, resolution promised; watch for his reply<div class="src">Gmail &middot; cc Grayson, Jeff, Randell, IT, Junior, Eelco &middot; closing at the next morning pass</div><div class="react"><button class="rbtn" data-react="task" data-id="lk-reply2" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="lk-reply2" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="lk-reply2" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="lk-reply2" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip unb">Sent &mdash; pending close</span></td></tr>
           <tr data-react-task="lk-analyze" data-state=""><td class="tid">lk-analyze</td><td>Lakeland root cause found: Krisp NC breaking the assistant &mdash; PR #760 (per-assistant BVC toggle) on QA; verify, then production<div class="src">LiveKit ticket filed Wed 12:36 &middot; fix on QA since 3:41 PM Wed &middot; the email above quotes this work</div><div class="react"><button class="rbtn" data-react="task" data-id="lk-analyze" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="lk-analyze" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="lk-analyze" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="lk-analyze" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip due">Verify on QA</span><span class="chip old">9d</span></td></tr>
           <tr data-react-task="em-roadmap" data-state=""><td class="tid">em-roadmap</td><td>Read the combined roadmap brief<div class="src">Gmail Aug 22 &middot; Jake Leidy + Jeff Ogden</div><div class="react"><button class="rbtn" data-react="task" data-id="em-roadmap" data-v="done" aria-pressed="false">Done</button><button class="rbtn" data-react="task" data-id="em-roadmap" data-v="blocked" aria-pressed="false">Blocked</button><button class="rbtn" data-react="task" data-id="em-roadmap" data-v="waiting" aria-pressed="false">Waiting on someone</button><button class="rbtn" data-react="task" data-id="em-roadmap" data-v="dropped" aria-pressed="false">Not a priority</button></div></td><td class="chips"><span class="chip old">5d</span><span class="chip">Today's block</span></td></tr>
         </table></div>
@@ -645,20 +638,9 @@
     <section>
       <div class="sechead">
         <h2>Needs a reply</h2>
-        <span class="note">Two &mdash; one is already written</span>
+        <span class="note">One &mdash; and it can wait for the 2:30</span>
       </div>
       <div class="stack">
-
-        <div class="mail">
-          <div class="from">Daniel Goodwin &middot; Lakeland Automall <span class="pill crit">Unsent draft</span></div>
-          <div class="subj">&ldquo;RE: Daily Digest for Lakeland Automall&rdquo; &mdash; your findings reply is drafted, not sent</div>
-          <p class="why">Written Wednesday 5:22 PM &mdash; to Daniel, cc Grayson, Jeff, Randell, IT, Junior and Eelco. It answers the churn threat with the root cause (Krisp NC), the fix (PR #760, on QA), and a timeline. It has been sitting overnight. One read, then send &mdash; before the Lift if you can.</p>
-          <div class="acts">
-            <button class="act-open" data-url="https://mail.google.com/mail/u/0/#drafts">Open Drafts</button>
-            <button class="act-open" data-url="https://mail.google.com/mail/u/0/#inbox">Open the thread</button>
-          </div>
-          <div class="propmsg"></div>
-        </div>
 
         <div class="mail">
           <div class="from">Ellie &middot; Gevity Club <span class="pill">Easy win</span></div>
@@ -676,7 +658,7 @@
     <section>
       <div class="sechead"><h2>Waiting on others</h2></div>
       <div class="card">
-        <p style="font-size:13.5px;color:var(--ink-2)"><b>Tiffanie's Drive link</b> (via Tim) &mdash; day three; gates iz-drive. <b>White-label replies</b> &mdash; Junior's four Tuesday emails, quiet so far. <b>MSA completion receipt</b> &mdash; nothing visible yet; confirm and mark Done. <b>Voxtell Meeting agenda</b> &mdash; James gave none; worth asking when you answer the RSVP.</p>
+        <p style="font-size:13.5px;color:var(--ink-2)"><b>Daniel's reply</b> &mdash; the findings email landed at 9:48; his reaction tells you whether the account settles. <b>Tiffanie's Drive link</b> (via Tim) &mdash; day three; gates iz-drive. <b>White-label replies</b> &mdash; Junior's four Tuesday emails, quiet so far. <b>MSA completion receipt</b> &mdash; nothing visible yet; confirm and mark Done.</p>
       </div>
     </section>
 
@@ -928,7 +910,7 @@
   // ---- live refresh ---------------------------------------------------
   // Claude compiled the brief at this moment; the delta is always measured
   // from here, so the case for a full re-analysis grows visibly over time.
-  var BASELINE = "2026-08-27T07:25:00-05:00";
+  var BASELINE = "2026-08-27T10:16:00-05:00";
   var BASELINE_MS = new Date(BASELINE).getTime();
 
   var refreshBtn = document.getElementById("refresh");
