@@ -296,7 +296,7 @@
   }
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
-<div class="wrap" data-build="2026-08-30T11:07:00-05:00">
+<div class="wrap" data-build="2026-08-30T14:06:00-05:00">
 
   <div class="mast">
     <div>
@@ -305,7 +305,7 @@
       <p class="sub">Today is the Day Up in nature, 9:00&ndash;3:00 &mdash; the calendar still shows it twice, so delete the duplicate. The offer question below still has its buttons. Tomorrow starts fast: the ElevenLabs retirement and the videographer's redo both land in the morning.</p>
     </div>
     <div class="stamp">
-      <div><b>Brief compiled</b> Fri 7:25 AM &middot; data checked Sun 11:07 AM CT</div>
+      <div><b>Brief compiled</b> Fri 7:25 AM &middot; data checked Sun 2:06 PM CT</div>
       <div>Calendar &middot; Gmail &middot; Granola</div>
       <div><b>33</b> tracked tasks &middot; <b>0</b> proposals</div>
       <div style="margin-top:9px"><button id="refresh" class="primary" disabled>Refresh data</button></div>
@@ -331,7 +331,7 @@
     <label for="t-today">Today <span class="cnt">2</span></label>
     <label for="t-week">Week <span class="cnt">2</span></label>
     <label for="t-proj">Projects <span class="cnt">33</span></label>
-    <label for="t-inbox">Inbox <span class="cnt">1</span></label>
+    <label for="t-inbox">Inbox <span class="cnt">2</span></label>
   </nav>
 
   <div class="panels">
@@ -627,9 +627,19 @@
     <section>
       <div class="sechead">
         <h2>Needs a reply</h2>
-        <span class="note">One &mdash; and the answer already exists</span>
+        <span class="note">Two &mdash; Laura's is a scheduling yes/no, Ellie's answer already exists</span>
       </div>
       <div class="stack">
+
+        <div class="mail">
+          <div class="from">Laura Mathwig &middot; SpectrumVoIP (EVP of Operations) <span class="pill warn">Customer</span></div>
+          <div class="subj">&ldquo;Monthly Iris Sync&rdquo; &mdash; new Sunday 1:51 PM, cc’d to the AI onboarding team</div>
+          <p class="why">She wants a standing monthly review of Iris features with you and the onboarding team &mdash; they’re collecting internal feedback and customer questions, and she isn’t in the Slack channel. Proposed slot: <b>second Tuesday of the month, 9:00 AM</b> (next would be Sep 8). Your Tuesdays: Lift ends 9:00, Izzy check-in at 10:00 &mdash; 9:00 is tight against the gym but the hour is free. A yes with &ldquo;9:30 works better&rdquo; may be the easy counter.</p>
+          <div class="acts">
+            <button class="act-open" data-url="https://mail.google.com/mail/u/0/#inbox">Open in Gmail</button>
+          </div>
+          <div class="propmsg"></div>
+        </div>
 
         <div class="mail">
           <div class="from">Ellie &middot; Gevity Club <span class="pill">Easy win</span></div>
@@ -899,7 +909,7 @@
   // ---- live refresh ---------------------------------------------------
   // Claude compiled the brief at this moment; the delta is always measured
   // from here, so the case for a full re-analysis grows visibly over time.
-  var BASELINE = "2026-08-30T11:07:00-05:00";
+  var BASELINE = "2026-08-30T14:06:00-05:00";
   var BASELINE_MS = new Date(BASELINE).getTime();
 
   var refreshBtn = document.getElementById("refresh");
