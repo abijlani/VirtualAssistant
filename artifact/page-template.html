@@ -296,7 +296,7 @@
   }
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
-<div class="wrap" data-build="2026-09-01T07:21:00-05:00">
+<div class="wrap" data-build="2026-09-01T08:29:00-05:00">
 
   <div class="mast">
     <div>
@@ -305,7 +305,7 @@
       <p class="sub">The 10-hour Tuesday: RCS Discovery 9:00, Izzy check-in 10:00 &mdash; ask for a date on Chase's Oracle follow-up &mdash; Deep Work to 2:00, PT mid-afternoon, Zac Gordon at 6:00. The ElevenLabs audit is now <b>overdue</b> (retirement was yesterday) and the videographer's redo never arrived. The offer question below still has its buttons.</p>
     </div>
     <div class="stamp">
-      <div><b>Brief compiled</b> Tue 7:21 AM &middot; data checked Tue 7:21 AM CT</div>
+      <div><b>Brief compiled</b> Tue 7:21 AM &middot; data checked Tue 8:29 AM CT</div>
       <div>Calendar &middot; Gmail &middot; Granola</div>
       <div><b>35</b> tracked tasks &middot; <b>0</b> proposals</div>
       <div style="margin-top:9px"><button id="refresh" class="primary" disabled>Refresh data</button></div>
@@ -360,7 +360,7 @@
 
         <div class="flag warn">
           <h3><span class="pill warn">Overdue</span> The ElevenLabs audit &mdash; retirement was yesterday; verify nothing broke and finish it</h3>
-          <p>The retirement date passed yesterday with no audit on record &mdash; Monday's Product Sync notes don't mention it either. Any assistant still pointed at an ElevenLabs voice may be failing now. First thing in today's block: check which assistants used ElevenLabs voices, confirm nothing is broken in production, and finish the migration.</p>
+          <p>The retirement date passed yesterday with no audit on record &mdash; Monday's Product Sync notes don't mention it either. Any assistant still pointed at an ElevenLabs voice may be failing now. First thing in today's block: check which assistants used ElevenLabs voices, confirm nothing is broken in production, and finish the migration. A new Sentry issue landed at 8:07 this morning (LIVEKIT-1: &ldquo;failed to recognize speech after 4 attempts&rdquo;) &mdash; that is STT rather than voices, but check it during the same verify.</p>
         </div>
 
         <div class="flag warn">
@@ -913,7 +913,7 @@
   // ---- live refresh ---------------------------------------------------
   // Claude compiled the brief at this moment; the delta is always measured
   // from here, so the case for a full re-analysis grows visibly over time.
-  var BASELINE = "2026-09-01T07:21:00-05:00";
+  var BASELINE = "2026-09-01T08:29:00-05:00";
   var BASELINE_MS = new Date(BASELINE).getTime();
 
   var refreshBtn = document.getElementById("refresh");
