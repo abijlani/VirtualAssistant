@@ -296,7 +296,7 @@
   }
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
-<div class="wrap" data-build="2026-09-02T13:12:00-05:00">
+<div class="wrap" data-build="2026-09-02T15:07:00-05:00">
 
   <div class="mast">
     <div>
@@ -305,7 +305,7 @@
       <p class="sub">The 10:30 &ldquo;double-booking&rdquo; resolved itself on closer inspection: the Huddle Room entry is a <b>concierge room reservation at Gevity</b> (booked under Amit Bijlani, only you attending) &mdash; almost certainly the room for Shandi's 10:30 meeting, held to 12:30. Go to the meeting; no conflict. A new 30-minute call at 1:00 sits inside the Deep Work block. The ElevenLabs audit is two days past its retirement date, and yesterday's release + MCP test still need a &ldquo;shipped&rdquo; confirmation. The offer question keeps its buttons below.</p>
     </div>
     <div class="stamp">
-      <div><b>Brief compiled</b> Wed 7:20 AM &middot; data checked Wed 1:12 PM CT</div>
+      <div><b>Brief compiled</b> Wed 7:20 AM &middot; data checked Wed 3:07 PM CT</div>
       <div>Calendar &middot; Gmail &middot; Granola</div>
       <div><b>36</b> tracked tasks &middot; <b>0</b> proposals</div>
       <div style="margin-top:9px"><button id="refresh" class="primary" disabled>Refresh data</button></div>
@@ -360,7 +360,7 @@
 
         <div class="flag warn">
           <h3><span class="pill warn">Overdue</span> The ElevenLabs audit &mdash; retirement was yesterday; verify nothing broke and finish it</h3>
-          <p>Retirement was Monday &mdash; <b>two days ago</b> &mdash; and there is still no audit on record anywhere in mail or meeting notes. Any assistant still pointed at an ElevenLabs voice may be silently failing in production. It opens today's 11:00 Deep Work block: list the assistants using ElevenLabs voices, confirm nothing is broken, finish the migration. Fold in the Sentry issues during the same verify &mdash; <b>now five in 29 hours</b>: LIVEKIT-1 (speech recognition), LIVEKIT-2 (WritableStream closed), LIVEKIT-3 (unhandled error), LIVEKIT-4 at 12:07 (tool-call <i>function name too long</i> &mdash; pointing straight at yesterday's MCP release), and LIVEKIT-5 at 12:32 (&ldquo;cannot read currentSpeech&rdquo;). The voices audit and the release verification are the same investigation now, and the error rate is accelerating.</p>
+          <p>Retirement was Monday &mdash; <b>two days ago</b> &mdash; and there is still no audit on record anywhere in mail or meeting notes. Any assistant still pointed at an ElevenLabs voice may be silently failing in production. It opens today's 11:00 Deep Work block: list the assistants using ElevenLabs voices, confirm nothing is broken, finish the migration. Fold in the Sentry issues during the same verify &mdash; <b>now six in 31 hours</b>: LIVEKIT-1 (speech recognition), LIVEKIT-2 (WritableStream closed), LIVEKIT-3 and LIVEKIT-6 (unhandled errors, the latest at 2:47 PM), LIVEKIT-4 (tool-call <i>function name too long</i> &mdash; pointing straight at yesterday's MCP release), and LIVEKIT-5 (&ldquo;cannot read currentSpeech&rdquo;). The voices audit and the release verification are the same investigation, and the errors have not stopped.</p>
         </div>
 
         <div class="flag warn">
@@ -905,7 +905,7 @@
   // ---- live refresh ---------------------------------------------------
   // Claude compiled the brief at this moment; the delta is always measured
   // from here, so the case for a full re-analysis grows visibly over time.
-  var BASELINE = "2026-09-02T13:12:00-05:00";
+  var BASELINE = "2026-09-02T15:07:00-05:00";
   var BASELINE_MS = new Date(BASELINE).getTime();
 
   var refreshBtn = document.getElementById("refresh");
