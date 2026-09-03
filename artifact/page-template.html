@@ -296,7 +296,7 @@
   }
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
-<div class="wrap" data-build="2026-09-03T11:08:00-05:00">
+<div class="wrap" data-build="2026-09-03T13:07:00-05:00">
 
   <div class="mast">
     <div>
@@ -305,7 +305,7 @@
       <p class="sub">The cleanest morning of the week: <b>Deep Work 8:30&ndash;12:30</b> with nothing on top of it, then the Lift, Scott Van Camp at 2:00. Big news mined from Tuesday's Sustainable Ambition meeting: <b>the cohort is locked at nine members</b> &mdash; the voting task is done, and your pieces now are gift-bag items to Mercury by Tuesday plus four cards. Yesterday's LiveKit storm ended with LiveKit's own incident open; close out the audit verdict this morning.</p>
     </div>
     <div class="stamp">
-      <div><b>Brief compiled</b> Thu 7:20 AM &middot; data checked Thu 11:08 AM CT</div>
+      <div><b>Brief compiled</b> Thu 7:20 AM &middot; data checked Thu 1:07 PM CT</div>
       <div>Calendar &middot; Gmail &middot; Granola</div>
       <div><b>36</b> tracked tasks &middot; <b>0</b> proposals</div>
       <div style="margin-top:9px"><button id="refresh" class="primary" disabled>Refresh data</button></div>
@@ -360,7 +360,7 @@
 
         <div class="flag warn">
           <h3><span class="pill warn">Close it out</span> The ElevenLabs audit &mdash; three days past retirement, and yesterday's LiveKit storm needs a verdict</h3>
-          <p>Yesterday brought six LiveKit Sentry errors in 31 hours, then LiveKit opened its own platform incident (one-way audio in Phone Numbers) at 4:03 PM &mdash; so much of the stream was likely upstream. This morning: check whether the incident is resolved, confirm whether your audit + the Sep 1 release verification got finished in yesterday's block (if yes, tap Done on v2-11labs and v2-mcp below and they're off the board tomorrow), and keep LIVEKIT-4's tool-name 400 on the fix list &mdash; that one still looks like the MCP integration, not LiveKit.</p>
+          <p>The storm has a root cause and a fix: <b>PR #799 &mdash; answer SIP ingress calls before the LiveKit bridge</b> (Linear VOXAI-878: inbound SIP calls cancelled during the answer window since SpectrumVoIP switched over) went up last night and <b>Pagebakers approved it at 12:23 today</b> &mdash; merge and ship it and much of this week's pain ends. Still open alongside it: the ElevenLabs voices audit itself (three days past retirement) and LIVEKIT-4's tool-name 400 from the MCP release. If the audit finished, tap Done on v2-11labs / v2-mcp below.</p>
         </div>
 
         <div class="flag warn">
@@ -380,7 +380,7 @@
         <div class="slot past"><div class="t">6:30 &ndash; 7:30</div><div class="w">Stretch &middot; Doggy Care</div></div>
         <div class="slot"><div class="t">8:30 &ndash; 12:30</div><div class="w">Deep Work (Project Engineering) &mdash; four clean hours<small>Illia's PR #773 review first &middot; LiveKit incident + audit verdict &middot; iz-voice shortlist &middot; dan-donald</small></div></div>
         <div class="slot"><div class="t">1:00 &ndash; 2:30</div><div class="w">The Lift (Full Body) + Recover &amp; Shower</div></div>
-        <div class="slot"><div class="t">2:00 &ndash; 3:00</div><div class="w">Call with Scott Van Camp<small>Overlaps the recovery block &mdash; the call wins</small></div></div>
+        <div class="slot"><div class="t">2:00 &ndash; 3:00</div><div class="w">Call with Scott Van Camp<small>Call Room East at Gevity reserved 1:30&ndash;3:30 (concierge booking)</small></div></div>
         <div class="slot free"><div class="t">3:30 &ndash; 4:00</div><div class="w">Reserved<small>Still unexplained on the calendar &middot; evening clear</small></div></div>
       </div>
     </section>
@@ -902,7 +902,7 @@
   // ---- live refresh ---------------------------------------------------
   // Claude compiled the brief at this moment; the delta is always measured
   // from here, so the case for a full re-analysis grows visibly over time.
-  var BASELINE = "2026-09-03T11:08:00-05:00";
+  var BASELINE = "2026-09-03T13:07:00-05:00";
   var BASELINE_MS = new Date(BASELINE).getTime();
 
   var refreshBtn = document.getElementById("refresh");
